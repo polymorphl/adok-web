@@ -1,0 +1,42 @@
+{
+  "name": "Adok",
+  "version": "0.0.1",
+  "authors": [
+    "Luc Terracher <lucterracher@gmail.com>",
+    "Thomas Nadalie <thomas.nadalie@epitech.eu>"
+  ],
+  "description": "Adok est une application, qui permet la rencontre par le défi.",
+  "keywords": [
+    "adok"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "async": "~0.9.0",
+    "backbone": "~1.1.2",
+    "jquery-ui": "~1.11.0",
+    "html5shiv": "~3.7.2",
+    "humane-js": "~3.2.0",
+    "leaflet": "~0.7.3",
+    "moment": "~2.8.1",
+    "outdated-browser": "~1.1.0",
+    "pikaday": "~1.2.0",
+    "jqueryui-timepicker-addon": "~1.4.5",
+    "bootstrap": "~3.2.0",
+    "respond": "~1.4.2",
+    "bootstrap-sass-official": "~3.2.0",
+    "font-awesome": "~4.1.0",
+    "leaflet.markercluster": "~0.4.0",
+    "i18next": "~1.7.3",
+    "velocity": "~1.0.0",
+    "snap.svg": "~0.3.0"
+  }
+}

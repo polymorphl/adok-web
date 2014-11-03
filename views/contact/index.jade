@@ -1,0 +1,25 @@
+extends ../../layouts/default
+
+block head
+  title= t('nav.contact')
+
+block neck
+  link(rel='stylesheet', href='/views/contact/index.min.css?#{cacheBreaker}')
+
+block feet
+  script(src='/views/contact/index.min.js?#{cacheBreaker}')
+
+block body
+  div.page#default
+    div.container
+      div.row#page
+        div.col-sm-6
+          div.page-header
+            h1= t('contact.title')
+          div#contact
+        div.col-sm-6.special
+          div.page-header
+            h1= t('nav.contact')
+          p.lead= t('contact.slogan')
+          i.fa.fa-reply-all.super-awesome
+          address

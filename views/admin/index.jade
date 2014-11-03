@@ -1,0 +1,27 @@
+extends ../../layouts/admin
+
+block head
+  title Administration
+
+block neck
+
+block body
+  div.app-content
+    div.page-container
+      h1 Administration
+      div.display
+        a(href="/admin/accounts/")
+            div.well.stat
+              div.stat-value
+                i.fa.fa-users
+                div #{countAccount} Compte(s)
+        a(href="/admin/administrators/")
+            div.well.stat
+              div.stat-value
+                i.fa.fa-cogs
+                div #{countAdmin} Administrateur(s)
+        a(href="/admin/challenges/")
+            div.well.stat
+              div.stat-value
+                i.fa.fa-star
+                div #{countChallenge} Challenge(s)

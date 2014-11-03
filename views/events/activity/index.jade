@@ -1,0 +1,139 @@
+extends ../../../../layouts/account
+
+block head
+  title #{event['title']}
+
+block neck
+  link(rel='stylesheet', href='/views/index.min.css?#{cacheBreaker}')
+  link(href='//api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css', rel='stylesheet')
+  link(href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.21.0/L.Control.Locate.css', rel='stylesheet')
+  link(href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.1/leaflet.fullscreen.css', rel='stylesheet')
+  
+block feet
+  script(src='//api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js')
+  script(src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.21.0/L.Control.Locate.js')
+  script(src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.1/Leaflet.fullscreen.min.js')
+  script(src='/views/events/index.min.js')
+  script(src='/views/events/event_ownerActions.min.js?#{cacheBreaker}')
+
+block body
+  div.page#default.event.mrg
+    div.container.relative(style="width: 105.7%!important;")
+      #wrap
+        div.col-sm-12
+          #map-event
+          #card
+            input(type="hidden", id="lat", value="#{event['lat']}")
+            input(type="hidden", id="lng", value="#{event['lng']}")
+            span.act
+              if event.category == "Loisir" || event.category == "Leisure"
+                img(src="/media/adok/loisir.svg")
+              if event.category == "Sortie" || event.category == "Outing"
+                img(src="/media/adok/outing.svg")
+              if event.category == "Activité" || event.category == "Activity"
+                img(src="/media/adok/activity.svg")
+              if event.category == "Sport"
+                img(src="/media/adok/sport.svg")
+              span #{event['category']}
+            h2.title #{event['title']}
+            if event.price == 0
+              span.price Gratuit
+            else
+              span.price= t('propose.price')  
+                |  #{event['price']} €
+            #place
+              span.place #{event['place']}
+        if event.numOfPtc
+          #date
+            span.the= t('the')
+            span.date0 #{event['date']}
+          #e_picture
+            if event.photos
+              img(src="#{event.photos}")
+            else
+              img(src="/uploads/default_avatar.jpg")
+          if isUserAccount
+            span.ownerActions
+              span.dataset(uid="#{event['acc']}", etype="activity", eid="#{event['id']}")
+                button.btn.edit
+                  i.fa.fa-edit
+                button.btn.delete
+                  i.fa.fa-times
+          if event.accType == 'account'
+              a(href='/user/#{event.acc._id}')
+                span.author
+                  span= t("event.ppby")
+                  span.fullname #{event.acc.roles.account.name.full}
+                    if event.acc.roles.account.picture
+                      img(src='#{event.acc.roles.account.picture}')
+            else
+              a(href='/pro/#{event.acc._id}')
+                span.author
+                  span= t("event.ppby")
+                    span.fullname #{event.acc.roles.pro.name}
+                    if event.acc.roles.pro.picture
+                      img.pro(src='#{event.acc.roles.pro.picture}')
+          div.desc.ev #{event['desc']}
+          if event.acc._id.toString() != req.user._id.toString()
+            #sign
+              if !isRegistered
+                span.state= t('event.go')
+                span#register: i.fa.fa-check
+              else if (isRegistered === true)
+                span.state= t('event.og')
+                span#register.unsuscribe: i.fa.fa-check
+              else if (isRegistered == "refused")
+                span.state= t('event.refused')
+                span#register.unsuscribe: i.fa.fa-ban
+              else
+                span.state= t('event.pending')
+                span#register.unsuscribe: i.fa.fa-check
+          #nbptc
+            span.nblabel= t('event.numof')
+            ul#members
+              for member in participants
+                if (member.conf == 1)
+                  li.mbrs
+                    a(href='/#{(member._id.name.full ? "user" : "pro")}/#{member._id.user.id}')
+                      img(src="#{member._id.picture}", data-toggle="tooltip", data-placement="bottom", title='#{(member._id.name.full ? member._id.name.full : member._id.name)}')
+              div.nbw
+                span.nb #{registeredCount}
+                span.max #{event['numOfPtc']}
+          #share
+            span.title= t('event.shrtitle')
+            a.fb(href='#', target='_blank')
+              div.fb
+                span= t('event.shrfb')
+                img(src="/media/adok/fb_home.svg")
+            a.tw(href='https://twitter.com/share', data-text='Rejoins moi sur adok :', data-lang='fr', data-count='none', data-hashtags='adok')
+              div.tw
+                span= t('event.shrtw')
+                img(src="/media/adok/tw_home.svg")
+            a.g(href='#', onclick='javascript:window.open(this.href,\'\', \'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600\');return false;')
+              div.g
+                span= t('event.shrg')
+                img(src='/media/adok/g_home.svg')
+        #b_ask
+          button.btn.btn-default.askbtn Questions ?
+          #ask.ask
+            span.asktitle= t('event.ask')
+            #disqus_thread
+            script(type='text/javascript').
+              var disqus_shortname = 'adok';
+              var disqus_config = function () {
+                this.language = "fr";
+              };
+              (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+            noscript
+              | Please enable JavaScript to view the
+              a(href='http://disqus.com/?ref_noscript') comments powered by Disqus.
+            a.dsq-brlink(href='http://disqus.com')
+              | comments powered by
+              span.logo-disqus Disqus
+
+              script
+                | !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');

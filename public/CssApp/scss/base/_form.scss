@@ -1,0 +1,230 @@
+/* ==|====================
+	 Base/Form
+	 ======================= */
+
+/*=============================================
+=                   Text                      =
+=============================================*/
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="search"],
+textarea {
+		font-size: 1em; font-family: $font1;
+		font-weight: 300; color: #666; padding: .5em;
+		border: 1px solid #bfbfbf; outline: 0;
+		box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+		border-radius: 2px; background-color: #f7f7f7;
+		@include placeholder($color-mixin-placeholder);
+
+		&:hover {
+				border-color: #a5a5a5;
+		}
+
+		&:focus {
+				border-color: #999;
+		}
+}
+
+/*=============================================
+=                   Range                     =
+=============================================*/
+
+input[type="range"] {
+		@include appearance(none); @include border-radius(2px);
+		width: 200px; height: 4px; padding: 0; outline: none;
+		background: $blue_a;
+
+		&:focus { outline: none; }
+
+		&::-webkit-slider-runnable-track {
+				cursor:pointer;
+		}
+
+		&::-webkit-slider-thumb{
+				@include appearance(none); cursor: pointer;
+				width:20px; height:20px; @include border-radius(20px);
+				background: darken($blue_a, 20); border: 1px solid $blue_a;
+		}
+		//Need -moz -oz -ms
+}
+
+/*=============================================
+=            Checkbox & Radiobox              =
+=============================================*/
+
+$option-color: $grey;
+$checked-option-color: $blue_a;
+$option-size: 15px;
+$explosion-distance: 2;
+$explosion-duration: 0.3s;
+
+@include keyframes(click-wave) {
+	$offset: ((($option-size * $explosion-distance) - $option-size) / 2);
+
+	0% {
+		@include size($option-size);
+		opacity: 0.35; position: relative;
+	}
+
+	100% {
+		@include size($option-size * $explosion-distance);
+		margin-left: -$offset;
+		margin-top: -$offset;
+		opacity: 0.0;
+	}
+}
+
+// Checkbox/Radio replacement
+.input {
+		@include appearance(none); @include position($option-size / 5 0 0 5);
+		@include size($option-size); @include transition;
+		background: $option-color; border: 1px solid darken($blue_a, 5%);
+		color: #fff; cursor: pointer; z-index: 1000;
+		display: inline-block; outline: none;
+		position: relative; margin-right: 0.2rem;
+
+		&:hover {
+				background: darken($option-color, 15%);
+				outline: none;
+		}
+
+		&:focus  { outline: none!important; }
+
+		&:checked {
+				background: $checked-option-color; outline: none;
+
+				&::before {
+					@include size($option-size); @include position(absolute);
+					content: '\2716'; display: inline-block;
+					font-size: $option-size/1; text-align: center;
+					line-height: $option-size; padding-right: 2px;
+				}
+
+				&::after {
+					@include animation(click-wave $explosion-duration);
+					background: $checked-option-color;
+					content: ''; display: block;
+					position: relative; z-index: 100;
+				}
+		}
+
+		&.radio {
+				border-radius: 50%; outline: none;
+
+				&::after {
+					border-radius: 50%;
+				}
+		}
+}
+
+/*=============================================
+=            Slider + Date Input              =
+=============================================*/
+
+//- Simple
+#rangeCtrld0 {
+		margin: 0 0 10px 5px;
+		width: 180px;
+		font-size: 1.5rem;
+}
+
+#rangeCtrld1 {
+	height: 15px; margin: 5px;
+	width: 90%;
+
+	span {
+		@include size(30px); margin: 5px 0 0 0;
+	}
+}
+
+#dateCtrld0, #dateCtrld1 {
+	margin: 15px 0 10px 5px;
+	width: 200px; border: none;
+	font-size: 1.5rem;
+}
+
+#dateCtrld1 {
+	color: both;
+}
+
+/*=============================================
+=            Slider + Hour Input              =
+=============================================*/
+
+//- Simple
+#rangeCtrlh0 {
+	margin: 15px 0 10px 5px;
+	width: 180px;
+	font-size: 1.5rem;
+}
+
+//- Double
+.ui-state-hover, .ui-state-focus,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+	border: 1px solid darken($blue_a, 5%);
+	background: darken($blue_a, 5%);
+	font-weight: bold; color: #ffffff;
+	outline: none;
+}
+
+#rangeCtrlh1 {
+	height: 15px; margin: 5px;
+	width: 90%;
+
+	span {
+		@include size(30px); margin: 5px 0 0 0;
+	}
+}
+
+#hourCtrlh0 {
+	margin: 15px 0 10px 5px;
+	width: 200px; font-size: 1.5rem;
+}
+
+#hourCtrlh1 {
+	width: 350px;
+	text-align: center;
+}
+
+
+
+/*=============================================
+=            Slider + Price Input             =
+=============================================*/
+
+#rangeCtrlp0, #rangeCtrlp1 {
+	margin: 15px 0 10px 5px;
+	width: 180px;
+}
+
+#priceCtrlp0, #priceCtrlp1 {
+	margin: 15px 5px;
+	width: 210px; border: none;
+	text-align: center;
+}
+
+/*=============================================
+=            Input - Troc                     =
+=============================================*/
+
+.input.fs-anim-lower {
+	width: 50px; height: 50px;
+}
+
+/*=============================================
+=            Input - Now!                     =
+=============================================*/
+
+.now-label {
+	float: left;
+}
+
+.now-input {
+	float: left;
+}

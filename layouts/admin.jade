@@ -1,0 +1,69 @@
+doctype html
+html
+  head
+    block head
+      title #{title}
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='/css/main.css')
+    link(rel='stylesheet', href='/css/scss/admin.css')
+    noscript
+        meta(http-equiv="refresh", content="0;/views/noscript.html")
+    block neck
+  body
+    div.app-container
+      div.app-pusher
+        div#outdated
+        div.l-header
+          a.l-header__icon(href="#", id="header__icon")
+          a.l-header__logo(href='/admin/')
+            span.wrap(title= t('nav.home'))
+              img(src="/medias/logo/logo-bg.png" class="logo-adok")
+              span.logo-1 adok
+          - var n = 0
+          - var elem = ["Comptes", "Administrateurs", "Challenges"]
+          - var link = ["accounts", "administrators", "challenges",  ""]
+          - elem.forEach(function(item) {
+            a.nav-elem(href='/admin/' + link[n] + '/')= item
+            if (link[n + 1] != "")
+              |&nbsp;-&nbsp;
+            - n++;
+          - })
+          a#logout(href='/logout/')
+            i.fa.fa-eject
+            = t('account.logout')
+
+          form.navbar-form.pull-right#_search
+
+        block body
+
+        div.l-footer
+          span.l-footer__copyright
+            |&#169; #{copyrightYear} #{copyrightName}
+          ul.links
+            li: a(href='/')= t('nav.home')
+            li: a(href='/logout/')= t('account.logout')
+          div.clearfix
+
+    div.ajax-spinner
+      img(src='/medias/others/ajax-pulse.gif')
+
+    script(type='text/template', id='tmpl-_search')
+      div.dropdown
+        input.form-control(name='_search', type='text', placeholder='search', tab-index='1')
+        ul#_search-results-rows.dropdown-menu
+
+    script(type='text/template', id='tmpl-_search-results-row')
+      |<% if (type && type == 'header') { %>
+      |<%= name %>
+      |<% } else { %>
+      a(href!='<%= url %>') <%= name %>
+      |<% } %>
+
+    script(type='text/template', id='tmpl-_search-results-empty-row')
+      li.dropdown-header no docs matched
+
+    //if lte IE 9
+      script(src='/layouts/ie-sucks.min.js')
+    script(src='/layouts/components.min.js')
+
+    block feet

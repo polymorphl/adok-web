@@ -1,0 +1,31 @@
+// =======================
+// Tools/Functions
+// Thanks to @sutterlity
+// https://github.com/sutter/POPY-Starter-integration-web/blob/master/scss/tools/_fonctions.scss
+// =======================
+
+// Convert px to em
+@function pxtoem($target, $context){
+    @return ($target/$context)+0em;
+}
+
+// Convert em to px
+@function emtopx($target, $context){
+    @return ($target*$context)+0px;
+}
+
+@function strip-units($number) {
+  @return $number / ($number * 0 + 1);
+}
+
+$em-base: 16px !default;
+
+@function em($pxval, $base: $em-base) {
+  @if not unitless($pxval) {
+      $pxval: strip-units($pxval);
+  }
+  @if not unitless($base) {
+      $base: strip-units($base);
+  }
+  @return ($pxval / $base) * 1em;
+}

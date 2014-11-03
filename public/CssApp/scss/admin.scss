@@ -1,0 +1,45 @@
+/*
+	admin scss for adok
+*/
+
+//REQUIRES ###
+
+@import "scss/tools/functions";
+@import "scss/tools/site-settings";
+@import "scss/tools/mixins";
+
+// Homepage -- ADMIN
+
+.display { width: 80%; margin: 0 auto;}
+// HEADER ##
+
+.l-header {
+	#logout {
+		i {padding-right: 5px;}
+		float: right; padding-right: 20px;
+		}
+}
+
+.l-header__navbar {
+	width: auto!important;
+	
+	.navbar-r {
+
+		ul li, li.nav-dropdown {
+			color: black;
+			&:hover {
+				color: darken(#B1B1B1, 20%);
+			}
+		}
+
+		.nav-dropdown-menu { width: 175px!important }
+	}
+
+}
+
+// CONTENT ##
+
+.page-container { background-color: $purple_b; }
+
+
+// FOOTER ##

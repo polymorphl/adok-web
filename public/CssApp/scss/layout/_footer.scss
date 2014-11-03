@@ -1,0 +1,35 @@
+/* ==|====================
+   Layout/Footer
+   ======================= */
+
+.l-footer {
+	position: fixed; left: 0; right: 0; bottom: 0;
+	width: 100%; background-color: darken($grey, 5);
+	height: 25px; font-size: 13px; border-top: 1px solid $blue_a;
+
+	.l-footer__copyright {
+		float: right; margin-right: 30px;
+		color: white;
+	}
+
+	.l-footer__feedback {
+		float: right; margin-right: 90px;
+	}
+
+	.l-footer__links {
+		float: left; width: 400px;
+		li {
+			padding: 0 15px;
+			list-style: none;
+			display: inline-block;
+			cursor: pointer;
+
+			& > a > img {
+			width: 25px; height: 25px;
+			}
+		}
+		img {
+			width: 25px; height: 25px;
+		}
+	}
+}

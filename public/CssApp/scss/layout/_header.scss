@@ -1,0 +1,159 @@
+/* ==|====================
+   Layout/Header
+   ======================= */
+
+   /* Variables */
+
+   $header-bg: $blue_b;
+   $header-height: 35px;
+
+/* Code() */
+
+.l-header {
+  z-index: 1;
+  position: fixed; left: 0; right: 0;
+  height: $header-height; line-height: $header-height;
+  background-color: $grey; color: $header-bg;
+
+  .l-header__logo {
+    padding: 0 0 0 25px;  height: $header-height;
+    float: left; width: 10%;
+    display: block; letter-spacing: 2px;
+
+    .wrap {
+      .logo-adok {
+        width: 42px; height: 42px;
+        margin-right: 5px;
+      }
+      .logo-1 { 
+        color: $blue_b; font-family: "wolfInTheCity";
+        font-size: 2.8rem; position: relative; top: -5px;
+      }
+      &:hover { text-decoration: none; }
+    }
+  }
+  .l-header__navbar {
+    float: left; width: 90%; color: white;
+
+    .navbar-l {
+      float: right; width: 420px;
+      padding-left: 2%;
+
+      li {
+        display: inline-block;
+        list-style-type: none;
+        padding-left: 30px; float: left;
+        height: 43px; width: 95px;
+
+        i {
+          color: black;
+        }
+
+        .propose, .notif {
+          cursor: pointer;
+          img { width: 32px; height: 32px; }
+        }
+
+        .profil {
+          img {
+            @include border-radius(5em);
+          }
+        }
+
+        &:hover {
+          span { display: inline-block; }
+        }
+      }
+
+      img {
+        width: 34px; height: 34px;
+        @include background-size(cover);
+      }
+
+      span {
+
+        &.helper {
+          z-index:2; padding: 0 2px; display:none;
+          background-color: #F8F8F8; color: #717171;
+          border: 1px solid #DFDFDF;
+          font-size: 12px; height: 40px;
+          letter-spacing: 1px; width: 70px;
+          line-height: 40px; text-align: center;
+          position: relative;
+          top: 5px; left: -10px;
+          text-transform: capitalize;
+
+          &:after {
+            content: ""; position: absolute;
+            top: -5px; left:50%; margin-left: -10px;
+            width: 10px; height: 10px;
+            border-bottom: 1px solid #dfdfdf;
+            border-right: 1px solid #dfdfdf;
+            background: #f8f8f8; @include rotate(135);
+          }
+        }
+      }
+    }
+
+    .navbar-r {
+      float: right;
+      list-style-type: none;
+      padding-right: 42px;
+      
+      ul.navbar-h{
+        margin: 0 80px 0 0;
+        li {
+          display: inline-block; padding: 0 10px;
+          cursor: pointer;
+          i { padding-right: 5px;}
+          }
+      }
+
+      & > li:hover .nav-dropdown-menu { display: block; }
+
+      .fname, .caret { color: black; }
+
+      .nav-dropdown {
+        float: left; width: 75px;
+
+        .nav-dropdown-menu {
+          background-color: darken($grey, 5);
+          display: none; width: 100px;
+
+          li {
+            color: black; text-indent: 4px;
+          }
+        }
+      }
+
+      .lang {
+        float: right; cursor: pointer;
+        font-size: 11px; position: relative;
+        top: -8px; left: 40px; height: 25px;
+        padding: 0 2px;
+
+        img {
+          width: 25px; height: 25px;
+          @include background-size(cover);
+        }
+        .sep {
+          &:after, &:before {
+            content: " ";
+          }
+        }
+
+        .fr, .en {
+          .txt { display: none; }
+          &.active {
+            position: relative; top: 4px;
+
+            & > a > img {
+              width: 32px; height: 32px;
+            }
+          }
+        }
+      }
+    }
+
+  }
+}

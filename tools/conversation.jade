@@ -1,0 +1,32 @@
+extends ../layouts/account
+
+block head
+	title= t('account.network')
+
+block neck
+	link(href='//api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css', rel='stylesheet')
+	link(href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.21.0/L.Control.Locate.css', rel='stylesheet')
+	link(href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.1/leaflet.fullscreen.css', rel='stylesheet')
+	link(href='/tools/conversation.css?#{cacheBreaker}', rel='stylesheet')
+
+block feet
+	script(src='//api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js')
+	script(src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.21.0/L.Control.Locate.js')
+	script(src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.1/Leaflet.fullscreen.min.js')
+	script(src='/views/account/network/index.min.js?#{cacheBreaker}')
+
+block body
+	div.page#default
+		div.container
+			div.chat(user='#{userid}')
+				div.cHead #{username}
+				div.conversation
+					- reply.reverse().forEach(function(item) {
+						if item.user == userid
+							p.left= item.text
+						else
+							p.right= item.text
+					- });
+				div.message
+					textarea.message-input
+

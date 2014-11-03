@@ -1,0 +1,87 @@
+extends ../../../../layouts/account
+
+block head
+  title= t('account.propose')
+
+block feet
+  script(src='/views/events/edit_activity_account.min.js?#{cacheBreaker}')
+  script(src='/vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js')
+  script(src='/vendor/timepicker/timepicker.js')
+
+block body
+  div.page#default.propose
+    div.container
+      #wrap
+        div.row
+          div.col-sm-6.left.step-1
+            span(class="pic")
+            span(class="fadeaway")
+            span(class="ico")
+              h1.tt.a= t('propose.slogan2')
+          div.col-sm-6.left.step-2
+            div.page-header.ps5
+              div#propose1(style='display: block!important;')
+              
+        script(type='text/template', id='tmpl-propose1')
+          div.page-header
+            form
+              input(type='hidden', name='id', value!='<%= id %>')
+              div.alerts
+                |<% _.each(errors, function(err) { %>
+                div.alert.alert-danger.alert-dismissable
+                  button.close(type='button', data-dismiss='alert') &times;
+                  |<%= err %>
+                |<% }); %>
+              div.col-sm-12
+                div.form-group(class!='<%= errfor.category ? "has-error" : "" %>')
+                  input.form-control(type='text', name='category', value!='<%= category %>', disabled='true')
+                  span.help-block <%= errfor.category %>
+              div.col-sm-12
+                div.form-group(class!='<%= errfor.title ? "has-error" : "" %>')
+                  label.control-label= t('propose.title')
+                  input.form-control(type='text', name='title', value!='<%= title %>', maxlength="34", autofocus)
+                  span.help-block <%= errfor.title %>
+              div.col-sm-12
+                div.form-group(class!='<%= errfor.desc ? "has-error" : "" %>')
+                  label.control-label= t('propose.desc')
+                  textarea.form-control(type='text', name='desc', value!='<%= desc %>')
+                  span.help-block <%= errfor.desc %>
+              div.col-sm-12
+                div.form-group(class!='<%= errfor.place ? "has-error" : "" %>')
+                  label.control-label= t('propose.place')
+                  input(type='hidden', name='place_value', value!='<%= place_value %>')
+                  input(type='hidden', name='place_Lat', value!='<%= place_Lat %>')
+                  input(type='hidden', name='place_Lng', value!='<%= place_Lng %>')
+                  input.form-control(type='text', name='place', value!='<%= place %>')
+                  span.help-block <%= errfor.place %>
+              div.row
+                div.col-sm-6
+                  div.form-group(class!='<%= errfor.date ? "has-error" : "" %>')
+                    label.control-label= t('propose.date')
+                    input.form-control.datepicker(type='text', name='date', value!='<%= date %>', style='width:70%;float:left;margin-right:1%;')
+                    input.form-control.timepicker(type='text', name='time', value!='<%= time %>', style='width:29%;float:left;')
+                    span.help-block <%= errfor.date %>
+                div.col-sm-6
+                  div.form-group(class!='<%= errfor.numOfPtc ? "has-error" : "" %>')
+                    label.control-label= t('propose.numOfPtc')
+                    input.form-control(type='text', name='numOfPtc', value!='<%= numOfPtc %>')
+                    span.help-block <%= errfor.numOfPtc %>
+              div.row
+                div.col-sm-6
+                  div.form-group(class!='<%= errfor.price ? "has-error" : "" %>')
+                    label.control-label= t('propose.price')
+                    input.form-control(type='text', name='price', value!='<%= price %>')
+                    span.help-block <%= errfor.price %>
+                  if photo
+                    img(src!='<%= photos %>', style='width:100%;')
+                div.col-sm-6
+                  div.form-group(class!='<%= errfor.photos ? "has-error" : "" %>')
+                    label.control-label= t('propose.photos')
+                    input.form-control(type='file', id='files', name='photos', value!='<%= photos %>')
+                    span.help-block <%= errfor.photos %>
+                div.col-sm-6
+                  div.form-actions
+                    button.btn.btn-primary.btn-propose(type='button')= t('propose.edit')
+                    input(type='hidden', name='returnUrl', value=returnUrl)
+
+        script(type='text/template', id='data-event') !{event}

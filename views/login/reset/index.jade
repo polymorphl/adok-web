@@ -1,0 +1,46 @@
+extends ../../../layouts/default
+
+block head
+	title= t('settings.new-pass')
+
+block feet
+	script(src='/views/min/login/reset/index.min.js')
+
+block body
+	div.app-content
+		div.page-container
+			h1= t('settings.new-pass')
+			div#reset
+
+			script(type='text/template', id='tmpl-reset')
+				form
+					div.alerts
+						|<% _.each(errors, function(err) { %>
+						div.alert.alert-danger.alert-dismissable
+							button.close(type='button', data-dismiss='alert') &times;
+							|<%= err %>
+						|<% }); %>
+						|<% if (success) { %>
+						div.alert.alert-info.alert-dismissable
+							button.close(type='button', data-dismiss='alert') &times;
+							div= t('settings.pass-changed')
+						|<% } %>
+						|<% if (id == undefined) { %>
+						div.alert.alert-warning.alert-dismissable
+							button.close(type='button', data-dismiss='alert') &times;
+							div= t('errors.badtoken')
+						|<% } %>
+					|<% if (!success && id != undefined) { %>
+					div.form-group(class!='<%= errfor.password ? "has-error" : "" %>')
+						label.control-label= t('settings.new-pass')
+						input.form-control(type='text', name='password', value!='<%= password %>')
+						span.help-block <%= errfor.password %>
+					div.form-group(class!='<%= errfor.confirm ? "has-error" : "" %>')
+						label.control-label= t('settings.pass-conf')
+						input.form-control(type='password', name='confirm', value!='<%= confirm %>')
+						span.help-block <%= errfor.confirm %>
+					|<% } %>
+					div.form-group
+						|<% if (!success && id != undefined) { %>
+						button.btn.btn-primary.btn-reset(type='button')= t('settings.update')
+						|<% } %>

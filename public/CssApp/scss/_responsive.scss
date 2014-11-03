@@ -1,0 +1,217 @@
+/*=============================================
+=            Section comment block            =
+=============================================*/
+
+					/*
+
+	Responsive file for adok Edition 2014
+
+		A lot of shit in this file ...
+
+				- Lucowvsky
+
+	    			*/
+
+/*-----  End of Section comment block  ------*/
+
+
+/* Variables for responsive */
+
+	$menu-width: 250px!default;
+
+/* Code() */
+
+@media only screen and (max-width: $width-small) {
+
+	/* IDs */
+	#map  { display: none; }
+
+	/* Classes */
+	.app-container, .app-pusher { height: 100%; }
+
+	.app-container {
+		overflow: hidden;
+	}
+
+	.app-pusher {
+		@include transition-duration(0.2s);
+		@include transform(translateX(0px));
+	}
+
+	.app-content {
+		position: absolute; bottom: 0;
+		top: 50px; right: 0;
+		padding-top: 0; left: 0;
+		overflow-y: scroll;
+		-webkit-overflow-scrolling:touch;
+	}
+
+	.l-header {
+		position: static; height: 50px;
+		background-color: $header-bg;
+	}
+
+	.l-header__icon {
+		position: relative; float: left;
+		width: 60px; height: 50px;
+		display: block; cursor: pointer;
+
+		&:after {
+			content:'';
+			position: absolute;
+			display: block;
+			width: 1.1rem; height: 0;
+			top: 9px; left: 18px;
+			@include box-shadow(0 10px 0 1px #FFF,
+								0 16px 0 1px #FFF,
+								0 22px 0 1px #FFF);
+		}
+	}
+
+	.l-header__logo {
+		color: $blue_a; height: 50px!important;
+		padding: 7px 0 0 25px!important;
+		.wrap {
+			.logo-1 { color: white!important; }
+			.logo-2 { color: white!important; }
+		}
+	}
+
+	.l-header__navbar {
+		position: absolute;
+		left: 0; top: 0; bottom: 0;
+		background-color: darken($header-bg, 5);
+		width: $menu-width!important;
+		@include transform(translateX($menu-width * -1));
+
+		.navbar-l {
+			float: left!important; width:inherit!important;
+			margin: 0!important; padding-left: 0px!important;
+
+			li {
+				display: block!important; width: inherit!important;
+				padding-left: 0px!important;
+
+				a {
+					display: block; text-align: center;
+					height: 40px; width: inherit;
+					line-height: 40px;
+					border-bottom: 1px solid $header-bg;
+
+					img { display: none!important; }
+				}
+				.helper {
+					display: block!important; background-color: transparent!important;
+					border: none!important; color: white!important;
+					width: 100%!important; position: inherit!important;
+					font-size: 16px!important;
+
+					&:after {
+						height: 0!important;
+					}
+				}
+			}
+		}
+
+		.navbar-r {
+			float: left!important; margin-top: 30px; width: 100%;
+			padding-left: 20px; border-top: 1px solid black;
+			left: 0; right: 0; bottom: 30px; position: absolute;
+
+			li { color:white!important; }
+
+			.nav-dropdown {
+				padding-left: 20px; width: inherit!important;
+
+				.nav-dropdown-menu {
+					color: white!important; display: block!important;
+					background-color: inherit!important;
+
+					li { text-indent: 8px; }
+				}
+				.caret { display: none; }
+			}
+
+			.lang {
+				float: left!important; font-size: 14px!important;
+				top: 0px!important; left: 10px !important; clear: both;
+				border-left: none!important; border-right: none!important;
+			}
+		}
+	}
+
+	.with--sidebar {
+		.app-pusher {
+			@include transform(translateX($menu-width));
+		}
+
+		.app-cache {
+			position: absolute;
+			top: 0;left: 0; right: 0;
+			bottom: 0; background-color: rgba(0,0,0,0.6);
+		}
+
+		.sb {
+			visibility: hidden;
+		}
+
+		.sidebar-inv {
+			left: 600px;
+		}
+
+		.sidebar-chat {
+			right: 650px;
+		}
+
+	}
+
+	.sidebar-chat, .sidebar-inv {
+		margin-top: 50px;
+		@include calc(height, "100% - 50px - 25px");
+	}
+
+	.m-modal {
+		width: auto!important; height: 400px!important;
+		margin: 0 10px;
+	}
+	.m-propose {
+		width: 95%!important;
+
+		#rangeCtrld0, #rangeCtrlh0 {
+			margin: 0 0 20px 5px;
+			width: 150px;
+		}
+		.fs-fields input {
+			width: 90%!important; margin: 0 auto;
+		}
+		.fs-field-label {
+			font-size: 1rem!important;
+			font-weight: 500!important;
+		}
+		.fs-radio-group label {
+			font-size: 0.9rem!important;
+		}
+	}
+	.m-feedback {
+		width: 90%!important; height: 200px!important;
+		.m-modal { height: 200px!important; }
+	}
+
+	.sidebar-inv {
+		width: 250px;
+		&.is-close {
+			left: -250px;
+		}
+	}
+
+
+}
+
+@media only screen and (max-width: $width-x-small) {
+
+	#map  { display: none; }
+	.l-footer {
+		.l-footer__links { display: none; }
+	}
+
+}

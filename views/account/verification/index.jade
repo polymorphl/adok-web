@@ -1,0 +1,46 @@
+extends ../../../layouts/account
+
+block head
+  title= t('account.verification')
+
+block neck
+  link(rel='stylesheet', href='/views/account/verification/index.min.css?#{cacheBreaker}')
+
+block feet
+  script(src='/views/account/verification/index.min.js?#{cacheBreaker}')
+
+block body
+  div.app-content
+    div.page-container
+      h1= t('account.verification')
+      div.alert.alert-warning= t('verif.alert')
+        div#verify
+      div.page-header
+        h1= t('verif.slogan')
+
+  script(type='text/template', id='tmpl-verify')
+    form
+      div.alerts
+        |<% _.each(errors, function(err) { %>
+        div.alert.alert-danger.alert-dismissable
+          button.close(type='button', data-dismiss='alert') &times;
+          |<%= err %>
+        |<% }); %>
+        |<% if (success) { %>
+        div.alert.alert-info.alert-dismissable
+          button.close(type='button', data-dismiss='alert') &times;
+          = t('verif.re-send3')
+        |<% } %>
+      |<% if (!success) { %>
+      div(class!='not-received<%= !keepFormOpen ? "" : " not-received-hidden" %>')
+        a.btn.btn-link.btn-resend= t('verif.re-send')
+      div(class!='verify-form<%= keepFormOpen ? "" : " verify-form-hidden" %>')
+        div.form-group(class!='<%= errfor.email ? "has-error" : "" %>')
+          label.control-label: i.fa.fa-user
+          input.form-control(type='text', name='email', value!='<%= email %>')
+          span.help-block <%= errfor.email %>
+        div.form-group
+          button.btn.btn-primary.btn-verify(type='button')= t('verif.re-send2')
+      |<% } %>
+
+  script(type='text/template', id='data-user') !{data.user}

@@ -1,0 +1,31 @@
+script(src="/components/outdated-browser/outdatedbrowser/outdatedbrowser.min.js")
+script(type='text/javascript').
+	function addLoadEvent(func) {
+		var oldonload = window.onload;
+		if (typeof window.onload != 'function') {
+			window.onload = func;
+		} else {
+			window.onload = function() {
+				oldonload();
+				func();
+			}
+		}
+	}
+	function readCookie(name) {
+		var nameEQ = name + "=";
+		var ca = document.cookie.split(';');
+		for(var i=0;i < ca.length;i++) {
+			var c = ca[i];
+			while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		}
+		return null;
+	}
+	addLoadEvent(
+		outdatedBrowser({
+			bgColor:'#f25648',
+			color: '#ffffff',
+			lowerThan: 'transform',
+			languagePath: '/components/outdated-browser/outdatedbrowser/lang/'+ readCookie('i18next').toLowerCase() +'.html'
+		})
+	);

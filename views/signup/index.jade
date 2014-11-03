@@ -1,0 +1,32 @@
+extends ../../layouts/default
+
+block head
+  title= t('nav.signup')
+
+block feet
+  script(src='/views/min/adok_components/homepage.min.js')
+  script(src='/views/min/signup/index.min.js')
+
+block body
+  div.app-content
+    div.page-container
+      h1 Socials Signup
+      div.socials
+        if oauthGoogle || oauthFacebook
+          if oauthMessage
+            div.alerts
+              div.alert.alert-info.alert-dismissable
+                button.close(type='button', data-dismiss='alert') &times;
+                |#{oauthMessage}&nbsp;
+                b
+                  a(href='/login/')= t('nav.signin')
+          div.form-actions
+            h1= t('nav.signup2')
+            span.rec= t('signup.rec')
+            div.btn-group.btn-group-justified
+              if oauthFacebook
+                a(href='/signup/facebook/')
+                  img(src='/medias/socials/fb.svg' alt='Facebook')
+              if oauthGoogle
+                a(href='/signup/google/')
+                  img(src='/medias/socials/g.svg' alt='Google+')

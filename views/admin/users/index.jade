@@ -1,0 +1,97 @@
+extends ../../../layouts/admin
+
+block head
+  title Utilisateurs
+
+block neck
+  link(rel='stylesheet', href='/views/admin/users/index.min.css?#{cacheBreaker}')
+
+block feet
+  script(src='/views/admin/users/index.min.js?#{cacheBreaker}')
+
+block body
+  div.page#default
+    div.container
+      div.row
+        div.col-xs-12
+          div#header
+          div#filters
+          div#results-table
+          div#results-paging
+
+      script(type='text/template', id='tmpl-header')
+        div.page-header
+          form.form-inline.pull-right
+            div.input-group
+              input.form-control(name='username', type='text', placeholder='entrer un username', value!='<%= username %>')
+              button.btn.btn-primary.btn-add(type='button') Créer
+          h1 Utilisateurs
+
+      script(type='text/template', id='tmpl-filters')
+        form.filters
+          div.row
+            div.col-sm-3
+              label Recherche d'utilisateur
+              input.form-control(name='username', type='text')
+            div.col-sm-3
+              label Peut avoir le(s) rôle(s) : 
+              select.form-control(name='roles')
+                option(value='') tout
+                option(value='admin') administrateur
+            div.col-sm-2
+              label est Actif
+              select.form-control(name='isActive')
+                option(value='') inconnu
+                option(value='yes') oui
+                option(value='no') non
+            div.col-sm-2
+              label Classer par
+              select.form-control(name='sort')
+                option(value='_id') id &#9650;
+                option(value='-_id') id &#9660;
+                option(value='username') utilisateur &#9650;
+                option(value='-username') utilisateur &#9660;
+                option(value='email') e-mail &#9650;
+                option(value='-email') e-mail &#9660;
+            div.col-sm-2
+              label Limite
+              select.form-control(name='limit')
+                option(value='10') 10 items
+                option(value='20', selected='selected') 20 items
+                option(value='50') 50 items
+                option(value='100') 100 items
+
+      script(type='text/template', id='tmpl-results-table')
+        table.table.table-striped
+          thead
+            tr
+              th
+              th Utilisateur
+              th.stretch Adresse e-mail
+              th Actif
+              th ID
+          tbody#results-rows
+
+      script(type='text/template', id='tmpl-results-row')
+        td
+          input.btn.btn-default.btn-sm.btn-details(type='button', value='Editer')
+        td <%= username %>
+        td <%= email %>
+        td <%= isActive %>
+        td <%= _id %>
+
+      script(type='text/template', id='tmpl-results-empty-row')
+        tr
+          td(colspan='5') no documents matched
+
+      script(type='text/template', id='tmpl-results-paging')
+        div.well
+          div.btn-group.pull-left
+            button.btn.btn-default(disabled=true) Page <%= pages.current %> of <%= pages.total %>
+            button.btn.btn-default(disabled=true) Rows <%= items.begin %> - <%= items.end %> of <%= items.total %>
+          div.btn-group.pull-right
+            button.btn.btn-default.btn-page.btn-prev(data-page!='<%= pages.prev %>') Précedent
+            button.btn.btn-default.btn-page.btn-next(data-page!='<%= pages.next %>')  Suivant
+          div.clearfix
+
+      script(type='text/template', id='data-results') !{data.results}

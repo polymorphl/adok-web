@@ -1,0 +1,76 @@
+@charset "UTF-8";
+
+// ----------------------
+// == Site settings
+// ----------------------
+
+// Html 5 Element
+$audio-canvas-video: false;
+
+// Fonts
+$font1: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font2: Georgia, serif;
+
+// = Colors
+// -----------------------------
+
+// Graphic chart
+$blue_a: lighten(#95C8EC, 5%);
+$blue_b: #95C8EC;
+$blue_c: #455ede;
+$purple_a: #b388ff;
+$purple_b: #7c4dff;
+$purple_c: #651fff;
+$yellow: darken(#FFDD65, 3%);
+$divider: lighten(#000000, 12%);
+$hint: lighten(#000000, 15%);
+$icons: lighten(#000000, 54%);
+$txt: lighten(#000000, 87%);
+$blck: #000000;
+
+$red: #FF0000;
+$grey: $hint;
+$color1: $blck;
+$color2: white;
+
+// Text
+$color-text-base: #212121;
+
+// link
+$color-link: black;
+$color-link-hover: $yellow;
+
+// Mixin Placeholder
+$color-mixin-placeholder: #cdcdcd;
+
+// Selection
+$color-selection: $blue_a;
+
+// Button
+$bg-btn: #555;
+$bg-btn-hover: darken($bg-btn, 10%);
+$clr-btn: #212121;
+$clr-btn-hover: darken($clr-btn, 10%);
+
+// = Grid
+// -----------------------------
+
+// Max width wrapper
+$wrapper-width: pxtoem(1140, 16);
+
+// = Prefix
+// -----------------------------
+
+$prefix-for-webkit:    true !default;
+$prefix-for-mozilla:   true !default;
+$prefix-for-microsoft: true !default;
+$prefix-for-opera:     true !default;
+$prefix-for-spec:      true !default; // required for keyframe mixin
+
+// = Responsive
+// -----------------------------
+
+$width-large: 75em; // 1200/16
+$width-medium: 62em; // 992/16
+$width-small: 750px;
+$width-x-small: 600px;

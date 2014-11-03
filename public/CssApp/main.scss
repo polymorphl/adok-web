@@ -1,0 +1,44 @@
+/*
+	Main scss file for adok - 2014 Edition
+*/
+
+/* Compass */
+@import "compass/css3/images";
+@import "compass/utilities/general/hacks";
+
+/* Components */
+@import "components";
+
+/* Tools */
+@import "scss/tools/functions";
+@import "scss/tools/site-settings";
+@import "scss/tools/mixins";
+@import "scss/tools/helpers";
+
+/* Base */
+@import "scss/base/normalize";
+@import "scss/base/base";
+@import "scss/base/form";
+
+/* Fonts */
+@import "scss/fonts/init";
+
+/* Layout */
+@import "scss/layout/header";
+@import "scss/layout/homepage";
+@import "scss/layout/sidebar";
+@import "scss/layout/footer";
+@import "scss/layout/propose";
+@import "scss/layout/app-content";
+@import "scss/responsive";
+
+/* Modules */
+@import "scss/modules/btn";
+@import "scss/modules/_outdated.scss";
+@import "scss/modules/user-home-tool";
+@import "scss/modules/propose";
+@import "scss/modules/zone";
+@import "scss/modules/modal";
+@import "scss/modules/chat";
+//@import "modules/icons";
+//@import "modules/animations";

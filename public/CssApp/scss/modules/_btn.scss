@@ -1,0 +1,46 @@
+/* ==|====================
+   Module/Button
+   ======================= */
+
+   /* Variables */
+   $btn-main-color: $blue_a;
+   $btn-secnd-color: $blue_c;
+
+/* Code() */
+.btn {
+    font-weight: 700; font-size: 1em;
+    background: $btn-main-color; color: #fff;
+    height: 20px; text-align: center;
+    line-height: 20px; text-transform: capitalize;
+    padding: 0 15px; top: 0; left: 0;
+    border: 1px solid darken($btn-main-color, 10%);
+    position: relative; cursor: pointer;
+    @include border-radius(1px); overflow: hidden;
+    @include transform(translate3d(0,0,0));
+    @include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
+
+    &:active {
+      @include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
+    }
+
+    &.active, &.active:focus { background: #72d572; outline: none; }
+    &:focus, &:active:focus { outline: none; color: white; }
+    &:hover, &:hover > a { color: black; }
+}
+
+@mixin btn($color, $height) {
+    @extend .btn; background: $color; height: $height;
+    line-height: $height;
+}
+
+.btn-action {
+  @include btn($blue_b, 20px);
+}
+
+.btn-submit {
+    @include btn($btn-main-color, 20px);
+}
+
+.btn-cancel {
+    @include btn($red, 20px);
+}

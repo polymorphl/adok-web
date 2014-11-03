@@ -1,0 +1,137 @@
+extends ../../../layouts/admin
+
+block head
+  title Utilisateur / Détails
+
+block feet
+  script(src='/views/min/admin/users/details.min.js')
+
+block body
+  div.page#default
+    div.container
+      div.row
+        div.col-xs-12
+          div#header
+          div#identity
+          div#roles
+          div#password
+          div#delete
+
+      script(type='text/template', id='tmpl-header')
+        div.page-header
+          h1
+            a(href='/admin/users/') Utilisateur
+            |  / <%= username %>
+
+      script(type='text/template', id='tmpl-identity')
+        fieldset
+          legend Identité
+          div.alerts
+            |<% _.each(errors, function(err) { %>
+            div.alert.alert-danger.alert-dismissable
+              button.close(type='button', data-dismiss='alert') &times;
+              |<%= err %>
+            |<% }); %>
+            |<% if (success) { %>
+            div.alert.alert-info.alert-dismissable
+              button.close(type='button', data-dismiss='alert') &times;
+              | Les changements ont été sauvegardé.
+            |<% } %>
+          div.control-group(class!='<%= errfor.isActive ? "has-error" : "" %>')
+            label.control-label Est actif :
+            select.form-control(name='isActive')
+              option(value='yes') Oui
+              option(value='no') Non
+            span.help-block <%= errfor.isActive %>
+          div.control-group(class!='<%= errfor.username ? "has-error" : "" %>')
+            label.control-label Nom d'utilisateur :
+            input.form-control(type='text', name='username', value!='<%= username %>')
+            span.help-block <%= errfor.username %>
+          div.control-group(class!='<%= errfor.email ? "has-error" : "" %>')
+            label.control-label Adresse e-mail:
+            input.form-control(type='text', name='email', value!='<%= email %>')
+            span.help-block <%= errfor.email %>
+          div.control-group
+            button.btn.btn-primary.btn-update(type='button') Mettre à jour
+
+      script(type='text/template', id='tmpl-roles')
+        fieldset
+          legend Rôles
+          div.alerts
+            |<% _.each(errors, function(err) { %>
+            div.alert.alert-danger.alert-dismissable
+              button.close(type='button', data-dismiss='alert') &times;
+              |<%= err %>
+            |<% }); %>
+          div.control-group(class!='<%= errfor.newAdminId ? "has-error" : "" %>')
+            label.control-label Administrateur :
+            div.controls
+              div.input-group
+                |<% if (roles && roles.admin) { %>
+                input.form-control(disabled=true, value!='<%= roles.admin.name.full %>')
+                div.input-group-btn
+                  button.btn.btn-warning.btn-admin-unlink(type='button') Connecter
+                  button.btn.btn-default.btn-admin-open(type='button') Ouvrir
+                |<% } else { %>
+                input.form-control(name='newAdminId', type='text', placeholder='entrer un ID administrateur')
+                div.input-group-btn
+                  button.btn.btn-success.btn-admin-link(type='button') Connecter
+                |<% } %>
+              span.help-block <%= errfor.newAdminId %>
+          div.control-group(class!='<%= errfor.newAccountId ? "has-error" : "" %>')
+            label.control-label Compte :
+            div.input-group
+              |<% if (roles && roles.account) { %>
+              input.form-control(disabled=true, value!='<%= roles.account.name.full %>')
+              div.input-group-btn
+                button.btn.btn-warning.btn-account-unlink(type='button') Déconnecter
+                button.btn.btn-default.btn-account-open(type='button') Ouvrir
+              |<% } else { %>
+              input.form-control(name='newAccountId', type='text', placeholder='entrer un ID compte')
+              div.input-group-btn
+                button.btn.btn-success.btn-account-link(type='button') Connecter
+              |<% } %>
+            span.help-block <%= errfor.newAccountId %>
+
+      script(type='text/template', id='tmpl-password')
+        fieldset
+          legend Définir mot de passe
+          div.alerts
+            |<% _.each(errors, function(err) { %>
+            div.alert.alert-danger.alert-dismissable
+              button.close(type='button', data-dismiss='alert') &times;
+              |<%= err %>
+            |<% }); %>
+          |<% if (success) { %>
+          div.alert.alert-info.alert-dismissable
+            button.close(type='button', data-dismiss='alert') &times;
+            | Un nouveau mot de passe a été attribué.
+          |<% } %>
+          div.control-group(class!='<%= errfor.newPassword ? "has-error" : "" %>')
+            label.control-label Nouveau mot de passe :
+            input.form-control(type='password', name='newPassword', value!='<%= newPassword %>')
+            span.help-block <%= errfor.newPassword %>
+          div.control-group(class!='<%= errfor.confirm ? "has-error" : "" %>')
+            label.control-label Confirmation du mot de passe :
+            input.form-control(type='password', name='confirm', value!='<%= confirm %>')
+            span.help-block <%= errfor.confirm %>
+          div.control-group
+            button.btn.btn-primary.btn-password(type='button') Définir
+
+      script(type='text/template', id='tmpl-delete')
+        fieldset
+          legend (Zone Dangereuse)
+          div.alerts
+            |<% _.each(errors, function(err) { %>
+            div.alert.alert-danger.alert-dismissable
+              button.close(type='button', data-dismiss='alert') &times;
+              |<%= err %>
+            |<% }); %>
+          div.control-group
+            span.help-block
+              span.label.label-danger Action irréversible
+              |&nbsp;
+          div.control-group
+            button.btn.btn-danger.btn-delete(type='button') Supprimer
+
+      script(type='text/template', id='data-record') !{data.record}

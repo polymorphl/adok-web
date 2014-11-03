@@ -1,0 +1,24 @@
+img(src="http://localhost:3000/media/logo2.png" style="width: 50%; margin: 0 auto; display: block;")
+h3(style="text-align: center;")= t('welc')
+p= t('welc2')
+br
+p
+  | - 
+  = t('signup.user')
+  |  : 
+  | #{username}
+p
+  | - 
+  = t('signup.mail')
+  |  : 
+  | #{email}
+p
+  | - 
+  = t('nav.signin')
+  |  : 
+  | #{loginURL}
+br
+p
+  =t ('verif.mail4')
+  br
+  | #{projectName}

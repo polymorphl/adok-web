@@ -1,0 +1,173 @@
+extends ../../../../layouts/account
+
+block head
+	title= t('account.zone')
+
+block neck
+	link(rel='stylesheet', href='/components/owlcarousel/owl-carousel/owl.theme.css')
+	link(rel='stylesheet', href='/components/owlcarousel/owl-carousel/owl.carousel.css')
+
+block feet
+	script(src='/components/owlcarousel/owl-carousel/owl.carousel.min.js')
+	script(src='/views/min/adok_components/zone.min.js')
+	script(src='/views/min/account/zone/user/index.min.js')
+
+block body
+	div.app-content
+		div.page-container
+			div.m-zone
+				div(class="wrap_search")
+					div(id="search")
+						label: i.fa.fa-search= t("zone.search")
+						input(type="text", id="searchbar")
+						div.res
+				div.m-network
+					div.friends
+						for account in friends.accounts
+							a(href='/user/'+account.id+''): span.item
+								img.pic(src=''+account.pic+'')
+								span.full= account.name
+					div.pro
+						for pro in friends.pros
+							a(href='/pro/'+pro.id+''): span.item
+								img.pic(src=''+pro.pic+'')
+								span.full= pro.name
+				div#zone-in
+					img(id='avatar', src='#{avatar}')
+					if isUserAccount
+						span#modify
+						i.fa.fa-edit
+							= t('zone.editme')
+				div#dtls-in
+					span.fname
+					div.phone
+						i.fa.fa-mobile
+						if isUserAccount || isLinked == true
+							span.phone
+					div.addr
+						i.fa.fa-home
+						if isUserAccount || isLinked == true
+							span.addr
+					div.dateCr
+						i.fa.fa-calendar
+						if isUserAccount || isLinked == true
+							span.dateCr= t('born')
+				div#picture
+				if isUserAccount
+					span#modify2
+						i.fa.fa-check
+						= t('zone.editen')
+				div#details
+				if !isUserAccount
+					if isLinked == true
+						button#link.btn.btn-primary(type='button')= t('zone.remme')
+					else if isLinked == false
+						button#link.btn.btn-primary(type='button')= t('zone.addme')
+					else if isLinked == 'waiting'
+						button#link.btn.btn-primary(type='button')= t('zone.cancel')
+					else if isLinked == 'pending'
+						button#link-accept.btn.btn-primary(type='button')= t('zone.accept')
+						button#link-deny.btn.btn-primary(type='button')= t('zone.deny')
+				div.row.go-b
+					if isLinked == true
+						div.col-sm-12
+							h2.hist= t('hist')
+							div#history
+								span.prev <
+								span.next >
+						#owl-history.owl-carousel
+							for acv in events.activities
+								a#elem.acv(href='/event/activity/#{acv.id}')
+									if acv.photos
+										span.pic
+											img(src='#{acv.photos}')
+									else
+										span.pic
+											img(src='/uploads/default_event.jpg')
+									if isUserAccount
+										span.ownerActions
+											span.dataset(uid="#{acv.acc}", etype="activity", eid="#{acv.id}")
+												button.btn.edit
+													i.fa.fa-edit
+												button.btn.delete
+													i.fa.fa-times
+										span.title #{acv.title}
+										span.date= moment(acv.date).format('DD.MM.YYYY - HH:mm')
+										span.cat #{acv.category}
+							for exc in events.exchanges
+								a#elem.exc(href='/event/exchange/#{exc.id}')
+									if exc.photos
+										span.pic
+											img(src='#{exc.photos}')
+									else
+										span.pic
+											img(src='/uploads/default_event.jpg')
+									if isUserAccount
+										span.ownerActions
+											span.dataset(uid="#{exc.acc}", etype="exchange", eid="#{exc.id}")
+												button.btn.edit
+													i.fa.fa-edit
+												button.btn.delete
+													i.fa.fa-times
+										span.title #{exc.title}
+										span.date0= moment(exc.date0).format('DD.MM.YYYY - HH:mm')
+										span.date1= moment(exc.date1).format('DD.MM.YYYY - HH:mm')
+										span.cat #{exc.category}
+
+		script(type='text/template', id='tmpl-picture')
+			if avatar
+				img(id='avatar', src='#{avatar}')
+				form(method='post', enctype='multipart/form-data', action='/upload/image/avatar')
+					button.btn.btn-primary(type='button', id='choosepic')=t ('zone.choose')
+					div.col-sm-4
+						input.form-control(type='file', id='files', name='thumbnail')
+					div.col-sm-3
+						button.btn.btn-primary.btn-update(type='submit')= t('settings.update')
+					div.row
+
+		script(type='text/template', id='tmpl-details')
+			fieldset
+			legend= t('settings.info')
+			div.alerts
+				|<% _.each(errors, function(err) { %>
+				div.alert.alert-danger.alert-dismissable
+				|<%= err %>
+				|<% }); %>
+				|<% if (success) { %>
+				div.alert.alert-info.alert-dismissable
+				button.close(type='button', data-dismiss='alert') &times;
+				= t('settings.info-save')
+				|<% } %>
+				input.form-control(type='hidden', name='birthdate', value!='<%- birthdate %>')
+			div.wrap-inf
+				div.row
+					div.col-sm-4
+						div.control-group(class!='<%= errfor.first ? "has-error" : "" %>')
+						label.control-label= t('settings.first')
+						input.form-control(type='text', name='first', value!='<%- first %>')
+						span.help-block <%= errfor.first %>
+				div.col-sm-4
+					div.control-group(class!='<%= errfor.last ? "has-error" : "" %>')
+					label.control-label= t('settings.last')
+					input.form-control(type='text', name='last', value!='<%- last %>')
+					span.help-block <%= errfor['last'] %>
+				div.col-sm-4
+					div.control-group(class!='<%= errfor.phone ? "has-error" : "" %>')
+					label.control-label= t('settings.phone')
+					input.form-control(type='text', name='phone', value!='<%- phone %>')
+					span.help-block <%= errfor.phone %>
+				div.col-sm-6
+					div.control-group(class!='<%= errfor.place ? "has-error" : "" %>')
+					label.control-label= t('settings.postal')
+					input(type='hidden', name='place_value', value!='<%= place_value %>')
+					input(type='hidden', name='place_Lat', value!='<%= place_Lat %>')
+					input(type='hidden', name='place_Lng', value!='<%= place_Lng %>')
+					input.form-control(type='text', name='place', value!='<%- place %>')
+					span.help-block <%= errfor.place %>
+				div.col-sm-2
+				div.col-sm-3
+					div.control-group
+					button.btn.btn-primary.btn-update(type='button')= t('settings.update')
+
+		script(type='text/template', id='data-account') !{data.account}
+		script(type='text/template', id='data-user') !{data.user}

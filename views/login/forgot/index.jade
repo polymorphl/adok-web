@@ -1,0 +1,39 @@
+extends ../../../layouts/default
+
+block head
+	title= t('sign-forgot')
+
+block feet
+	script(src='/views/min/login/forgot/index.min.js?#{cacheBreaker}')
+
+block body
+	div.app-content
+		div.page-container
+			h1= t('sign-forgot')
+			div#forgot
+
+			script(type='text/template', id='tmpl-forgot')
+				form
+					div.alerts
+						|<% _.each(errors, function(err) { %>
+						div.alert.alert-danger
+							button.close(type='button', data-dismiss='alert') &times;
+							|<%= err %>
+						|<% }); %>
+						|<% if (success) { %>
+						div.alert.alert-info
+							button.close(type='button', data-dismiss='alert') &times;
+							div= t('forgot-conf')
+						|<% } %>
+					|<% if (!success) { %>
+					div.form-group(class!='<%= errfor.email ? "has-error" : "" %>')
+						label.control-label: i.fa.fa-user
+						input.form-control(type='text', name='email', value!='<%= email %>', placeholder= t('sign-mix'))
+						span.help-block <%= errfor.email %>
+					|<% } %>
+					div.form-group
+						|<% if (!success) { %>
+						button.btn.btn-primary.btn-forgot(type='button')= t('redefine')
+						|<% } %>
+						|&nbsp;
+						a.btn.btn-link(href='/login/')= t('nav.signin')

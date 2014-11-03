@@ -1,0 +1,80 @@
+extends ../../../layouts/admin
+
+block head
+  title Comptes
+
+block neck
+  link(rel='stylesheet', href='/views/admin/accounts/index.min.css?#{cacheBreaker}')
+
+block feet
+  script(src='/views/min/admin/accounts/index.min.js')
+
+block body
+  div.app-content
+    div.page-container
+      div#header
+      div#filters
+      div#results-table
+      div#results-paging
+
+    script(type='text/template', id='tmpl-header')
+      div.page-header
+        form.form-inline.pull-right
+          div.input-group
+            input.form-control(name='name', type='text', placeholder='entrer un prénom', value!='<%- name.full %>')
+            button.btn.btn-primary.btn-add(type='button') Créer
+        h1 Comptes
+
+    script(type='text/template', id='tmpl-filters')
+      form.filters
+        div.row
+          div.col-sm-3
+            label Recherche
+            input.form-control(name='search', type='text')
+          div.col-sm-3
+            label Classer par
+            select.form-control(name='sort')
+              option(value='_id') id &#9650;
+              option(value='-_id') id &#9660;
+              option(value='name') nom &#9650;
+              option(value='-name') nom &#9660;
+          div.col-sm-3
+            label Limite
+            select.form-control(name='limit')
+              option(value='10') 10 items
+              option(value='20', selected='selected') 20 items
+              option(value='50') 50 items
+              option(value='100') 100 items
+
+    script(type='text/template', id='tmpl-results-table')
+      table.table.table-striped
+        thead
+          tr
+            th
+            th
+              | nom
+              span.pull-right.timeago.muted age
+        tbody#results-rows
+
+    script(type='text/template', id='tmpl-results-row')
+      td
+        input.btn.btn-default.btn-sm.btn-details(type='button', value='Edit')
+      td.stretch
+        span.badge.badge-clear.timeago.pull-right(data-age='y') <%= userCreated.time %>
+        |<%- name.full %>
+
+    script(type='text/template', id='tmpl-results-empty-row')
+      tr
+        td(colspan='4') Aucun document trouvé
+
+    script(type='text/template', id='tmpl-results-paging')
+      div.well
+        div.btn-group.pull-left
+          button.btn.btn-default(disabled=true) Page <%= pages.current %> of <%= pages.total %>
+          button.btn.btn-default(disabled=true) Rows <%= items.begin %> - <%= items.end %> of <%= items.total %>
+        div.btn-group.pull-right
+          button.btn.btn-default.btn-page.btn-prev(data-page!='<%= pages.prev %>') Prev
+          button.btn.btn-default.btn-page.btn-next(data-page!='<%= pages.next %>')  Next
+        div.clearfix
+
+    script(type='text/template', id='data-results') !{data.results}

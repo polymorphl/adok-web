@@ -1,0 +1,130 @@
+/* Chat */
+$chat-width: 230px;
+$chat-color: lighten($grey, 20%);
+
+/* Inventory */
+$inv-width: 400px;
+$inv-color: darken(#FFFFFF, 20%);
+
+.l-sidebar {
+	z-index: 100; background-color: $chat-color;
+	width: $chat-width; margin-top: 35px;
+	position: fixed;
+	@include calc(height, "100% - 35px - 25px");
+
+	.toggle-view {
+		cursor: pointer;
+		width: 30px; height: 35px; position:  relative;
+		i { color: black; }
+		input[type=checkbox] { display: none; }
+
+		&:after {
+			content: ""; position: absolute;
+			bottom: -7px; width: 0; height: 0;
+			border-left: 0px solid transparent;
+			border-right: 7px solid transparent;
+		}
+
+		label {
+			cursor: pointer; text-align: center;
+			display: block; width: auto;
+			height: 40px; color: white;
+
+			img {
+				@include size(20px);
+			}
+		}
+
+	}
+}
+
+@mixin sidebar($color, $width) {
+    @extend .l-sidebar; background: $color;
+    width: $width; border-top: 1px solid darken($color, 10%);
+    .toggle-view {
+    	background-color: darken($color, 5%);
+    	&:after { border-top: 7px solid darken($color, 5%); }
+    }
+}
+
+.sidebar-chat {
+  @include sidebar($grey, $chat-width);
+  top: 0; right: 0;
+
+  &.is-close {
+  	right: -$chat-width; opacity: 1!important;
+
+  	.conversation-list {
+
+  	}
+  }
+
+  .toggle-view {
+  	left: -30px;
+  	&:after {
+			border-left: 7px solid transparent;
+			border-right: 0px solid transparent;
+  		right: 0;
+  	}
+  }
+
+	.contact-list {
+	width: 100%; height: 100%;
+	top: 0;
+
+		.title {
+			text-transform: capitalize;
+			text-indent: 4px; display: block;
+		}
+
+		.user {
+			text-indent: 8px; height: 32px;
+			line-height: 32px; cursor: pointer;
+
+			.state {
+				width: 8px; height: 8px;
+				display: inline-block;
+				margin-right: 5px;
+				background-color: $grey;
+				@include border-radius(50%);
+				&.on { background-color: $blue_a; }
+				&.off { background-color: $red; }
+			}
+
+			img { @include size(32px); }
+
+			.name { font-weight: 400; }
+
+			&:hover {
+				background-color: darken($grey, 10%);
+			}
+		}
+	}
+
+	.conversation-list {
+
+	}
+}
+
+.sidebar-inv {
+	@include sidebar($inv-color, $inv-width);
+	top: 0; left: 0;
+
+	.title {
+		text-transform: capitalize;
+		text-indent: 4px; display: block;
+	}
+
+	&.is-close { left: -$inv-width; opacity: 1!important; }
+
+	.toggle-view {
+		float: right; left: 30px;
+		&:after { right: 0; }
+	}
+
+	.content {
+		width: 100%; height: 100%;
+		position: absolute; top: 0;
+
+	}
+}

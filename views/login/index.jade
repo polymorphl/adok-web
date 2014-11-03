@@ -1,0 +1,41 @@
+extends ../../layouts/default
+
+block head
+  title= t('nav.signin')
+
+block feet
+  script(src='/views/min/adok_components/homepage.min.js')
+  script(src='/views/min/login/index.min.js')
+
+block body
+  div.app-content
+    div.page-container
+
+      span.or= t('or')
+      hr
+      h1 Login
+      div#login
+
+      script(type='text/template', id='tmpl-login')
+        form
+          div.alerts
+            |<% _.each(errors, function(err) { %>
+            div.alert.alert-danger.alert-dismissable
+              button.close(type='button', data-dismiss='alert') &times;
+              |<%= err %>
+            |<% }); %>
+          div.col-sm-6
+            div.form-group(class!='<%= errfor.username ? "has-error" : "" %>')
+              label.control-label: i.fa.fa-user
+              input.form-control(type='text', name='username', value!='<%= username %>', placeholder= t('sign-mix') autofocus)
+              span.help-block <%= errfor.username %>
+          div.col-sm-6
+            div.form-group(class!='<%= errfor.password ? "has-error" : "" %>')
+              label.control-label: i.fa.fa-lock
+              input.form-control(type='password', name='password', value!='<%= password %>', placeholder= t('signup.pass'))
+              span.help-block <%= errfor.password %>
+            div.form-actions
+              button.btn.btn-primary.btn-login(type='button')= t('nav.signin')
+              |&nbsp;
+              a.btn.btn-link(href='/login/forgot/')= t('sign-forgot')
+              input(type='hidden', name='returnUrl', value=returnUrl)

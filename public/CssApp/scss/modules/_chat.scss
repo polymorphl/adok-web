@@ -1,0 +1,91 @@
+.conversation-list {
+	position: relative; z-index: 10;
+	width: 900px; height: 265px;
+	bottom: 305px; right: 260px;
+	margin-right: 205px;
+	margin-bottom: 4px;
+
+	.chat {
+		position: relative;
+	  bottom:35px; right: 30px;
+	  float: left; height: 300px;
+	  min-height: 300px; width: 250px;
+	  background-color: $grey;
+	  z-index: 300; margin-left:20px;
+	  @include border-top-left-radius(10px);
+		@include border-top-right-radius(10px);
+
+	  .cHead, .conversation, .message, .message-input {
+			width: 100%;
+		}
+		.cHead {
+			height: 25px; line-height: 25px;
+			text-align: left; font-weight: bold;
+			text-indent: 6px; color: white;
+			background-color: green; font-size: 14px;
+			@include border-top-left-radius(10px);
+			@include border-top-right-radius(10px);
+
+			.cl {
+				float: right; margin-right: 7px;
+				display: inline-block; width: 15px;
+				height: 25px; text-align: center;
+				&:hover { color: black; }
+			}
+
+			&:hover {
+				cursor: pointer; background-color: darken(green, 2%);
+			}
+		}
+
+		::-webkit-scrollbar {
+			width: 8px;
+		}
+		::-webkit-scrollbar-button {
+			width: 0px;
+			height:0px;
+		}
+		::-webkit-scrollbar-track {
+			background:#eee;
+			border: thin solid lightgray;
+			box-shadow: 0px 0px 3px #dfdfdf inset;
+			border-radius:10px;
+		}
+		::-webkit-scrollbar-thumb {
+			background:#999;
+			border: thin solid gray;
+			border-radius:10px;
+		}
+		::-webkit-scrollbar-thumb:hover {
+			background:#7d7d7d;
+		}
+		.conversation {
+			overflow-x: hidden; overflow-y: auto;
+			position: relative;
+			background-color: darken(#FFFFFF, 10%);
+			height: 240px !important;
+			max-height: 240px !important;
+
+		  p {
+		  	clear: both; color: black;
+		  	word-wrap: break-word;
+		  	@include white-space(pre-wrap);
+		  	max-width: 200px; font-size: 14px;
+		  	font-weight: 400;
+		  	text-align: justify!important;
+		  	padding: 5px 15px;
+		  	&.left {
+			  	background-color: rgba($blue_a, .6);
+			  	float: left; margin-left: 5px;
+		  	}
+			  &.right {
+			  	background-color: rgba(darken(#FFFFFF, 30%), .6);
+			  	float: right; margin-right: 5px;
+			  }
+		  }
+		}
+		.message-input {
+			height: 40px; resize: none;
+		}
+	}
+}

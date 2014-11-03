@@ -1,0 +1,64 @@
+doctype html
+html
+  head
+    block head
+      title #{title}
+    meta(charset='utf-8')
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
+    link(rel='stylesheet', href='/css/main.css')
+    noscript
+        meta(http-equiv="refresh", content="0;/views/noscript.html")
+    block neck
+  body
+    div.app-container
+      div.app-pusher
+        div#outdated.m-outdated
+        div.l-header
+          a.l-header__icon(href="#", id="header__icon")
+          a.l-header__logo(href='/')
+            span.wrap(title= t('nav.home'))
+              img(src="/medias/logo/logo-bg.png" class="logo-adok")
+              span.logo-1 adok
+          div.l-header__navbar
+            ul.navbar-r
+              span.lang
+                span.fr
+                  a
+                    span.txt Fr
+                    img(src="/medias/lang/france.svg")
+                span.sep |
+                span.en
+                  a
+                    span.txt En
+                    img(src="/medias/lang/united-kingdom.svg")
+              ul.navbar-h
+                li: a.signin(id="t_signin")
+                  i.fa.fa-key
+                  span= t('nav.signin')
+                li: a.signup(id="t_signup")
+                  i.fa.fa-level-up
+                  span= t('nav.signup')
+
+        block body
+        div.l-footer
+          span.l-footer__copyright
+            |&#169; #{copyrightYear} #{copyrightName}
+          span.l-footer__feedback
+            button.btn(id="t_feedback") FEEDBACK
+          div.clearfix
+        div.app-cache(id="app-cache")
+
+    include feedback
+    include tmpl-feedback
+    include tmpl-contact
+
+    div.ajax-spinner
+      img(src='/medias/others/ajax-pulse.gif')
+
+    //if lte IE 9
+      script(src='/layouts/ie-sucks.min.js')
+    script(src='/layouts/components.min.js')
+    script(src='/views/min/adok_components/feedback.min.js')
+    include outdatedBrowser
+
+    block feet

@@ -1,0 +1,17 @@
+script(type='text/template', id='tmpl-chat')
+	div.chat(user!='<%= id %>')
+		div.cHead
+			|<%= name %>
+			span.cl x
+		div.conversation
+			|<% _.each(reply.reverse(), function(msg) { %>
+			|<% if (msg.from == userid) { %>
+			p.left
+			|<% } else { %>
+			p.right
+			|<% } %>
+			|<%= msg.text %>
+			|<% }); %>
+		div.message
+			span.writing: i.fa.fa-ellipsis-h
+			textarea.message-input

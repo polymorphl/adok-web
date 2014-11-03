@@ -1,0 +1,9 @@
+
+.app-container, .app-pusher,
+.app-content, .page-container { height:100%; }
+
+.app-content {
+	margin: 0; padding: 0;
+	padding-top: $header-height;
+}
+.page-container { @extend .clearfix; }
