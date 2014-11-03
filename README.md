@@ -1,7 +1,8 @@
 adok
 =======
 
-	![Adok logo](/public/medias/logo/logo-bg.png)
+	![Adok logo]
+	(https://photos-6.dropbox.com/t/1/AAAIUuC6QLZ2g9qpsJHaWnNMALk3DwRatT6aaDMu7OgQwA/12/40703167/png/1024x768/3/1415037600/0/2/Capture%20d%27%C3%A9cran%202014-10-27%2023.35.00.png/2WYPKE3n-cfQ1g1rTRBOdQMxZNVsGAElzIuHNrpQ4qE)
 
     Développement de l'application web adok [WEB + ADMIN]
 
