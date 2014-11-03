@@ -1,13 +1,15 @@
 adok
 =======
 
+	![Adok logo](/public/medias/logo/logo-bg.png)
+
     Développement de l'application web adok [WEB + ADMIN]
 
 Installation
 ------------
 
 ```bash
-$ git clone https://github.com/polymorphl/adok.git && cd ./adok
+$ git clone https://github.com/polymorphl/adok-web.git && cd ./adok
 $ npm install
 $ bower install
 $ grunt
