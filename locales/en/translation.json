@@ -185,5 +185,19 @@
 		"registerToEventConf": "confirmed your registration to his event.",
 		"eventFromNetwork": "created a new event.",
 		"registerToEventDeny": "refused your registration to his event."
-	}
+	},
+	"challenge": {
+    "_it": "Propose a challenge",
+    "error-field": "Error field",
+    "error-mail": "Error mail",
+    "return": "return",
+    "category": "Category",
+    "cat-label": "Challenge type ?",
+    "title": "Title",
+    "desc": "Description",
+    "free": "Free",
+    "place": "Address",
+    "date": "Date",
+    "hour": "Hour"
+  }
 }

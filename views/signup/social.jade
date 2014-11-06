@@ -12,41 +12,20 @@ block body
 			h1= t('nav.signup')
 			div#signup
 
-				script(type='text/template', id='tmpl-signup')
-					form
-						div.alerts
-							|<% _.each(errors, function(err) { %>
-							div.alert.alert-danger.alert-dismissable
-								button.close(type='button', data-dismiss='alert') &times;
-								|<%= err %>
-							|<% }); %>
-						div.col-sm-6
-							div.form-group(class!='<%= errfor.email ? "has-error" : "" %>')
-								label.control-label: i.fa.fa-user
-								input.form-control(type='text', name='email', value!='<%= email %>', placeholder= t('signup.mail'))
-								span.help-block <%= errfor.email %>
-						div.col-sm-6
-							div.form-group.birthdate(class!='<%= errfor.birthdate ? "has-error" : "" %>')
-								label.control-label
-								input.form-control(type='text', name='birthdate', value!='<%= birthdate %>', placeholder= t('signup.birthdate'))
-								span.help-block <%= errfor.birthdate %>
-						div.form-group(class!='<%= errfor.sex ? "has-error" : "" %>')
-							span.sx#mal
-								input(type='radio', name='sex', id="H", value='H')
-								label(for="H"): i.fa.fa-male
-									=t('signup.man')
-							span.sx#fem
-								input(type='radio', name='sex', id="F", value='F')
-								label(for="F"): i.fa.fa-female
-									=t('signup.woman')
-							span.help-block <%= errfor.sex %>
-						div.form-group(class!='<%= errfor.cgu ? "has-error" : "" %>')
-							input(type="checkbox", name="cgu", style='float:left')
-							label.lcgu(style='float:left; clear:right;')= t('signup.icgu')
-								| &nbsp;
-								a(data-toggle="modal" data-target="#modal_cgu" data-backdrop="false")= t('cgu.a')
-							span.help.block(style='float:left; clear:both;color:#A52A2A;') <%= errfor.cgu %>
-						div.form-group
-							button.btn.btn-primary.btn-signup(type='button')= t('signup.subt')
+	script(type='text/template', id='tmpl-signup')
+		form
+			div.alerts
+				|<% _.each(errors, function(err) { %>
+				div.alert.alert-danger.alert-dismissable
+					button.close(type='button', data-dismiss='alert') &times;
+					|<%= err %>
+				|<% }); %>
+			div.wrap
+				div.form-group(class!='<%= errfor.email ? "has-error" : "" %>')
+					label.control-label: i.fa.fa-user
+					input.form-control(type='text', name='email', value!='<%= email %>', placeholder= t('signup.mail'))
+					span.help-block <%= errfor.email %>
+			div.form-group
+				button.btn.btn-primary.btn-signup(type='button')= t('signup.subt')
 
-				script(type='text/template', id='data-email') !{email}
+	script(type='text/template', id='data-email') !{email}

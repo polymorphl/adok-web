@@ -41,8 +41,7 @@
         "signin": "Connexion",
         "settings": "Réglages",
         "notif": "notifications",
-        "inv": "inventaire",
-        "notifications": "nav.notifications"
+        "inv": "inventaire"
     },
     "homepage": {},
     "contact": {
@@ -184,37 +183,33 @@
         "eventFromNetwork": "vient de créer un évènement.",
         "registerToEventDeny": "a refusé votre inscription à son évènement."
     },
-    "validate": "validate",
-    "aroundme-label": "aroundme-label",
-    "propose": {
-        "_it": "propose._it",
-        "error-field": "propose.error-field",
-        "error-mail": "propose.error-mail",
-        "event": "propose.event",
-        "exchange": "propose.exchange",
-        "return": "propose.return",
-        "category": "propose.category",
-        "activity": "propose.activity",
-        "leisure": "propose.leisure",
-        "sport": "propose.sport",
-        "title": "propose.title",
-        "price": "propose.price",
-        "free": "propose.free",
-        "place": "propose.place",
-        "now": "propose.now",
-        "date": "propose.date",
-        "hour": "propose.hour",
-        "purchase": "propose.purchase",
-        "sale": "propose.sale",
-        "hire": "propose.hire",
-        "service": "propose.service",
-        "troc": "propose.troc"
+    "challenge": {
+        "_it": "Proposer un challenge",
+        "error-field": "Erreur champ",
+        "error-mail": "Erreur mail",
+        "return": "retour",
+        "category": "Catégorie",
+        "cat-label": "Type du challenge ?",
+        "title": "Titre",
+        "desc": "Description",
+        "free": "Gratuit",
+        "place": "Adresse",
+        "date": "Date",
+        "hour": "Heure",
+        "event": "challenge.event",
+        "exchange": "challenge.exchange",
+        "activity": "challenge.activity",
+        "leisure": "challenge.leisure",
+        "sport": "challenge.sport",
+        "price": "challenge.price",
+        "now": "challenge.now",
+        "purchase": "challenge.purchase",
+        "sale": "challenge.sale",
+        "hire": "challenge.hire",
+        "service": "challenge.service",
+        "troc": "challenge.troc"
     },
-    "userhome": {
-        "activity": "userhome.activity",
-        "exchange": "userhome.exchange",
-        "opportunity2": "userhome.opportunity2",
-        "network": "userhome.network",
-        "no-res": "userhome.no-res"
+    "propose": {
+        "hour": "propose.hour"
     }
 }

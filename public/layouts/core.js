@@ -94,6 +94,18 @@ var refresh;
 	*
 	**/
 
+	// DISABLE box-overlay when ESC
+	$(document).keyup(function(event) {
+		var overlay = $('.box-overlay');
+		var m_feed = $('#feedback');
+		var m_propose = $("#propose");
+	  if (event.keyCode == 27 && overlay.hasClass("is-active")) {
+	  	overlay.removeClass("is-active");
+	  	m_feed.hide();
+	  	m_propose.hide();
+	  }
+	});
+	
 	/*-----  Feedback  ------*/
 
 	var t_feed = $('#t_feedback');
@@ -105,14 +117,14 @@ var refresh;
 		e.preventDefault();
 		e.stopPropagation();
 		$('body').removeClass('with--sidebar');
-		overlay.css('visibility', 'visible');
+		overlay.addClass("is-active");
 		m_feed.hide().velocity('transition.slideUpBigIn', { duration: 300 }).addClass('is-open');
 	});
 
 	m_fclose.on('click', function(e) {
 		$(this).addClass('is-open');
 		e.preventDefault();
-		overlay.css('visibility', 'hidden');
+		overlay.removeClass("is-active");
 		m_feed.velocity('transition.slideDownBigOut', { duration: 300 }).removeClass('is-open');
 	});
 

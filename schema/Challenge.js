@@ -8,12 +8,7 @@ exports = module.exports = function(app, mongoose) {
     latLng: [Number],
     date: { type: Date },
     numOfUser: { type: Number },
-    price: { type: Number },
-    // rating: {
-    //   like: {},
-    //   dislike: {},
-    //   shared: {}
-    // },
+    hashtags: { type: String, default: ''},
     photos: { type: String, default: '' },
     acc: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     timeCreated: { type: Date, default: Date.now },

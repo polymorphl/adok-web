@@ -2,9 +2,11 @@
 * Homepage
 **/
 
-/*-----  Logo  ------*/
+$(function() {
+  console.log( "ready!" );
 
-var w_logo = $('.logo-aok');
+  /*-----  Logo  ------*/
+
 
 /*-----  Sign-in  ------*/
 
@@ -71,3 +73,5 @@ var w_logo = $('.logo-aok');
     overlay.css('visibility', 'hidden');
     m_contact.velocity('transition.slideDownBigOut', { duration: 300 }).removeClass('is-open');
   });
+  // --> EOF
+});

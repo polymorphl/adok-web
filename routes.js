@@ -33,8 +33,6 @@ function ensureAccount(req, res, next) {
 
 function checkIfConnected(req, res, next) {
 	if (req.isAuthenticated()) {
-		console.log("req.user.canPlayRoleOf('admin') =", req.user.canPlayRoleOf('admin'));
-		console.log(req.session.accType);
 		if (req.session.accType == 'account') {
 			if (req.user.canPlayRoleOf('account'))
 				return res.redirect('/account/');
@@ -214,11 +212,11 @@ exports = module.exports = function(app, passport) {
 	//account > zone
 	app.all('/user*', ensureAuthenticated);
 	app.get('/user/', function(req, res, next) {
-		require('./views/'+req.session.accType+'/zone/user/index').init(req, res, next);
+		require('./views/'+req.session.accType+'/profil/index').init(req, res, next);
 	});
-	app.put('/user/', require('./views/account/zone/user/index').update);
+	app.put('/user/', require('./views/account/profil/index').update);
 	app.get('/user/:id', function(req, res, next) {
-		require('./views/'+req.session.accType+'/zone/user/index').init(req, res, next);
+		require('./views/'+req.session.accType+'/profil/index').init(req, res, next);
 	});
 
 	//upload
@@ -280,7 +278,7 @@ exports = module.exports = function(app, passport) {
 	var geocoder = require('node-geocoder').getGeocoder('google', 'https', { apiKey: 'AIzaSyCp2_kKWJ9XEVQHOZbNfgP3trYpJ0CyXtQ'});
 	app.all('/geocode*', ensureAuthenticated);
 	app.post('/geocode/', function(req, res) {
-		geocoder.geocode(req.body.query, function(err, results) {
+		geocoder.geocode({address: req.body.query, country: 'France'}, function(err, results) {
 			if (err)
 				return res.send(400, 'An error occured');
 			var ret = [];

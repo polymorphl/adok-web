@@ -2,34 +2,6 @@
 
 (function() {
   'use strict';
-
-  var dateEN = {
-    date: {
-      previousMonth : 'Previous Month',
-      nextMonth     : 'Next Month',
-      months        : ['January','February','March','April','May','June','July','August','September','October','November','December'],
-      weekdays      : ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
-      weekdaysShort : ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
-      timeTitles    : ['Hours', 'Minutes']      
-    },
-    format: 'MM-DD-YYYY',
-    meridian: true,
-    firstDay: 0
-  };
-
-  var dateFR = {
-    date: {
-      previousMonth : 'Mois précedent',
-      nextMonth     : 'Mois suivant',
-      months        : ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
-      weekdays      : ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
-      weekdaysShort : ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
-      timeTitles    : ['Heures', 'Minutes']
-    },
-    format: 'DD-MM-YYYY',
-    meridian: false,
-    firstDay: 1
-  };
   
   function getCookie(cname)
   {
@@ -50,10 +22,7 @@
     defaults: {
       errors: [],
       errfor: {},
-      email: '',
-      birthdate: '',
-      sex: '',
-      cgu: ''
+      email: ''
     }
   });
 
@@ -73,18 +42,7 @@
     },
     render: function() {
       this.$el.html(this.template( this.model.attributes ));
-      var lng = (getCookie('i18next') == 'fr') ? (dateFR) : (dateEN);
       this.$el.find('[name="email"]').focus();
-      this.$el.find('[name="birthdate"]').pikaday({
-        minDate: moment(moment().startOf('year').subtract('years', 90)).toDate(),
-        maxDate: moment(moment().endOf('year').subtract('years', 11)).toDate(),
-        defaultDate: moment(moment().startOf('year')).toDate(),
-        yearRange: [moment(moment().startOf('year').subtract('years', 90)).years(), moment(moment().startOf('year').subtract('years', 11)).years()],
-        firstDay: lng.firstDay,
-        format: lng.format,
-        i18n: lng.date,
-        showMeridian: lng.meridian
-      });
     },
     preventSubmit: function(event) {
       event.preventDefault();
@@ -96,12 +54,8 @@
     },
     signup: function() {
       this.$el.find('.btn-signup').attr('disabled', true);
-
       this.model.save({
-        email: this.$el.find('[name="email"]').val().toLowerCase(),
-        birthdate: this.$el.find('[name="birthdate"]').val(),
-        sex: this.$el.find('[name="sex"]:checked').val(),
-        cgu: this.$el.find('[name=cgu]').is(':checked')
+        email: this.$el.find('[name="email"]').val().toLowerCase()
       },{
         success: function(model, response) {
           if (response.success) {

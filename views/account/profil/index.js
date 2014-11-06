@@ -8,7 +8,7 @@ var renderZone = function(req, res, next, oauthMessage) {
   var isLinked = false;
 
   var getAccountData = function(callback) {
-    req.app.db.models.Account.findById((accountId ? accountId : req.user.roles.account.id), 'name birthdate picture company phone place lat lng').exec(function(err, account) {
+    req.app.db.models.Account.findById((accountId ? accountId : req.user.roles.account.id), 'name picture place lat lng').exec(function(err, account) {
       if (err) {
         return callback(err, null);
       }
@@ -21,7 +21,7 @@ var renderZone = function(req, res, next, oauthMessage) {
   };
 
   var getUserData = function(callback) {
-    req.app.db.models.User.findById((req.params.id ? req.params.id : req.user.id), 'username email roles twitter.id google.id facebook.id').exec(function(err, user) {
+    req.app.db.models.User.findById((req.params.id ? req.params.id : req.user.id), 'username email roles google.id facebook.id').exec(function(err, user) {
       if (err) {
         callback(err, null);
       }
@@ -65,7 +65,7 @@ var renderZone = function(req, res, next, oauthMessage) {
   };
 
   var getActivities = function(callback) {
-    req.app.db.models.Aevent.find({acc: (req.params.id ? req.params.id : req.user.id), accType: 'account'}, 'category date title desc photos acc').exec(function(err, activities) {
+    req.app.db.models.Challenge.find({acc: (req.params.id ? req.params.id : req.user.id), accType: 'account'}, 'category date title desc photos acc').exec(function(err, activities) {
       if (err)
         return callback('Error getting activities', null);
       events.activities = activities;
@@ -73,18 +73,9 @@ var renderZone = function(req, res, next, oauthMessage) {
     })
   };
 
-  var getExchanges = function(callback) {
-    req.app.db.models.Eevent.find({acc: (req.params.id ? req.params.id : req.user.id), accType: 'account'}, 'category date0 date1 title desc photos acc').exec(function(err, exchanges) {
-      if (err)
-        return callback('Error getting activities', null);
-      events.exchanges = exchanges;
-      return callback(null, 'done');
-    })
-  };
-
   var getNotifs = function(callback) {
     var find = {};
-    var notifMsgs = require('../../../../tools/Notifications').notifMsgs;
+    var notifMsgs = require('../../../tools/Notifications').notifMsgs;
     find['to.'+req.session.accType] = req.user.roles[req.session.accType]._id;
     req.app.db.models.Notifications.find(find).sort({date: 'desc'}).limit(20).populate('from.account').populate('from.pro').populate('event.activity').populate('event.exchange').populate('event.opportunity').exec(function(err, notifs) {
       if (err)
@@ -235,7 +226,7 @@ var renderZone = function(req, res, next, oauthMessage) {
 				}
 				return done();
 			});
-			res.render('account/zone/user/index', {
+			res.render('account/profil/index', {
 	      friends: friends,
 	      data: {
 	        account: escape(JSON.stringify(outcome.account)),
@@ -247,8 +238,6 @@ var renderZone = function(req, res, next, oauthMessage) {
 	      isUserAccount: req.params.id == req.user.id,
 	      avatar: outcome.account.picture,
 	      oauthMessage: oauthMessage,
-	      oauthTwitter: !!req.app.get('twitter-oauth-key'),
-	      oauthTwitterActive: outcome.user.twitter ? !!outcome.user.twitter.id : false,
 	      oauthGoogle: !!req.app.get('google-oauth-key'),
 	      oauthGoogleActive: outcome.user.google ? !!outcome.user.google.id : false,
 	      oauthFacebook: !!req.app.get('facebook-oauth-key'),
@@ -257,7 +246,7 @@ var renderZone = function(req, res, next, oauthMessage) {
 		});
   };
 
-  require('async').series([getUserData, getAccountData, getLinked, getActivities, getExchanges, getNotifs], asyncFinally);
+  require('async').series([getUserData, getAccountData, getLinked, getActivities, getNotifs], asyncFinally);
 };
 
 exports.init = function(req, res, next){

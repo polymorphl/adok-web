@@ -13,7 +13,7 @@ html
     div.app-container
       div.app-pusher
         div#outdated.m-outdated
-        include propose
+        include challenge
         div.l-header
           a.l-header__icon(href="#", id="header__icon")
           a.l-header__logo(href='/account/')
@@ -43,10 +43,10 @@ html
                     img(src="/medias/lang/united-kingdom.svg")
             ul.navbar-l
               li#t_propose: a.propose
-                img(src="/media/prop/propose.svg")
+                i.fa.fa-share-alt
                 span.helper= t('account.propose')
               li: a.notif(href='#/account/notifications/')
-                img(src="/media/notif/notif.svg")
+                i.fa.fa-bell
                 span.helper= t('nav.notif')
               li: a.profil(href='/user/#{id}')
                 img#profilavatar(src='#{req.user.roles.account.picture}')
@@ -72,14 +72,14 @@ html
       include tmpl-feedback
 
       div.ajax-spinner
-          img(src='/media/oth/ajax-pulse.gif')
+          img(src='/medias/others/ajax-pulse.gif')
 
       //if lte IE 9
           script(src='/layouts/ie-sucks.min.js')
       script(src='/layouts/components.min.js')
       script(src='/views/min/adok_components/feedback.min.js')
       script(src='/views/min/adok_components/notifications.min.js')
-      script(src='/views/min/adok_components/propose.min.js')
+      script(src='/views/min/adok_components/challenge.min.js')
       script(src='/socket.io/socket.io.js')
       script(src='/layouts/sockets.js')
       include outdatedBrowser

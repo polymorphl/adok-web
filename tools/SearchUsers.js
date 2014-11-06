@@ -31,15 +31,6 @@ exports.init = function(req, res, next){
 		});
 	}
 
-	var searchPros = function(done) {
-		req.app.db.models.Pro.find(find, 'name user.id picture').sort('name.full').limit(10).lean().exec(function(err, res) {
-			if (err)
-				return done(err, null);
-			outcome.pro = res;
-			done(null, 'searchPros');
-		});
-	}
-
 	var asyncFinally = function(err, results) {
 		if (err)
 			return res.jsonp([]);
@@ -49,13 +40,8 @@ exports.init = function(req, res, next){
 			ret.push({ name: outcome.account[i].name.full, link: '/user/'+outcome.account[i].user.id });
 			++i;
 		}
-		i = 0;
-		while (outcome.pro && outcome.pro[i]) {
-			ret.push({ name: outcome.pro[i].name, link: '/pro/'+outcome.pro[i].user.id });
-			++i;
-		}
 		return res.jsonp(ret);
 	}
 
-	require('async').parallel([searchAccounts, searchPros], asyncFinally);
+	require('async').parallel([searchAccounts], asyncFinally);
 }

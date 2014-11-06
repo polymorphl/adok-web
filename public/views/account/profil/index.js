@@ -80,13 +80,7 @@
       errors: [],
       errfor: {},
       first: '',
-      birthdate: '',
-      last: '',
-      phone: '',
-      place: '',
-      place_value: '',
-      place_Lat: '',
-      place_Lng: ''
+      last: ''
     },
     url: '/user/',
     parse: function(response) {
@@ -270,13 +264,7 @@
       this.model.set({
         _id: app.mainView.account.id,
         first: app.mainView.account.get('name').first,
-        last: app.mainView.account.get('name').last,
-        phone: app.mainView.account.get('phone'),
-        birthdate: moment(app.mainView.account.get('birthdate')).format(lng.format),
-        place: app.mainView.account.get('place'),
-        place_value: app.mainView.account.get('place'),
-        place_Lat: app.mainView.account.get('lat'),
-        place_Lng: app.mainView.account.get('lng')
+        last: app.mainView.account.get('name').last
       });
     },
     render: function() {
@@ -288,42 +276,11 @@
           this.$el.find('[name="'+ key +'"]').val(this.model.attributes[key]);
         }
       }
-      this.$el.find('[name="place"]').autocomplete({
-        source: function(req, res) {
-          that.$el.find('[name="place_value"]')[0].value = '';
-          that.$el.find('[name="place_Lat"]')[0].value = '';
-          that.$el.find('[name="place_Lng"]')[0].value = '';
-          $.post('/geocode/', {
-              query: that.$el.find('[name="place"]').val()
-            }).done(function(data) {
-              res($.map(data, function(item) {
-                return {
-                  label: item.addr,
-                  value: item.addr,
-                  lat: item.latlng.lat,
-                  lng: item.latlng.lng
-                };
-              }));
-            }).fail(function() {
-              console.log('ERROR');
-            });
-        },
-        minLength: 0,
-        select: function(e, ui) {
-          that.$el.find('[name="place_value"]')[0].value = ui.item.label;
-          that.$el.find('[name="place_Lat"]')[0].value = ui.item.lat;
-          that.$el.find('[name="place_Lng"]')[0].value = ui.item.lng;
-        }
-      });
     },
     update: function() {
       this.model.save({
         first: this.$el.find('[name="first"]').val(),
-        last: this.$el.find('[name="last"]').val(),
-        phone: this.$el.find('[name="phone"]').val(),
-        place: this.$el.find('[name="place_value"]').val(),
-        place_Lat: this.$el.find('[name="place_Lat"]').val(),
-        place_Lng: this.$el.find('[name="place_Lng"]').val()
+        last: this.$el.find('[name="last"]').val()
       });
     }
   });
@@ -413,7 +370,6 @@
   app.MainView = Backbone.View.extend({
     el: '.app-content .page-container',
     initialize: function() {
-    	console.log('initialize');
       app.mainView = this;
       this.account = new app.Account( JSON.parse( unescape($('#data-account').html()) ) );
       this.user = new app.User( JSON.parse( unescape($('#data-user').html()) ) );
@@ -432,32 +388,6 @@
   });
 
   $(document).ready(function() {
-    function checkdetails() {
-      $('#zone-in span.fname').text($('#details input[name="first"]').val() +' '+ $('#details input[name="last"]').val());
-      $('#zone-in span.phone').text($('#details input[name="phone"]').val());
-      $('#zone-in span.addr').text($('#details input[name="place_value"]').val());
-    }
     app.mainView = new app.MainView();
-    var dateCr = $('#details input[name="birthdate"]').val();
-    $('#zone-in span.dateCr').append(dateCr);
-    if ($('.zone').length > 0) {
-      checkdetails();
-      $('#details .btn-update').click(function(){
-        checkdetails();
-      });
-      $('.zone #choosepic').click(function(){
-        $('input#files').click();
-      });
-      $('#modify').click(function(){
-        $(this).hide();
-        $('#zone-in').hide();
-        $('#modify2, #details, #picture').show();
-      });
-      $('#modify2').click(function(){
-        $(this).hide();
-        $('#details, #picture').hide();
-        $('#zone-in, #modify').show();
-      });
-    }
   });
 }());

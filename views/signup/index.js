@@ -22,19 +22,6 @@ exports.signup = function(req, res){
       workflow.outcome.errfor.firstname = req.i18n.t('errors.required');
     }
 
-    var reg = new RegExp(req.i18n.t('dateRegex'));
-    if (!req.body.birthdate) {
-      workflow.outcome.errfor.birthdate = req.i18n.t('errors.required');
-    } else if (!reg.test(req.body.birthdate)) {
-      workflow.outcome.errfor.birthdate = req.i18n.t('errors.dateFormat');
-    }
-
-    if (!req.body.sex) {
-      workflow.outcome.errfor.sex = req.i18n.t('errors.required');
-    } else if (req.body.sex != 'H' && req.body.sex != 'F') {
-      workflow.outcome.errfor.sex = req.i18n.t('errors.alien');
-    }
-
     if (!req.body.email) {
       workflow.outcome.errfor.email = req.i18n.t('errors.required');
     }
@@ -50,10 +37,6 @@ exports.signup = function(req, res){
       workflow.outcome.errfor.passwordConfirm = req.i18n.t('errors.required');
     } else if (req.body.password != req.body.passwordConfirm) {
       workflow.outcome.errfor.passwordConfirm = req.i18n.t('signup.passwordmismatch');
-    }
-
-    if (!req.body.cgu) {
-      workflow.outcome.errfor.cgu = req.i18n.t('errors.cgu');
     }
 
     if (workflow.hasErrors()) {
@@ -122,8 +105,6 @@ exports.signup = function(req, res){
       'name.first': req.body.firstname,
       'name.last': req.body.lastname,
       'name.full': req.body.lastname+' '+req.body.firstname,
-      birthdate: moment(req.body.birthdate, req.i18n.t('birthdateFormat')).toDate(),
-      sex: req.body.sex,
       user: {
         id: workflow.user._id,
         name: workflow.user.username,
@@ -214,34 +195,6 @@ exports.signup = function(req, res){
   workflow.emit('validate');
 };
 
-exports.signupTwitter = function(req, res, next) {
-  req._passport.instance.authenticate('twitter', function(err, user, info) {
-    if (!info || !info.profile) {
-      return res.redirect('/signup/');
-    }
-
-    req.app.db.models.User.findOne({ 'twitter.id': info.profile._json.id }, function(err, user) {
-      if (err) {
-        return next(err);
-      }
-
-      if (!user) {
-        req.session.socialProfile = info.profile;
-        req.session.accType = 'account';
-        res.render('signup/social', { email: '' });
-      }
-      else {
-        res.render('signup/index', {
-          oauthMessage: 'Nous avons trouvé un utilisateur connecté à votre compte Twitter.',
-          oauthTwitter: !!req.app.get('twitter-oauth-key'),
-          oauthFacebook: !!req.app.get('facebook-oauth-key'),
-          oauthGoogle: !!req.app.get('google-oauth-key')
-        });
-      }
-    });
-  })(req, res, next);
-};
-
 exports.signupGoogle = function(req, res, next) {
   req._passport.instance.authenticate('google', { callbackURL: '/signup/google/callback/'},function(err, user, info) {
     if (!info || !info.profile) {
@@ -261,7 +214,6 @@ exports.signupGoogle = function(req, res, next) {
       else {
         res.render('signup/index', {
           oauthMessage: 'Nous avons trouvé un utilisateur connecté à votre compte Google.',
-          oauthTwitter: !!req.app.get('twitter-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key'),
           oauthGoogle: !!req.app.get('google-oauth-key')
         });
@@ -288,7 +240,6 @@ exports.signupFacebook = function(req, res, next) {
       else {
         res.render('signup/index', {
           oauthMessage: 'Nous avons trouvé un utilisateur connecté à votre compte Facebook.',
-          oauthTwitter: !!req.app.get('twitter-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key'),
           oauthGoogle: !!req.app.get('google-oauth-key')
         });
@@ -308,23 +259,6 @@ exports.signupSocial = function(req, res){
     }
     else if (!/^[a-zA-Z0-9\-\_\.\+]+@[a-zA-Z0-9\-\_\.]+\.[a-zA-Z0-9\-\_]+$/.test(req.body.email)) {
       workflow.outcome.errfor.email = req.i18n.t('errors.mailformat');
-    }
-
-    var reg = new RegExp(req.i18n.t('dateRegex'));
-    if (!req.body.birthdate) {
-      workflow.outcome.errfor.birthdate = req.i18n.t('errors.required');
-    } else if (!reg.test(req.body.birthdate)) {
-      workflow.outcome.errfor.birthdate = req.i18n.t('errors.dateFormat');
-    }
-    
-    if (!req.body.sex) {
-      workflow.outcome.errfor.sex = req.i18n.t('errors.required');
-    } else if (req.body.sex != 'H' && req.body.sex != 'F') {
-      workflow.outcome.errfor.sex = req.i18n.t('errors.alien');
-    }
-    
-    if (!req.body.cgu) {
-      workflow.outcome.errfor.cgu = req.i18n.t('errors.cgu');
     }
 
     if (workflow.hasErrors()) {
@@ -377,7 +311,6 @@ exports.signupSocial = function(req, res){
       username: workflow.username,
       email: req.body.email.toLowerCase(),
       search: [
-        workflow.username,
         req.body.email
       ]
     };
@@ -401,8 +334,6 @@ exports.signupSocial = function(req, res){
       'name.first': nameParts[0],
       'name.last': nameParts[1] || '',
       'name.full': displayName,
-      birthdate: moment(req.body.birthdate, req.i18n.t('birthdateFormat')).toDate(),
-      sex: req.body.sex,
       user: {
         id: workflow.user._id,
         name: workflow.user.username,
@@ -472,7 +403,7 @@ exports.signupSocial = function(req, res){
 
       delete req.session.socialProfile;
       req.session.accType = 'account';
-      workflow.outcome.defaultReturnUrl = '/account/settings/';//workflow.user.defaultReturnUrl();
+      workflow.outcome.defaultReturnUrl = '/account/';//workflow.user.defaultReturnUrl();
       workflow.emit('response');
     });
   });

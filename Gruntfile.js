@@ -20,8 +20,8 @@ module.exports = function(grunt) {
 		//-> for running tasks concurrently (instead of sequentially)
 		concurrent: {
 			dev: {
-				//tasks: [ 'flo', 'nodemon', 'watch'],
-				tasks: [ 'nodemon', 'watch'],
+				tasks: [ 'flo', 'nodemon', 'watch'],
+				//tasks: [ 'nodemon', 'watch'],
 				options: {
 					logConcurrentOutput: true
 				}

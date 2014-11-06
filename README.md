@@ -45,9 +45,10 @@ Maintenant, utiliser la fonction de redéfinition de mot de passe :
  - `http://localhost:8000/login/forgot/`
  - Entrer l'adresse e-mail
  - Aller voir sa boite mail et cliquer sur le lien de comfirmation
- - `http://localhost:3000/login/reset/:token/`
+ - `http://localhost:8000/login/reset/:token/`
  - Définisser un nouveau mot de passe
- - Go sur : `http://localhost:8000/adok-adm/` -- Connexion username - password
+ - Go sur : `http://localhost:8000/adok-adm/`
+ - Connexion username - password
 
 TIPS
 ----

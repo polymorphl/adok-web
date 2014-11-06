@@ -186,6 +186,18 @@
 		"eventFromNetwork": "vient de créer un évènement.",
 		"registerToEventDeny": "a refusé votre inscription à son évènement."
 	},
-	"validate": "validate",
-	"aroundme-label": "aroundme-label"
+	"challenge": {
+    "_it": "Proposer un challenge",
+    "error-field": "Erreur champ",
+    "error-mail": "Erreur mail",
+    "return": "retour",
+    "category": "Catégorie",
+    "cat-label": "Type du challenge ?",
+    "title": "Titre",
+    "desc": "Description",
+    "free": "Gratuit",
+    "place": "Adresse",
+    "date": "Date",
+    "hour": "Heure"
+  }
 }

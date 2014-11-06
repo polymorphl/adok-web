@@ -5,7 +5,7 @@
    /* Variables */
 
    $header-bg: $blue_b;
-   $header-height: 35px;
+   $header-height: 48px;
 
 /* Code() */
 
@@ -23,7 +23,7 @@
     .wrap {
       .logo-adok {
         width: 42px; height: 42px;
-        margin-right: 5px;
+        margin-right: 5px; margin-top: -11px;
       }
       .logo-1 { 
         color: $blue_b; font-family: "wolfInTheCity";
@@ -45,9 +45,7 @@
         padding-left: 30px; float: left;
         height: 43px; width: 95px;
 
-        i {
-          color: black;
-        }
+        i { color: $blue_a; }
 
         .propose, .notif {
           cursor: pointer;
@@ -62,6 +60,7 @@
 
         &:hover {
           span { display: inline-block; }
+          i { color: $blue_b; }
         }
       }
 
@@ -70,28 +69,15 @@
         @include background-size(cover);
       }
 
-      span {
-
-        &.helper {
-          z-index:2; padding: 0 2px; display:none;
-          background-color: #F8F8F8; color: #717171;
-          border: 1px solid #DFDFDF;
-          font-size: 12px; height: 40px;
-          letter-spacing: 1px; width: 70px;
-          line-height: 40px; text-align: center;
-          position: relative;
-          top: 5px; left: -10px;
-          text-transform: capitalize;
-
-          &:after {
-            content: ""; position: absolute;
-            top: -5px; left:50%; margin-left: -10px;
-            width: 10px; height: 10px;
-            border-bottom: 1px solid #dfdfdf;
-            border-right: 1px solid #dfdfdf;
-            background: #f8f8f8; @include rotate(135);
-          }
-        }
+      span.helper {
+        z-index:2; padding: 2px; display:none;
+        background-color: #F8F8F8; color: #717171;
+        border: 1px solid #DFDFDF;
+        font-size: 12px; height: 30px;
+        letter-spacing: 1px; width: 80px;
+        line-height: 30px; text-align: center;
+        position: relative;  top: 2px;
+        text-transform: capitalize;
       }
     }
 
@@ -111,7 +97,7 @@
 
       & > li:hover .nav-dropdown-menu { display: block; }
 
-      .fname, .caret { color: black; }
+      .fname, .caret { color: white; }
 
       .nav-dropdown {
         float: left; width: 75px;
@@ -121,7 +107,7 @@
           display: none; width: 100px;
 
           li {
-            color: black; text-indent: 4px;
+            color: white; text-indent: 4px;
           }
         }
       }
@@ -129,7 +115,7 @@
       .lang {
         float: right; cursor: pointer;
         font-size: 11px; position: relative;
-        top: -8px; left: 40px; height: 25px;
+        top: -8px; left: 25px; height: 25px;
         padding: 0 2px;
 
         img {
@@ -144,12 +130,12 @@
 
         .fr, .en {
           .txt { display: none; }
-          &.active {
-            position: relative; top: 4px;
-
-            & > a > img {
-              width: 32px; height: 32px;
-            }
+          &.active > a > img{
+            border-bottom: 2px solid $purple_b;
+            &:hover { border-bottom: 2px solid $yellow; }
+          }
+          & > a > img:hover {
+            border-bottom: 1px solid $purple_a;
           }
         }
       }
