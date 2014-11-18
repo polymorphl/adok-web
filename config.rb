@@ -5,6 +5,10 @@
 # Config
 
 require 'sass-css-importer'
+
+
+Encoding.default_external = "UTF-8"
+
 add_import_path Sass::CssImporter::Importer.new("public/components/*.css")
 
 project_type      = :stand_alone # :stand_alone or :rails
