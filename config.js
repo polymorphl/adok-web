@@ -15,7 +15,7 @@ exports.port = process.env.PORT || 8000;
 
 //Settings for Database
 exports.mongodb = {
-  uri: process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'localhost/adok?safe=true'
+  uri: process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || process.env.MONGO_URL || 'localhost/adok?safe=true'
 };
 
 //Settings for SMTP
