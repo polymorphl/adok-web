@@ -194,4 +194,6 @@ i18n.serveClientScript(app)
     .serveMissingKeyRoute(app);
 
 //listen up
-app.server.listen(app.get('port'), function(){ console.log("<# --- Adok is online on port 8000 --- #>") });
+app.server.listen(app.get('port'), function(){
+    console.log("<# --- Adok is online on port " + app.get("port") + " --- #>")
+});
