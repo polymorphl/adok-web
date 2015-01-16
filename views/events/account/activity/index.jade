@@ -1,0 +1,119 @@
+extends ../../../../layouts/account
+
+block head
+  title #{title}
+  link(href='/adok_components/mapbox/mapbox.css', rel='stylesheet')
+
+block feet
+  script(src='/adok_components/mapbox/mapbox.js')
+  script(src='/adok_components/mapbox/locate.js')
+  script(src='/adok_components/mapbox/fullscreen.js')
+  script(src='/adok_components/mapbox/locate.js')
+  script(src='/adok_components/mapbox/fullscreen.js')
+  script(src='/views/min/events/index.min.js')
+  script(src='/views/events/detail_event.js')
+
+block body
+  div.app-content
+    div.page-container
+      include ../../../../layouts/details_event
+      #proposal
+        div.left
+        div.right
+
+  script(type='text/template', id="tmpl-left")
+    div.pictures
+      <% if (photos) { %>
+      img(src!="<%= photos %>")
+      <%} else {%>
+      div._blank(id="#addPicture")
+        div.txt Ajouter une image
+        span.icon: i.fa.fa-picture-o
+      <%}%>
+    div.calendar
+      #month.d0
+        <%= emonth %>
+      #day.d0
+        <%= eday %>
+      #hours.d0
+        <%= ehour %>
+    div.share
+      div.title= t('event.shrtitle')
+      a.fb(href='#', target='_blank')
+        div.fb
+          img(src="/medias/socials/fb.svg")
+      a.g(href='#', onclick='javascript:window.open(this.href,\'\', \'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600\');return false;')
+        div.g
+          img(src='/medias/socials/g.svg')
+
+  script(type='text/template', id="tmpl-right")
+    input(type="hidden", id="lat", value!="<%= latLng[1] %>")
+    input(type="hidden", id="lng", value!="<%= latLng[0] %>")
+    div(id="map-event")
+    div.title
+      <%= title %>
+    <% if (accType == 'account') { %>
+    a(href!='/user/<%= acc._id %>', class="prop_by")
+      span= t("event.ppby")
+      div.author
+        span.fullname
+          <%= acc.roles.account.name.full %>
+        <% if (acc.roles.account.picture) { %>
+        img(src!='<%= acc.roles.account.picture %>')
+        <% } %>
+    <% } else { %>
+    a(href!='/pro/<%= acc._id %>', class="prop_by")
+      span= t("event.ppby")
+      div.author
+        span.fullname
+          <%= acc.roles.pro.name %>
+        <% if (acc.roles.pro.picture) { %>
+        img.pro(src!='<%= acc.roles.pro.picture %>')
+        <% } %>
+    <% } %>
+    div.desc
+      <%= desc %>
+    div.place
+      span Adresse :
+      span
+        <%= place %>
+    div.numOfPtc
+      span.nblabel= t('event.numof')
+      ul#members
+        - for member in participants
+          - if (member.conf == 0) {
+          li en attente
+          li.mbrs
+            a(href='/'+(member._id.name.full ? "user" : "pro")+'/'+member._id.user.id)
+              img(height="42" width="42" src=""+member._id.picture+"", data-toggle="tooltip", data-placement="bottom", title=''+(member._id.name.full ? member._id.name.full : member._id.name)+'')
+          - }
+          - if (member.conf == 1) {
+          li confirmé
+          li.mbrs
+            a(href='/'+(member._id.name.full ? "user" : "pro")+'/'+member._id.user.id)
+              img(height="42" width="42" src=""+member._id.picture+"", data-toggle="tooltip", data-placement="bottom", title=''+(member._id.name.full ? member._id.name.full : member._id.name)+'')
+          - }
+        div.nbw
+          span.nb #{registeredCount} /
+          span.max&nbsp;
+          <%= numOfPtc %>
+    if (!isUserAccount)
+      div.join_proposal
+        button.btn.btn-join(id="t_prop_join") Rejoindre !
+      div.left_proposal
+        button.btn.btn-left(id="t_prop_left") Partir !
+      div.waiting_proposal
+        button.btn.btn-wait(id="t_prop_wait") En attente de confirmation !
+    if (isUserAccount)
+      div.edit_proposal
+        button.btn.btn-edit(id="t_prop_edit") Editer la proposition
+      div.delete_proposal
+        button.btn.btn-delete(id="t_delete_prop") SUPPRIMER !
+    div.comments
+      input(id='commentTextaera' type='text', name='comment', value!='', placeholder='Poster un commentaire')
+      button.btn(id='buttonAddComment') Ajouter un commentaire
+      ul(id='listComment')
+
+  script(type='text/template', id='event-results') !{event}
+  script(type='text/template', id='event-reg') !{isRegistered}
+  script(type='text/template', id='event-participant') !{participants}

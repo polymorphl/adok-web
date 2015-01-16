@@ -6,6 +6,11 @@ $chat-color: lighten($grey, 20%);
 $inv-width: 400px;
 $inv-color: darken(#FFFFFF, 20%);
 
+/* Proposal - Detail */
+
+$prop-width: 400px;
+$prop-color: white;
+
 .l-sidebar {
 	z-index: 100; background-color: $chat-color;
 	width: $chat-width; margin-top: 35px;
@@ -13,17 +18,9 @@ $inv-color: darken(#FFFFFF, 20%);
 	@include calc(height, "100% - 35px - 25px");
 
 	.toggle-view {
-		cursor: pointer;
-		width: 30px; height: 35px; position:  relative;
+		cursor: pointer; float: left;
+		width: 30px; height: 100%; position:  relative;
 		i { color: black; }
-		input[type=checkbox] { display: none; }
-
-		&:after {
-			content: ""; position: absolute;
-			bottom: -7px; width: 0; height: 0;
-			border-left: 0px solid transparent;
-			border-right: 7px solid transparent;
-		}
 
 		label {
 			cursor: pointer; text-align: center;
@@ -49,61 +46,11 @@ $inv-color: darken(#FFFFFF, 20%);
 
 .sidebar-chat {
   @include sidebar($grey, $chat-width);
-  top: 0; right: 0;
+  top: 0; right: 0; z-index: 10000;
 
   &.is-close {
   	right: -$chat-width; opacity: 1!important;
-
-  	.conversation-list {
-
-  	}
   }
-
-  .toggle-view {
-  	left: -30px;
-  	&:after {
-			border-left: 7px solid transparent;
-			border-right: 0px solid transparent;
-  		right: 0;
-  	}
-  }
-
-	.contact-list {
-	width: 100%; height: 100%;
-	top: 0;
-
-		.title {
-			text-transform: capitalize;
-			text-indent: 4px; display: block;
-		}
-
-		.user {
-			text-indent: 8px; height: 32px;
-			line-height: 32px; cursor: pointer;
-
-			.state {
-				width: 8px; height: 8px;
-				display: inline-block;
-				margin-right: 5px;
-				background-color: $grey;
-				@include border-radius(50%);
-				&.on { background-color: $blue_a; }
-				&.off { background-color: $red; }
-			}
-
-			img { @include size(32px); }
-
-			.name { font-weight: 400; }
-
-			&:hover {
-				background-color: darken($grey, 10%);
-			}
-		}
-	}
-
-	.conversation-list {
-
-	}
 }
 
 .sidebar-inv {
@@ -126,5 +73,39 @@ $inv-color: darken(#FFFFFF, 20%);
 		width: 100%; height: 100%;
 		position: absolute; top: 0;
 
+	}
+}
+
+.sidebar-prop {
+	@include sidebar($prop-color, $prop-width);
+	top: 0; left: 0;
+
+	.title {
+		text-transform: capitalize;
+		text-indent: 4px; display: block;
+	}
+
+	&.is-close { left: -$prop-width; opacity: 0!important; }
+
+	.content {
+		width: 100%; height: 100%;
+		position: absolute; top: 0;
+		border-right: 5px solid $header-bg;
+
+		.actions {
+		  position: absolute;
+		  left: 0; right: 0;
+		  bottom: 10px;
+		  text-align: center;
+			div {
+				display: inline-block;
+			}
+			.validation {
+
+			}
+			.cl {
+
+			}
+		}
 	}
 }

@@ -19,110 +19,169 @@
 
 /* Code() */
 
-#map {
-	z-index: 0;
-	height: 100%!important; width: 100%;
+#map { width: 200px; height: 200px; }
 
+.m-tool__wrap, .m-tool { height: 100%; width: 100%; }
+.m-tool__wrap {
+	z-index: 1; background-color: $tool-bg-wrap-color;
 
-	.m-tool__wrap, .m-tool { height: 100%; }
-	.m-tool__wrap {
-		z-index: 1; position: absolute;
-		width: 35%; margin-left: 7.5%;
-		background-color: $tool-bg-wrap-color;
+	.m-tool {
+		cursor: auto; background-color: $tool-bg-color;
 
-		.m-tool {
-			margin: 5px; cursor: auto;
-			background-color: $tool-bg-color;
-
-			.categories {
-				background-color: $tool-bg-wrap-color;
-				height: $tool-cat-height; width: 100%;
-
-				div.category {
-					width: 32.33%; display: inline-block;
-					padding: 0; margin: 0;
-
-					input[type="checkbox"] {
-
-					}
-
-					&:checked ~ label {
-						background-color: lighten($tool-bg-color, 5%);
-					}
-					.label {
-						width: 80%; display: inline-block;
-						padding: 2px; margin: 0; font-weight: 500;
-						color: black;
-						font-size: 13px; cursor: pointer;
-						position: relative; top: -4px; left: -4px;
-
-						img {
-							margin-left: 5px; vertical-align: bottom;
-							@include size($tool-cat-img-height);
-							@include background-size(cover);
-						}
-					}
-					&:hover {
-						background-color: lighten($tool-bg-color, 10%);
-					}
-				}
-			}
-
-			.around-me {
-				background-color: darken($tool-bg-wrap-color, 10);
+		.my-network {
+			margin-bottom: 2px;
+			.wrap {
+				text-align: left; text-indent: 5px;
+				background-color: darken($tool-bg-wrap-color, 16);
 
 				.label {
-					font-size: 13px; font-weight: 500;
-				}
-
-				.input-range {
-					width: 60%; display: inline-block;
-					position: relative; top: -3px;
-				}
-
-				output {
-					color: black; display: inline-block;
-					min-width: 20px; min-height: 15px;
-					font-weight: 600;
-				}
-
-				.measure {
-					display: inline-block; padding-left: 5px;
-					color: white; font-weight: 600;
+					font-weight: normal; cursor: pointer;
+					font-size: 12px;
 				}
 			}
+		}
 
-			.my-network {
-				margin-bottom: 2px;
-				.wrap {
-					text-align: left; text-indent: 5px;
-					background-color: darken($tool-bg-wrap-color, 16);
+		.results {
+			clear: both; overflow-y: overlay;
+			height: 500px;
+			background-color: darken($tool-bg-wrap-color, 16);
 
-					.label {
-						font-weight: normal; cursor: pointer;
-						font-size: 12px;
+			.count-results {
+				float: right;
+			}
+							ul.items {
+
+					li {
+						width: 100%; height: 100px;
+						background-color: rgba(255, 255, 255, .8);
+						margin: 8px 0;
+
+						.left-part {
+							width: 20%; height: 100px; float: left;
+
+							a.proprio {
+								display: block;
+								position: relative; top: 50%;
+								-webkit-transform: translateY(-50%);
+								-ms-transform: translateY(-50%);
+								transform: translateY(-50%);
+								text-align: center;
+
+								span {
+									display: none;
+									text-overflow: ellipsis;
+    							width: 80px;
+							    white-space: nowrap;
+							    overflow:hidden;
+								}
+
+								img {
+									width: 70px; height: 70px;
+									@include border-radius(50em);
+								}
+
+								&:hover {
+									span {
+										position: absolute; display: inline-block;
+										text-align: center; background: white;
+										@include border-radius(50em);
+										opacity: 0.9; width: 70px;
+										top: 20px;
+										margin-left: -1px;
+										color: black;
+									}
+								}
+							}
+						}
+
+						.event_link {
+
+							&:hover {
+
+							}
+
+							.middle-part {
+								float: left; width: 38%; height: 100px;
+								margin: 0 4px; padding: 0;
+								.title {
+									font-size: 18px;
+								}
+								.price {
+									&.g {}
+									&.p {}
+								}
+								.category {
+									img.icon {
+										width: 20px; height: 20px;
+									}
+									.cat {}
+								}
+								.place { font-size: 14px; }
+							}
+
+							.last-part {
+								float: left; width: 34%; height: 100px;
+								background-color: whitesmoke;
+						    div.calendar {
+						    	width: 65px; text-align: center;
+						    	margin: 0 auto; @extend %vertical-align;
+						      div.month {
+						        background-color: $purple_a; color: #fff;
+						        line-height: 15px; font-size: 15px;
+						        text-transform: uppercase; height: 15px;
+						      }
+						      div.day {
+						        background-color: #fff; color: #000;
+						        font-weight: 700; font-size: 20px;
+						        padding-bottom: 8px; position: relative;
+										line-height: 20px; height: 20px;
+						        &:after {
+						          content:""; position:absolute;
+						          bottom:0; right:0;
+						          border-right: white 8px solid;
+						          border-top: rgba(0,0,0,.18) 8px solid;
+						        }
+						      }
+						      div.hours {
+										&::before {
+											content: "à "; padding-left: 5px;
+										}
+										background-color: #fff; color: #000;
+						      }
+						    }
+							}
+
+							.eventLocation {
+								width: 4%;float: left;
+								height: 100%; text-align: center;
+								background-color: darken($grey, 10%);
+
+								i{
+									position: relative; top: 45%;
+									-webkit-transform: translateY(-50%);
+									-ms-transform: translateY(-50%);
+									transform: translateY(-50%);
+									text-align: center;
+								}
+
+								&:hover {
+									background-color: darken($grey, 25%);
+								}
+							}
+						}
+						//end of li
 					}
 				}
-			}
+		}
 
-			.results {
-				clear: both; border-top: 1px solid $blue_a;
-				background-color: darken($tool-bg-wrap-color, 16);
+		.no-result {
+			background-color: darken($tool-bg-wrap-color, 16);
+			margin: 0 auto; display: block; text-align: center;
+			height: 100%; width: 100%; padding-top: 30%;
+			border-top: 1px solid $red; clear: both;
 
-				.count-results {
-					float: right;
-				}
-			}
-
-			.no-result {
-				background-color: darken($tool-bg-wrap-color, 16);
-				margin: 0 auto; display: block; text-align: center;
-				height: 100%; width: 100%; padding-top: 30%;
-				border-top: 1px solid $red; clear: both;
-
-				.no-res {
-					color: white; font-weight: bold; font-size: 16px;
-				}
+			.no-res {
+				color: white; font-weight: bold; font-size: 16px;
 			}
 		}
 	}

@@ -25,13 +25,9 @@ exports = module.exports = function(req, res) {
     req.app.db.models.Account.populate(events, { path: 'acc.roles.account' }, function(err, events) {
       if (err)
         return res.status(400).send(err);
-      req.app.db.models.Pro.populate(events, { path: 'acc.roles.pro' }, function(err, events) {
-        if (err)
-          return res.status(400).send(err);
         var eventsList = [];
         require('async').eachSeries(events, function(e, cb) {
-          var distance = parseFloat(req.app.modules.maths.CalcDistLatLong(e.latLng, req.body.loc));
-          if (e.acc && (distance <= e.visiDistance)) {
+          if (e.acc) {
             var to_add = {
               'id': e._id,
               't': e.title,
@@ -41,11 +37,9 @@ exports = module.exports = function(req, res) {
               'a': e.place,
               'p': e.numOfPtc,
               'pp': e.photos,
-              'price': e.price,
-              'dis': distance,
               'pos': [
-              e.latLng[0], //longitude
-              e.latLng[1]  //latitude
+                e.latLng[0], //longitude
+                e.latLng[1]  //latitude
               ],
               'type': e.type,
               'linked': false,
@@ -71,7 +65,6 @@ exports = module.exports = function(req, res) {
         }, function(err) {
           return res.status(200).send(eventsList);
         });
-      });
     });
   });
 }

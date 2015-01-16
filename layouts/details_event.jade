@@ -1,0 +1,59 @@
+div.m-delete_prop(id="delete_prop")
+	div.m-modal
+		div.modal__header
+			span.title Supprimer la proposition ?
+			span.close
+				= t('cl')
+		div.modal__content
+			h2 Êtes-vous sûr ?
+			button.btn.btn-no Non
+			button.btn.btn-yes Oui
+		div.modal__footer
+
+div.m-editd_prop(id="editd_prop")
+	div.m-modal
+		div.modal__header
+			span.title Confirmation de l'édition
+			span.close
+				= t('cl')
+		div.modal__content
+			h2 Événement edité !
+		div.modal__footer
+
+div.sidebar-prop.sb.is-close(id="prop_edit")
+
+script(type="text/template", id="tmpl-edit-event")
+	div.content
+		input.fs-anim-lower(type='hidden', name='place_value', value!='<%= place %>', required)
+		input.fs-anim-lower(type='hidden', name='place_Lat', value!='<%= latLng[1] %>', required)
+		input.fs-anim-lower(type='hidden', name='place_Lng', value!='<%= latLng[0] %>', required)
+		div.date0
+			label(for="date") Date de début
+			input(type="date" name='date')
+		div.hour0
+			label(for="hour") Heure de début
+			input(type="time" name="hour")
+		div.date1
+			label(for="date1") Date de fin
+			input(type="date" name='date1')
+		div.hour1
+			label(for="hour1") Heure de fin
+			input(type="time" name="hour1")
+		#title
+			label(for="title") Titre
+			input(name="title" type="text" value="")
+		#desc
+			label(for="desc") Description
+			input(name="desc" type="text" value="")
+		#place
+			label(for="place") Adresse
+			input(name="place" type="text" value="")
+		#numOfPtc
+			label(for="numOfPtc") Nombre de participants
+			input(name="numOfPtc" type="text" value="")
+		div.actions
+			button.btn(id="t_editd_prop") Valider
+			div.refresh
+				button.btn Rafraichir
+			div.cl
+				button.btn(id="t_prop_close") Fermer

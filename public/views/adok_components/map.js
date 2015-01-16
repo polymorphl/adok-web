@@ -31,9 +31,9 @@ cluster.on('clusterclick', function (e) {
 	});
 });
 
-var map = L.mapbox.map('map', 'polymorphl.h5e69igh', {
-	minZoom: 11, maxZoom: 19,
-	accessToken: 'pk.eyJ1IjoicG9seW1vcnBobCIsImEiOiJaTWFpLWI4In0.cPiDB1qRwLUFGWmBRhZinA', //public token for v2.x
+var map = L.mapbox.map('map', 'lucterracherwizzem.kp9oc66l', {
+	zoomControl: false,
+	accessToken: 'pk.eyJ1IjoibHVjdGVycmFjaGVyd2l6emVtIiwiYSI6InlSbndGdzAifQ.nzbZRcs3Yms8uQa9pdsyYg',
 	infoControl: false
 });
 
@@ -60,7 +60,6 @@ app.TileData = Backbone.Model.extend({
 		uname: '',
 		upic: '',
 		utype: '',
-		distance: '',
 		unity: '',
 		fromfriend: false,
 		prepend: false,
@@ -121,11 +120,9 @@ app.FilterTileView = Backbone.View.extend({
 	events: {
 		'click .event': 'event',
 		'click .exchange': 'exchanges',
-		'change #range-aroundme': 'scope',
 		'click input[name="add-my-network"]': 'onlyNetwork'
 	},
 	initialize: function(item) {
-		console.log("rotot");
 		this.tabname = [
 			'event',
 			'exchange'
@@ -145,9 +142,7 @@ app.FilterTileView = Backbone.View.extend({
 		this.marker = item.emarker;
 		this.icon = item.eicon;
 		this.linked = item.elinked;
-		this.selected_distance = parseFloat(document.getElementById('scope-aroundme-ht').innerHTML) * 1000;
 		this.checkResults();
-		this.scope();
 	},
 	event: function() {
 		if (document.getElementById("cat--1").checked == false && document.getElementById("cat--2").checked == false) {
@@ -191,14 +186,6 @@ app.FilterTileView = Backbone.View.extend({
 		}
 		else {
 			this.opt.mask = this.opt.mask ^ this.opt.opts['network'];
-		}
-	},
-	scope: function() {
-		this.selected_distance = parseFloat(document.getElementById('scope-aroundme-ht').innerHTML) * 1000;
-		if (this.dist >= this.selected_distance) {
-			this.hideShowElem(false);
-		} else if (this.opt.mask & this.opt.opts[this.type]) {
-			this.hideShowElem(true);
 		}
 	},
 	hideShowElem: function(visibility) {
@@ -290,9 +277,8 @@ function usleep(microseconds) {
 map.on('locationfound', function(e) {
 	ctr = e.latlng;
 	var homeIcon = L.icon({
-		iconUrl: "/media/map-marker/m-home.png",
-		iconSize: [70, 105],
-		iconAnchor: [36, 100]
+		iconUrl: "/medias/map-marker/m-home.png",
+		iconSize: [70, 105], iconAnchor: [36, 100]
 	});
 	var marker_ctr = new L.Marker([e.latlng.lat, e.latlng.lng]);
 	marker_ctr.setIcon(homeIcon);
@@ -304,12 +290,6 @@ map.on('locationfound', function(e) {
 });
 
 map.locate({setView: false});
-map.zoomControl.setPosition('topright');
-L.control.fullscreen({
-	position: 'topright',
-	forceSeparateButton: true,
-	forcePseudoFullscreen: true
-}).addTo(map);
 L.control.locate({setView: false})
 	.setPosition('topright')
 	.addTo(map);
@@ -360,70 +340,45 @@ function getList(coord) {
   callCount = true;
 	$.post('/geojson/full', { loc: [coord.lng, coord.lat] }, function(data) {
 		$.each(data, function(i, item) {
-			if (CalcDistLatLong(coord, {lat : item.pos[1], lng : item.pos[0]}) <= 10) {
-				var popupc = '<a target="_blank" class="popup" href="/event/'+cattab[item.type]+'/'+item.id+'">' +
-											'<img src="'+item.by.pic+'" class="'+ (item.by.type === "pro" ? "pro" : "acc") +'">' +
-											'<div class="right">' +
-												'<h2>'+item.t+'</h2>' +
-												'<div class="mdesc">'+item.e+'</div>'+
-											'</div>'
-											'</a>';
 				markers[item.id] = new L.Marker(new L.LatLng(item.pos[1], item.pos[0]), {
 					title: item.t
-				}).bindPopup(popupc, {
-					closeButton: false,
-					minWidth: 250
 				});
-				if (pictab[item.type][item.c] != undefined) {
-					markers[item.id].setIcon(L.icon({
-							iconUrl: "/media/map-marker/" + pictab[item.type][item.c],
-							iconSize: [42, 42],
-							className: 'leaflet-'+cattab[item.type]
-					}));
-				} else {
-					markers[item.id].setIcon(L.icon({
-						iconUrl: "/media/map-marker/m-opp.png",
-						iconSize: [42, 42],
-						classname: 'leaflet-opportunity'
-					}));
-				}
-				ids.push(item.id);
-				new app.TileView({
-					eid: item.id,
-					etype: item.type,
-					enbpcur: 0,
-					enbpmax: item.p,
-					etitle: item.t,
-					ecat: cattab[item.type],
-					ecateg: item.c,
-					ed1: moment(item.d).format("DD-MM-YYYY"),
-					eh1: moment(item.d).format("HH:mm"),
-					ed2: (item.d2 == undefined ? '' : ' au '+moment(item.d2).format("DD-MM-YYYY")),
-					eh2: (item.d2 == undefined ? '' : moment(item.d2).format("HH:mm")),
-					eprice: item.price,
-					eplace: item.a.split(",")[0],
-					uid: item.by.id,
-					uname: item.by.name,
-					upic: item.by.pic,
-					utype: item.by.type,
-					distance: item.dis * 1000,
-					unity: item.dis >= 1 ? 'km' : 'm',
-					fromfriend: false,
-					reply: [],
-					prepend: false,
-					marker: markers[item.id]
-				});
-				new app.FilterTileView({
-					type: item.type,
-					edist: item.dis * 1000,
-					eid: item.id,
-					emap: map,
-					emarker: markers[item.id],
-					eicon: pictab[item.type][item.c] == undefined ? 'm-opp.png' : pictab[item.type][item.c],
-					elinked: item.linked
-				});
-				cluster.addLayer(markers[item.id]);
-			}
+			ids.push(item.id);
+			new app.TileView({
+				eid: item.id,
+				etype: item.type,
+				enbpcur: 0,
+				enbpmax: item.p,
+				etitle: item.t,
+				ecat: cattab[item.type],
+				ecateg: item.c,
+				ed1: moment(item.d).format("DD-MM-YYYY"),
+				eh1: moment(item.d).format("HH:mm"),
+				ed2: (item.d2 == undefined ? '' : ' au '+moment(item.d2).format("DD-MM-YYYY")),
+				eh2: (item.d2 == undefined ? '' : moment(item.d2).format("HH:mm")),
+				eplace: item.a.split(",")[0],
+				uid: item.by.id,
+				uname: item.by.name,
+				upic: item.by.pic,
+				utype: item.by.type,
+				distance: item.dis * 1000,
+				unity: item.dis >= 1 ? 'km' : 'm',
+				fromfriend: false,
+				reply: [],
+				prepend: false,
+				marker: markers[item.id]
+			});
+			new app.FilterTileView({
+				type: item.type,
+				edist: item.dis * 1000,
+				eid: item.id,
+				emap: map,
+				emarker: markers[item.id],
+				eicon: pictab[item.type][item.c] == undefined ? 'm-opp.png' : pictab[item.type][item.c],
+				elinked: item.linked
+			});
+			cluster.addLayer(markers[item.id]);
+
 		});
 		map.addLayer(cluster);
 		//Count result [init]
@@ -500,3 +455,16 @@ function getList(coord) {
 		});
 	}, 10000);
 };
+
+$(document).ready(function(){
+	$("#tool-home").mouseover(function() {
+		map.doubleClickZoom.disable();
+		map.dragging.disable();
+		map.scrollWheelZoom.disable();
+	});
+	$("#tool-home").mouseleave(function() {
+		map.doubleClickZoom.enable();
+		map.dragging.enable();
+		map.scrollWheelZoom.enable();
+	});
+});

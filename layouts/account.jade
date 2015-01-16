@@ -12,7 +12,6 @@ html
   body
     div.app-container
       div.app-pusher
-        div#outdated.m-outdated
         include challenge
         div.l-header
           a.l-header__icon(href="#", id="header__icon")
@@ -83,6 +82,5 @@ html
       script(src='/views/min/adok_components/challenge.min.js')
       script(src='/socket.io/socket.io.js')
       script(src='/layouts/sockets.js')
-      include outdatedBrowser
 
       block feet

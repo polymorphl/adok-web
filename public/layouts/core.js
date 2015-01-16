@@ -11,6 +11,14 @@ var greatestId = {
 };
 var refresh;
 
+// //Google Analytics
+// (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+// (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+// m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+// })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+// ga('create', 'UA-49788805-1', 'wizzem.fr');
+// ga('send', 'pageview');
+
 (function() {
 
 	'use strict';
@@ -58,20 +66,12 @@ var refresh;
 		$('body').removeClass('with--sidebar');
 	});
 
-	//Chat Sidebar
-	// - Draggable toggle-view
-	$( ".toggle-view" ).draggable({
-		axis: "y",
-		containment: "parent",
-	});
-	// - LocalStorage
-	if (localStorage.getItem("chat-togtop") == undefined)
-		localStorage.setItem("chat-togtop", "100px");
-	$(".toggle-view").on("dragstop", function(event, ui) {
-		localStorage.setItem("chat-togtop", $('.toggle-view').position().top);
-	});
-	var $t_togtop = localStorage.getItem("chat-togtop") + "px";
-	$(".toggle-view").css('top', $t_togtop);
+	/*----- Ripple buttons  ------*/
+	var rippleOptions = {
+		'elements'  :'button',
+		'focus'     :'button'
+	};
+	var rippleEffect = new $.RippleEffect(rippleOptions);
 
 	/*-----  usleep function  ------*/
 	function usleep(microseconds) {
@@ -96,16 +96,42 @@ var refresh;
 
 	// DISABLE box-overlay when ESC
 	$(document).keyup(function(event) {
-		var overlay = $('.box-overlay');
-		var m_feed = $('#feedback');
-		var m_propose = $("#propose");
 	  if (event.keyCode == 27 && overlay.hasClass("is-active")) {
 	  	overlay.removeClass("is-active");
-	  	m_feed.hide();
-	  	m_propose.hide();
+	  	$("body").removeClass("modal-open");
+	  	$('.box-overlay').hide();
+	  	$("#propose").hide();
+	  	$("#contact").hide();
+	  	$("#signup").hide();
+	  	$("#signin").hide();
+	  	$("#network").hide();
+	  	$('#delete_prop').hide();
 	  }
 	});
-	
+
+	//Searchbar in header
+	$("#wsearchbar").autocomplete({
+	  source: function(req, res) {
+	    $.post('/usersearch', {
+	      query: $("#wsearchbar").val()
+	    }).done(function(data) {
+	      res($.map(data, function(item) {
+	        return {
+	          label: item.name,
+	          value: item.name,
+	          link: item.link
+	        };
+	      }));
+	    }).fail(function() {
+	      console.log('[ERROR] -> wizzem_searchbar');
+	    })
+	  },
+	  minLength: 0,
+	  select: function(e, ui) {
+	    location.href = ui.item.link;
+	  }
+	});
+
 	/*-----  Feedback  ------*/
 
 	var t_feed = $('#t_feedback');
@@ -118,6 +144,7 @@ var refresh;
 		e.stopPropagation();
 		$('body').removeClass('with--sidebar');
 		overlay.addClass("is-active");
+		$("body").addClass("modal-open");
 		m_feed.hide().velocity('transition.slideUpBigIn', { duration: 300 }).addClass('is-open');
 	});
 
@@ -125,31 +152,32 @@ var refresh;
 		$(this).addClass('is-open');
 		e.preventDefault();
 		overlay.removeClass("is-active");
+		$("body").removeClass("modal-open");
 		m_feed.velocity('transition.slideDownBigOut', { duration: 300 }).removeClass('is-open');
 	});
 
 	/*-----  Chat  ------*/
+	var m_chat = $('#chat'); //				wrap du chat
+	var t_chat = $('#t_chat'); // 		toggle-view
+	var clo_chat = $("#clo_chat"); //	close chat
+	var cu_chat = $("#cu_chat"); // 	current-chat
+	var clo_cur =$("#clo_cur"); //		close-current
 
-	var t_chat = $('#t_chat');
-	var m_chat = $('#chat');
-	var chat_box = $('input:checkbox#chat-sidebar');
-	chat_box.attr('checked', true);
+
+	t_chat.on("click", function(){
+		m_chat.velocity('transition.bounceRightIn', { duration: 100, display: 'block', opacity: 1}).removeClass('is-close');
+		t_chat.hide();
+	});
+
+	clo_chat.on("click", function(){
+		m_chat.velocity('transition.bounceRightOut', { duration: 100, display: 'block', opacity: 1}).addClass('is-close');
+		t_chat.fadeIn();
+	});
+
 	$(".contact-list .user").on('click', function(e) {
-		m_chat.velocity('transition.perspectiveRightOut',
-			{ duration: 100, display: 'block' }
-			).addClass('is-close');
+		cu_chat.velocity('transition.bounceIn', { duration: 100 });
+		$("#chat .list, #chat .search").hide();
 	});
-	t_chat.on('change', function(e){
-		e.preventDefault();
-		if (chat_box.is(':checked')) {
-			m_chat.velocity('transition.perspectiveRightOut',
-				{ duration: 100, display: 'block' }
-				).addClass('is-close');
-		} else {
-			m_chat.velocity('transition.perspectiveRightIn',
-				{ duration: 400 }
-				).removeClass('is-close');
-		}
-	});
+
 
 }());

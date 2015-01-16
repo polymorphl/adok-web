@@ -8,9 +8,9 @@ exports.init = function(req, res, next){
 		filters.title = new RegExp('.*?' + req.query.title +'.*$', 'i');
 	}
 
-	req.app.db.models.Aevent.pagedFind({
+	req.app.db.models.Event.pagedFind({
 		filters: filters,
-		keys: 'lat lng price date title',
+		keys: 'lat lng date title',
 		limit: req.query.limit,
 		page: req.query.page,
 		sort: req.query.sort
@@ -33,7 +33,7 @@ exports.init = function(req, res, next){
 			};
 			while (results.data[n]) {
 				console.log(results.data[n]._id);
-				req.app.db.models.Aevent.findById(results.data[n]._id).populate('acc').populate('acc.roles.account acc.roles.pro').exec(function(err, res) {
+				req.app.db.models.Event.findById(results.data[n]._id).populate('acc').populate('acc.roles.account acc.roles.pro').exec(function(err, res) {
 					if (err) {
 						return next(err);
 					}
@@ -53,7 +53,7 @@ exports.init = function(req, res, next){
 };
 
 exports.read = function(req, res, next){
-	req.app.db.models.Aevent.findById(req.params.id).populate('acc').populate('acc.roles.account acc.roles.pro').exec(function(err, user) {
+	req.app.db.models.Event.findById(req.params.id).populate('acc').populate('acc.roles.account acc.roles.pro').exec(function(err, user) {
 		if (err) {
 			return next(err);
 		}
@@ -70,39 +70,6 @@ exports.update = function(req, res, next){
 	var workflow = req.app.utility.workflow(req, res);
 
 	workflow.on('validate', function() {
-		// if (!req.body.title) {
-		//   workflow.outcome.errfor.title = req.i18n.t('errors.required');
-		// }
-		// else if (!/^[a-zA-Z0-9\-\_\ \(\)\!]+$/.test(req.body.title)) {
-		//   workflow.outcome.errfor.title = req.i18n.t('errors.userformat');
-		// }
-
-		// var reg = new RegExp(req.i18n.t('dateRegex'));
-		// if (!req.body.date) {
-		//   workflow.outcome.errfor.date = req.i18n.t('errors.required');
-		// } else if (!reg.test(req.body.date)) {
-		//   workflow.outcome.errfor.date = req.i18n.t('errors.dateFormat');
-		// } else if (Date.now() > moment(req.body.date+' '+req.body.time, req.i18n.t('dateFormat')).toDate()) {
-		//   workflow.outcome.errfor.date = req.i18n.t('errors.dateLow');
-		// }
-
-		// if (!req.body.place) {
-		//   workflow.outcome.errfor.place = req.i18n.t('errors.required');
-		// } else if (!req.body.place_value || !req.body.place_Lng || !req.body.place_Lat) {
-		//   workflow.outcome.errfor.place = req.i18n.t('errors.place');
-		// }
-
-		// if (!req.body.price) {
-		//   workflow.outcome.errfor.price = req.i18n.t('errors.required');
-		// }
-
-		// if (!req.body.numOfPtc) {
-		//   workflow.outcome.errfor.numOfPtc = req.i18n.t('errors.required');
-		// }
-
-		// if (!req.body.desc) {
-		//   workflow.outcome.errfor.desc = req.i18n.t('errors.required');
-		// }
 
 		workflow.emit('UpdateCases');
 	});
@@ -113,7 +80,6 @@ exports.update = function(req, res, next){
 			date: req.body.date,
 			lat: req.body.lat,
 			lng: req.body.lng,
-			price: req.body.price,
 			numOfPtc: req.body.numOfPtc,
 			timeCreated: req.body.timeCreated,
 			desc: req.body.desc,

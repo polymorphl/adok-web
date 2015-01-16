@@ -16,24 +16,36 @@
 
 /* Sign-in */
 	$signin-width: 600px;
-	$signin-height: 425px;
+	$signin-height: 405px;
 
 /* Signup  */
-	$signup-width: 600px;
-	$signup-height: 425px;
+	$signup-width: 800px;
+	$signup-height: 450px;
 
 /* Contact */
 	$contact-width: 600px;
 	$contact-height: 425px;
+
+/* Network */
+	$network-width: 500px;
+	$network-height: 500px;
+
+/* Nokey */
+	$nokey-width: 600px;
+	$nokey-height: 405px;
 
 /* Global   */
 	$modal-bgc: $grey;
 
 /* ================================*/
 
+body.modal-open {
+    overflow: hidden;
+}
+
 /* Code() */
 .box-overlay {
-	position: absolute; top: 0;
+	position: fixed; top: 0;
 	left: 0; right: 0; z-index: 10;
 	bottom: 0; width: 100%;
 	height: 100%; overflow: hidden;
@@ -43,10 +55,10 @@
  }
 
 .wrap-modal {
-	position: absolute;
+	position: fixed;
 	left: 0; right: 0;
 	z-index: 105; top: 6%;
-	display: none; @include border-radius(2px);
+	display: none;
 
 	&:before {
 		content: none; display: none;
@@ -58,43 +70,43 @@
 
 	.m-modal {
 		position: relative;
-		margin: 0 auto 5px;
+		margin: 0px auto 10px;
 
 		&.hide {
 			display: none;
 		}
 
 		.modal__header {
-			background-color: $modal-bgc;
-			height: 25px; font-size: 16px;
-			line-height: 16px; color: white;
-			padding-top: 4px; text-indent: 10px;
+			background-color: darken(#c8c8c8, 5);
+			height: 30px; font-size: 16px;
+			line-height: 25px; color: black;
+			padding-top: 3px; text-indent: 10px;
 
 			.close {
-				font-size: 12px; color: $yellow;
-				font-weight: 300; margin-right: 5px;
-				opacity: 1!important;
-				line-height: normal;
+				font-size: 16px; color: black;
+				text-shadow: none; font-weight: bold;
+				opacity: .8!important;
+				padding: 2px 4px 0 0;
 				i { padding-right: 5px;}
 			}
 		}
 
 		.modal__content {
-			width: 100%; height: 90%;
+			width: 100%; height: 95%;
+			overflow-y: auto; margin: 0 auto;
 		}
 
 		.modal__footer {
-			background-color: $grey;
-
+			background-color: $header-bg; height: 10px;
 			button {
-				margin: 1px auto;
+				margin: 1px;
 			}
 		}
 	}
 }
 
 
-//TO be continued - modal generator + Need responsive
+//modal generator
 @mixin modal($color, $width, $height) {
     @extend .wrap-modal; background-color: $color;
     width: $width; height: $height;
@@ -141,7 +153,7 @@
 **/
 
 .m-feedback {
-	@include modal($blue_a, $feedback-width, $feedback-height);
+	@include modal($grey, $feedback-width, $feedback-height);
 	margin: 0 auto; top: 17.5%;
 
 	.help-block {
@@ -158,7 +170,6 @@
 
 	input[type="text"] {
 		width: 90%; display: inline-block;
-		margin-left: 3px;
 	}
 
 	textarea {
@@ -167,16 +178,12 @@
 		resize: none;
 	}
 
-	button {
-		margin-left: 22.5px; background-color: $blue_b;
-	}
+	.validation { text-align: center; }
 }
-
-// -> Todo
 
 /**
 *
-* S'inscrire
+* Se connecter
 *
 **/
 
@@ -192,19 +199,38 @@
 		width: 90%; margin: 5px auto;
 	}
 
-	label.control-label {
-		vertical-align: top;
+	h3 {
+		text-indent: 8px;
 	}
 
-	input[type="text"] {
+	label.control-label {
+		vertical-align: middle;
+	}
+
+	input[type="text"], input[type="password"] {
 		width: 90%; display: inline-block;
+	}
+
+	.sin-email {
+		text-align: center;
+		margin-left: -3px;
+	}
+
+	.sin-pass_button {
+		text-align: center;
+		.form-actions {
+			button, a { margin: 10px 0 0; }
+			a {
+				display: inline-block; color: black;
+			}
+		}
 	}
 
 }
 
 /**
 *
-* Se connecter
+* S'inscrire
 *
 **/
 
@@ -220,12 +246,37 @@
 		width: 90%; margin: 5px auto;
 	}
 
+	h3 {
+		text-indent: 8px;
+	}
+
 	label.control-label {
 		vertical-align: top;
 	}
 
+	form { padding: 5px; }
+
 	input[type="text"] {
-		width: 90%; display: inline-block;
+		width: 100%; display: inline-block;
+	}
+
+	.identity, .wizzem-info {
+		width: 50%;	 display: inline-block;
+	}
+
+	.identity {
+		float: left;
+		.sup-sex, .sup-sex div {
+			text-align: center;
+		}
+	}
+
+	.wizzem-info {
+		margin: 37px 0 15px;
+	}
+
+	.validation {
+		clear: both;
 	}
 
 }
@@ -256,5 +307,90 @@
 		width: 90%; display: inline-block;
 	}
 
+}
+
+/**
+*
+* Network
+*
+**/
+
+.m-network {
+	@include modal($grey, $network-width, $network-height);
+	margin: 0 auto; top: 17.5%;
+}
+
+/**
+*
+* Delete proposal
+*
+**/
+
+.m-delete_prop {
+	@include modal($grey, $feedback-width, 150px);
+	margin: 0 auto; position: relative!important;
+	top: 50%!important; transform: translateY(-50%)!important;
+
+	button {
+		color: white; text-align: center;
+		.btn-no {
+			background-color: $red;
+		}
+		.btn-yes {
+			background-color: $purple_b;
+		}
+	}
+}
+
+/**
+*
+* Edited proposal
+*
+**/
+
+.m-editd_prop {
+	@include modal($grey, $feedback-width, 100px);
+	margin: 0 auto; position: relative!important;
+	top: 50%!important; transform: translateY(-50%)!important;
+
+	button {
+		color: white; text-align: center;
+		.btn-no {
+			background-color: $red;
+		}
+		.btn-yes {
+			background-color: $purple_b;
+		}
+	}
+}
+
+/**
+*
+* NoKey
+*
+**/
+
+.m-nokey {
+	@include modal($grey, $nokey-width, $nokey-height);
+	margin: 0 auto; position: relative!important;
+	top: 50%!important; transform: translateY(-50%)!important;
+
+	img.logo {
+		display: block; margin: 35px auto;
+		width: 120px;
+	}
+	p.first {
+		font-size: 24px;
+	}
+	p, a { text-align: center; }
+	a.mailtowizzem {
+		text-decoration: underline; color: $purple_b;
+	}
+	.social {
+		text-align: center;
+		img {
+			width: 80px; height: 80px;
+		}
+	}
 }
 

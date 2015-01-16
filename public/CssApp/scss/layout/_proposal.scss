@@ -1,0 +1,150 @@
+#proposal {
+  .left {
+    float: left; width: 20%; height: 91vh;
+    margin: 7.5px;
+    div.pictures {
+      width: 100%; height: 200px;
+      div._blank {
+        background-color: grey; width: 200px; height: 200px;
+        text-align: center; margin: 0 auto;
+        &:hover {
+          background-color: $header-bg;
+          cursor: pointer;
+        }
+        .txt {
+          color: white;
+        }
+        .icon {
+          i {
+            color: white; font-size: 72px;
+            text-align: center; margin: 35px 0;
+          }
+        }
+      }
+    }
+    div.date {
+      margin: 5px auto; text-align: center;
+    }
+    div.calendar {
+    	width: 100%; text-align: center;
+      #month {
+        background-color: #e74c3c; color: #fff;
+        line-height: 30px; font-size: 22px;
+        text-transform: uppercase; height: 30px;
+      }
+      #day {
+        background-color: #fff; color: #000;
+        font-weight: 700; font-size: 100px;
+        padding-bottom: 8px; position: relative;
+        &:after {
+          content:""; position:absolute;
+          bottom:0; right:0;
+          border-right: white 45px solid;
+          border-top: rgba(0,0,0,.18) 45px solid;
+        }
+      }
+      #hours {
+
+      }
+    }
+    div.hour {
+      color: red;
+    }
+    div.share {
+      text-align: center;
+      .title {
+
+      }
+      a > div {
+        display: inline-block;
+        img {
+          width: 40px; height: 40px;
+        }
+      }
+    }
+  }
+  .right {
+    float: right; width: 77%; height: 91vh;
+    margin: 7.5px;
+
+    div#map-event {
+      width: 100%; height: 200px;
+      .leaflet-control-zoom.leaflet-bar.leaflet-control {
+        margin-right: 35px; margin-top: 20px;
+      }
+    }
+    div.place {
+      text-align: center;
+    }
+    .category {
+      img {
+        width: 40px; height: 40px;
+      }
+      span {
+
+      }
+    }
+    .prop_by {
+      display: inline-block; float: right;
+      padding: 5px; width: 140px;
+      text-align: center; margin-right: 23px;
+      &:hover {
+        background: darken(white, 10%);
+        color: $blue_a;
+      }
+      & > span {
+        text-decoration: underline;
+      }
+      & > div {
+        .fullname {
+          font-weight: bold;
+        }
+        img {
+          width: 70px; height: 70px;
+          @include border-radius(50em);
+          &.pro { @include border-radius(0em); }
+        }
+      }
+    }
+    .title {
+      float: left; width: 75%;
+      font-weight: bold;
+    }
+    .desc {
+      clear: left;
+    }
+    .price {
+
+    }
+    .edit_proposal {
+      button { background-color: $purple_a; }
+    }
+    .comments {
+      input#commentTextaera { width: 70%; }
+      #listComment {
+        overflow-y: auto; height: 180px;
+        li {
+          margin: 2px 5px; height: 70px;
+          border-bottom: 1px solid $grey;
+          img {
+            width: 50px; height: 50px; float: left;
+            @include border-radius(50em);
+          }
+          .username {
+            font-weight: bold;
+            text-indent: 10px;
+          }
+          .comment {
+            padding-left: 10px;
+            word-break: break-word;
+            overflow-x: hidden;
+            width: 90%;
+          }
+        }
+      }
+      //end of comments
+    }
+    //end of right
+  }
+  //end of proposal
+}

@@ -4,65 +4,59 @@ block head
   title Evènement / Détails
 
 block feet
-  script(src='/views/admin/eevents/details.min.js?#{cacheBreaker}')
+  script(src='/views/min/admin/eevents/details.min.js')
 
 block body
-  div.page#default
-    div.container
-      div.row
-        div.col-xs-12
-          div#header
-          div#content
-          div#delete
+  div.app-content
+    div.page-container
+      div#header
+      div#content
+      div#delete
 
-      script(type='text/template', id='tmpl-header')
-        div.page-header
-          h1
-            a(href='/admin/eevent/') Evènements
-            |  / <%= title %>
+  script(type='text/template', id='tmpl-header')
+    div.page-header
+      h1
+        a(href='/admin/eevent/') Evènements
+        |  / <%= title %>
 
-      script(type='text/template', id='tmpl-content')
-        fieldset
-          legend Informations de l'évènement
-          div.alerts
-            |<% _.each(errors, function(err) { %>
-            div.alert.alert-danger.alert-dismissable
-              button.close(type='button', data-dismiss='alert') &times;
-              |<%= err %>
-            |<% }); %>
-            |<% if (success) { %>
-            div.alert.alert-info.alert-dismissable
-              button.close(type='button', data-dismiss='alert') &times;
-              | Les changements ont été sauvegardés.
-            |<% } %>
-          - var nclass = ["title", "desc", "photos", "place", "timeCreated", "numOfPtc", "price", "lng", "lat", "date", "category"]
-          - var npublic = ["Titre", "Description", "Photo", "Lieu", "Date de création", "Nombre de participant", "Prix", "Longitude", "Latitude", "Date", "Catégorie"]
-          - var n = 0
-          - nclass.forEach(function(item) {
-            div.control-group(class!='<%= errfor.' + item + ' ? "has-error" : "" %>')
-              label.control-label= npublic[n]
-              | &nbsp;de l'évènement :
-              input.form-control(type='text', name='' + item + '', value!='<%= ' + item + ' %>')
-              - n++
-          - })
+  script(type='text/template', id='tmpl-content')
+    div.alerts
+      |<% _.each(errors, function(err) { %>
+      div.alert.alert-danger.alert-dismissable
+        button.close(type='button', data-dismiss='alert') &times;
+        |<%= err %>
+      |<% }); %>
+      |<% if (success) { %>
+      div.alert.alert-info.alert-dismissable
+        button.close(type='button', data-dismiss='alert') &times;
+        | Les changements ont été sauvegardés.
+      |<% } %>
+    - var nclass = ["title", "desc", "photos", "place", "timeCreated", "numOfPtc", "price", "lng", "lat", "date", "category"]
+    - var npublic = ["Titre", "Description", "Photo", "Lieu", "Date de création", "Nombre de participant", "Prix", "Longitude", "Latitude", "Date", "Catégorie"]
+    - var n = 0
+    - nclass.forEach(function(item) {
+      div.control-group(class!='<%= errfor.' + item + ' ? "has-error" : "" %>')
+        label.control-label= npublic[n]
+        | &nbsp;de l'évènement :
+        input.form-control(type='text', name='' + item + '', value!='<%= ' + item + ' %>')
+        - n++
+    - })
 
-          div.control-group
-            button.btn.btn-primary.btn-update(type='button') Mettre à jour
+    div.control-group
+      button.btn.btn-primary.btn-update(type='button') Mettre à jour
 
-      script(type='text/template', id='tmpl-delete')
-        fieldset
-          legend (Zone Dangereuse)
-          div.alerts
-            |<% _.each(errors, function(err) { %>
-            div.alert.alert-danger.alert-dismissable
-              button.close(type='button', data-dismiss='alert') &times;
-              |<%= err %>
-            |<% }); %>
-          div.control-group
-            span.help-block
-              span.label.label-danger Action irréversible
-              |&nbsp;
-          div.control-group
-            button.btn.btn-danger.btn-delete(type='button') Supprimer
+  script(type='text/template', id='tmpl-delete')
+    div.alerts
+      |<% _.each(errors, function(err) { %>
+      div.alert.alert-danger.alert-dismissable
+        button.close(type='button', data-dismiss='alert') &times;
+        |<%= err %>
+      |<% }); %>
+    div.control-group
+      span.help-block
+        span.label.label-danger Action irréversible
+        |&nbsp;
+    div.control-group
+      button.btn.btn-danger.btn-delete(type='button') Supprimer
 
-      script(type='text/template', id='data-record') !{data.record}
+  script(type='text/template', id='data-record') !{data.record}

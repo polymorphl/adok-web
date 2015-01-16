@@ -15,50 +15,48 @@ block body
 			div#results-table
 			div#results-paging
 
-			script(type='text/template', id='tmpl-filters')
-				form.filters
-					div.row
-						div.col-sm-3
-							label Recherche d'évènements
-							input.form-control(name='title', type='text')
+	script(type='text/template', id='tmpl-filters')
+		form.filters
+			div.row
+				div.col-sm-3
+					label Recherche d'évènements
+					input.form-control(name='title', type='text')
 
-			script(type='text/template', id='tmpl-results-table')
-				table.table.table-striped
-					thead
-						tr
-							th
-							th username
-							th email
-							th Nom
-							th Prix
-							th Latitude / Longitude
-							th Date
-							th ID
-					tbody#results-rows
-
-			script(type='text/template', id='tmpl-results-row')
-				td
-					input.btn.btn-default.btn-sm.btn-details(type='button', value='Editer')
-				td <%= acc.username %>
-				td <%= acc.email %>
-				td <%= title %>
-				td <%= price %>
-				td <%= lat %> / <%= lng %>
-				td <%= date %>
-				td <%= _id %>
-
-			script(type='text/template', id='tmpl-results-empty-row')
+	script(type='text/template', id='tmpl-results-table')
+		table.table.table-striped
+			thead
 				tr
-					td(colspan='5') no documents matched
+					th
+					th username
+					th email
+					th Nom
+					th Latitude / Longitude
+					th Date
+					th ID
+			tbody#results-rows
 
-			script(type='text/template', id='tmpl-results-paging')
-				div.well
-					div.btn-group.pull-left
-						button.btn.btn-default(disabled=true) Page <%= pages.current %> of <%= pages.total %>
-						button.btn.btn-default(disabled=true) Rows <%= items.begin %> - <%= items.end %> of <%= items.total %>
-					div.btn-group.pull-right
-						button.btn.btn-default.btn-page.btn-prev(data-page!='<%= pages.prev %>') Précedent
-						button.btn.btn-default.btn-page.btn-next(data-page!='<%= pages.next %>')  Suivant
-					div.clearfix
+	script(type='text/template', id='tmpl-results-row')
+		td
+			input.btn.btn-default.btn-sm.btn-details(type='button', value='Editer')
+		td <%= acc.username %>
+		td <%= acc.email %>
+		td <%= title %>
+		td <%= lat %> / <%= lng %>
+		td <%= date %>
+		td <%= _id %>
 
-			script(type='text/template', id='data-results') !{data.results}
+	script(type='text/template', id='tmpl-results-empty-row')
+		tr
+			td(colspan='5') no documents matched
+
+	script(type='text/template', id='tmpl-results-paging')
+		div.well
+			div.btn-group.pull-left
+				button.btn.btn-default(disabled=true) Page <%= pages.current %> of <%= pages.total %>
+				button.btn.btn-default(disabled=true) Rows <%= items.begin %> - <%= items.end %> of <%= items.total %>
+			div.btn-group.pull-right
+				button.btn.btn-default.btn-page.btn-prev(data-page!='<%= pages.prev %>') Précedent
+				button.btn.btn-default.btn-page.btn-next(data-page!='<%= pages.next %>')  Suivant
+			div.clearfix
+
+	script(type='text/template', id='data-results') !{data.results}

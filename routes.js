@@ -219,14 +219,14 @@ exports = module.exports = function(app, passport) {
 	app.get('/account/settings/google/callback/', require('./views/account/settings/index').connectGoogle);
 	app.get('/account/settings/google/disconnect/', require('./views/account/settings/index').disconnectGoogle);
 
-	app.all('/event*', ensureAuthenticated);
+	app.all('/event*', app.modules.ensure.Authentification);
 	app.get('/event/activity/:id', function(req, res, next) {
 		if (req.session.accType == 'account')
-			require('./views/events/activity').init(req, res, next);
+			require('./views/events/account/activity').init(req, res, next);
 	});
-	app.get('/event/activity/:id/edit', function(req, res, next) {
+	app.put('/event/activity/:id/edit', function(req, res, next) {
 		if (req.session.accType == 'account')
-			require('./views/events/activity').edit(req, res, next);
+			require('./views/events/account/activity').edit(req, res, next);
 	});
 
 	app.get('/event/ownerActions', function(req, res, next) {
@@ -234,7 +234,8 @@ exports = module.exports = function(app, passport) {
 			require('./views/events/delete').init(req, res, next);
 	})
 
-	app.post('/event/ownerActions', require('./views/events/delete').init);
+	app.put('/event/ownerActions/:id/join', require('./views/events/account/join').init);
+	app.delete('/event/ownerActions/:id/delete', require('./views/events/account/delete').init);
 	app.post('/eventRegister', require('./tools/EventRegister').init);
 	app.post('/eventRegister/:type/:uid/accept', require('./tools/EventRegister').accept);
 	app.post('/eventRegister/:type/:uid/deny', require('./tools/EventRegister').deny);
