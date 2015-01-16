@@ -461,45 +461,57 @@
 	// TODO: this is a very basic validation function. Only checks for required fields..
 	FForm.prototype._validade = function() {
 		var fld = this.fields[ this.current ],
-			input = fld.querySelector( 'input[required]' ) || fld.querySelector( 'textarea[required]' ) || fld.querySelector( 'select[required]' ),
-			error;
+			input = fld.querySelectorAll( 'input[required], textarea[required], select[required]' ),
+			errors = {};
+		console.log(errors);
 
 		if( !input ) return true;
 
-		switch( input.tagName.toLowerCase() ) {
-			case 'input' :
-				if( input.type === 'radio' || input.type === 'checkbox' ) {
-					var checked = 0;
-					[].slice.call( fld.querySelectorAll( 'input[type="' + input.type + '"]' ) ).forEach( function( inp ) {
-						if( inp.checked ) {
-							++checked;
+		for (var i = 0; i < input.length; i++) {
+			switch( input[i].tagName.toLowerCase() ) {
+				case 'input' :
+					if( input[i].type === 'radio' || input[i].type === 'checkbox' ) {
+						var checked = 0;
+						[].slice.call( fld.querySelectorAll( 'input[name="' + input[i].name + '"]' ) ).forEach( function( inp ) {
+							if( inp.checked ) {
+								++checked;
+							}
+						} );
+						console.log("checked"+checked);
+						if( !checked ) {
+							errors[input[i].name] = 'NOVAL';
 						}
-					} );
-					if( !checked ) {
-						error = 'NOVAL';
 					}
-				}
-				else if( input.value === '' ) {
-					error = 'NOVAL';
-				}
-				break;
+					else if( input[i].value === '' ) {
+						errors[input[i].name] = 'NOVAL';
+					}
+					break;
 
-			case 'select' :
-				// assuming here '' or '-1' only
-				if( input.value === '' || input.value === '-1' ) {
-					error = 'NOVAL';
-				}
-				break;
+				case 'select' :
+					// assuming here '' or '-1' only
+					if( input[i].value === '' || input[i].value === '-1' ) {
+						errors[input[i].name] = 'NOVAL';
+					}
+					break;
 
-			case 'textarea' :
-				if( input.value === '' ) {
-					error = 'NOVAL';
-				}
-				break;
+				case 'textarea' :
+					if( input[i].value === '' ) {
+						errors[input[i].name] = 'NOVAL';
+					}
+					break;
+			}
 		}
 
-		if( error != undefined ) {
-			this._showError( error );
+		var dates = fld.querySelector('input[id="dateCtrld0"]');
+		var hours = fld.querySelector('input[id="hourCtrlh0"]');
+		if (dates && hours) {
+			if (moment($(dates).attr('v1')+' '+$(hours).attr('v1'), "DD/MM/YYYY HH:mm").toDate() <= Date.now())
+				errors['dateCtrl'] = "Date de début inférieure à la date actuelle";
+		}
+		if( Object.keys(errors).length ) {
+			console.log("errors");
+			console.log(errors);
+			this._showError( errors );
 			return false;
 		}
 
@@ -509,15 +521,15 @@
 	// TODO
 	FForm.prototype._showError = function( err ) {
 		var message = '';
-		switch( err ) {
-			case 'NOVAL' :
-				message = '1 - input field no value';
-				break;
-			case 'INVALIDEMAIL' :
-				message = '2 - invalid email address';
-				break;
-			// ...
-		};
+		// switch( err ) {
+		// 	case 'NOVAL' :
+		// 		message = '1 - input field no value';
+		// 		break;
+		// 	case 'INVALIDEMAIL' :
+		// 		message = '2 - invalid email address';
+		// 		break;
+		// 	// ...
+		// };
 		this.msgError.innerHTML = message;
 		//this._showCtrl( this.msgError );
 	}

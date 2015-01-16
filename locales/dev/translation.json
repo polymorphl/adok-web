@@ -207,9 +207,30 @@
         "sale": "challenge.sale",
         "hire": "challenge.hire",
         "service": "challenge.service",
-        "troc": "challenge.troc"
+        "troc": "challenge.troc",
+        "hour0": "Heure de début",
+        "hour1": "Heure de fin"
     },
     "propose": {
-        "hour": "propose.hour"
+        "hour": "propose.hour",
+        "place": "propose.place",
+        "category": "propose.category",
+        "activity": "propose.activity",
+        "leisure": "propose.leisure",
+        "sport": "propose.sport",
+        "title": "propose.title",
+        "price": "propose.price",
+        "free": "propose.free",
+        "desc": "propose.desc",
+        "date": "propose.date",
+        "hour0": "propose.hour0",
+        "hour1": "propose.hour1"
+    },
+    "aroundme-label": "aroundme-label",
+    "userhome": {
+        "activity": "userhome.activity",
+        "exchange": "userhome.exchange",
+        "network": "userhome.network",
+        "no-res": "userhome.no-res"
     }
 }

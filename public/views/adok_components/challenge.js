@@ -28,16 +28,39 @@
     });
 	}
 
+	function updateDoubleDate(el, range) {
+		el.attr('v1', moment(moment().unix()*1000).format("YYYY-MM-DD"));
+		el.attr('v2', moment(moment().add(1, 'M').unix()*1000).format("YYYY-MM-DD"));
+		jQuery(range).slider({
+	  	range: true,
+	    min: moment().unix()*1000,
+	    max: moment().add(1, 'M').unix()*1000,
+	    step: 86400000,
+	    values: [ moment().unix()*1000, moment().add(1, 'M').unix()*1000 ],
+	    slide: function( event, ui ) {
+	    	var day1 = moment(ui.values[0]).toDate();
+	    	var day2 = moment(ui.values[1]).toDate();
+	    	var d1 = moment(day1).format("DD/MM");
+	    	var d2 = moment(day2).format("DD/MM");
+				jQuery(el).attr('v1', moment(day1).format("YYYY-MM-DD"));
+				jQuery(el).attr('v2', moment(day2).format("YYYY-MM-DD"));
+	      jQuery(el).val( d1 + " " + d2 );
+	  		// FORMAT : DD-MM DD-MM
+	    }
+		});
+	}
+
   // ---> Input slider (simple) hour
   function updateHour(el, range) {
 		range.on("input", function(){
 			var time = IntToTime($(this).val());
-		el.val(time);
+    	el.val(time);
 		});
   }
-
   // ---> Input slider (double) hour
   function updateDoubleHour(el, range) {
+		el.attr('v1', '10:00');
+		el.attr('v2', '20:00');
     jQuery(range).slider({
 	    range: true,
 	    min: 0, max: 1440,
@@ -53,10 +76,31 @@
 	      if(hours2.length < 10) hours2= '0' + hours;
 	      if(minutes2.length < 10) minutes2 = '0' + minutes;
 	      if(minutes2 == 0) minutes2 = '00';
+				jQuery(el).attr('v1', hours1+':'+minutes1);
+				jQuery(el).attr('v2', hours2+':'+minutes2);
 	      jQuery(el).val(hours1+':'+minutes1+' - '+hours2+':'+minutes2 );
 	    }
 		});
   }
+
+	// ---> Input slider price
+	function updatePrice(el, range, type) {
+		if (type == 0)
+			el.next('i.fa').fadeOut();
+    range.on("input", function(){
+      var price = $(this).val();
+      if (price == 0) {
+      	el.next('i.fa').fadeOut();
+    		el.val(i18n.t("propose.free"));
+    	} else {
+    		el.next('i.fa').fadeIn();
+    		el.val(price);
+  		}
+  	});
+  	el.on('input', function() {
+      range.prop('value', $.prop(this, 'value'));
+    });
+	}
 
 	function autocomplete(that) {
 		that.$el.find('[name="place"]').autocomplete({
@@ -67,7 +111,6 @@
 				$.post('/geocode/', {
 						query: that.$el.find('[name="place"]').val()
 					}).done(function(data) {
-						console.log(data);
 						res($.map(data, function(item) {
 							return {
 								label: item.addr,
@@ -82,10 +125,62 @@
 			},
 			minLength: 10,
 			select: function(e, ui) {
-				console.log(ui.item);
 				that.$el.find('[name="place_value"]')[0].value = ui.item.label;
 				that.$el.find('[name="place_Lat"]')[0].value = ui.item.lat;
 				that.$el.find('[name="place_Lng"]')[0].value = ui.item.lng;
+			}
+		});
+	}
+
+	app.invitationData = Backbone.Model.extend({
+		idAttribute: '_id',
+		defaults: {
+			uid: '',
+			pic: '',
+			name: ''
+		}
+	});
+
+	app.invitationView = Backbone.View.extend({
+		el: '#privacy ul.container-ptc',
+		template: _.template( $('#tmpl-invitation_item').html() ),
+		initialize: function(obj) {
+			this.model = new app.invitationData();
+			this.model.set(obj);
+			this.render();
+		},
+		render: function() {
+			this.$el.append(this.template(this.model.attributes));
+			return this;
+		}
+	});
+
+	function autocomplete_friends(that) {
+		that.selectedUsers = new Array();
+		that.invitationList = new Array();
+		function get_friendlist(regex) {
+			return $.map($("#chat .list > div.user"), function(friend) {
+				if (regex.exec($(friend).find('.name').text()) && !!~($.inArray($(friend).attr('uid'), that.selectedUsers)) === false) {
+					return {
+						label: $(friend).find('.name').text(),
+						value: $(friend).attr('uid'),
+						pic: $(friend).find('img').attr('src')
+					};
+				} else
+					return null;
+			});
+		}
+		that.$el.find('[name="ptc_list"]').autocomplete({
+			source: function(req, res) {
+				var regex = new RegExp(""+that.$el.find('[name="ptc_list"]').val()+"", "i");
+				res(get_friendlist(regex));
+			},
+			minLength: 1,
+			select: function(e, ui) {
+				that.invitationList.push(new app.invitationView({ uid: ui.item.value, pic: ui.item.pic, name: ui.item.label }));
+				that.selectedUsers.push(ui.item.value);
+				e.preventDefault();
+				that.$el.find('[name="ptc_list"]').val('');
 			}
 		});
 	}
@@ -101,19 +196,19 @@
 		defaults: {
 			errors: [],
 			errfor: {},
-			type: 'challenge',
-			category: '',
+			type: 'act',
 			title: '',
-			desc: '',
-			from: moment().add(10, 'minutes').toDate(),
-			fromDate: moment().add(10, 'minutes').format('DD/MM/YYYY HH:mm'),
-			to: moment().add(1, 'days').add(10, 'minutes').toDate(),
-			toDate: moment().add(1, 'days').add(10, 'minutes').format('DD/MM/YYYY HH:mm'),
+			date0: '',
+			date1: '',
 			place: '',
 			place_value: '',
 			place_Lat: '',
 			place_Lng: '',
-			participants: 0,
+			desc: '',
+			numOfPtc: '',
+			visibility: 10,
+			toNotif: [],
+			photo: {}
 		}
 	});
 
@@ -130,35 +225,70 @@
 		render: function() {
 			var that = this;
 			this.$el.append(this.template(this.model.attributes));
-			updateDate($('#dateCtrld0'), $('#rangeCtrld0'));
-			updateDoubleHour($('#hourCtrlh0'), $('#rangeCtrlh0'));
+			updatePrice($('#priceCtrlp0'), $('#rangeCtrlp0'), 0);
+			updateDoubleDate($('[name="dateCtrl"]'), $('#rangeCtrld0'));
+			// updateDoubleHour($('[name="hourCtrl"]'), $('#rangeCtrlh0'));
 			autocomplete(this);
+			autocomplete_friends(this);
 		},
 		preventSubmit: function(event) {
 			event.preventDefault();
+		},
+		propose: function() {
+			this.model.save({
+				title: this.$el.find("[name='title']").val(),
+				desc: this.$el.find("[name='desc']").val(),
+				date0: moment(this.$el.find("[name='dateCtrl']").attr('v1')+' '+this.$el.find("[name='hour0']").val()),
+				date1: moment(this.$el.find("[name='dateCtrl']").attr('v2')+' '+this.$el.find("[name='hour1']").val()),
+				place: this.$el.find("[name='place']").val(),
+				place_value: this.$el.find("[name='place_value']").val(),
+				place_Lat: this.$el.find("[name='place_Lat']").val(),
+				place_Lng: this.$el.find("[name='place_Lng']").val(),
+				numOfPtc: this.$el.find("[name='members']").val(),
+				visibility: this.$el.find("[name='km']").val(),
+				toNotif: $.map(this.$el.find("ul.container-ptc > li"), function(item) {
+					return $(item).attr('userid');
+				})
+			},{
+				success: function(model, response) {
+					if (response.success) {
+						location.href = '/event/activity/'+response.event._id;
+					} else
+						model.set(response);
+				}
+			});
 		}
 	});
 
 	app.Propose = Backbone.View.extend({
 		el: '#propose',
 		events: {
-			'click .return': 'reset'
+			'click .return': 'reset',
+			'click .fs-submit': 'propose'
 		},
 		initialize: function() {
 			this.BackboneForm = new app.ProposeEvent();
-			this.$el.find('ol li').removeClass('fs-current').addClass('fs-hide').removeClass('fs-hide');
-			this.FForm = new FForm(document.getElementById('propose_wrap'), {onReview: function() { return false; }});
+			this.$el.find('ul li').removeClass('fs-current').addClass('fs-hide').removeClass('fs-hide');
+			var that = this;
+			this.FForm = this.FForm = new FForm(document.getElementById('propose_wrap'), {onReview: function() { that.BackboneForm.propose(); return false; }});
 			return this;
 		},
 		reset: function() {
 			if (this.BackboneForm) {
+				this.$el.find('ul li').addClass('fs-current');
 				delete this.BackboneForm.close();
-				this.BackboneForm = new app.ProposeEvent();
+				this.BackboneForm = null;
 			}
 			if (this.FForm) {
+				// this.FForm.unwatch();
 				delete this.FForm.destroy();
-				this.FForm = new FForm(document.getElementById('propose_wrap'), {onReview: function() { return false; }});
+				this.FForm = null;
 			}
+			return this;
+		},
+		propose: function(event) {
+			event.preventDefault();
+			this.BackboneForm.propose();
 			return this;
 		}
 	});
@@ -187,3 +317,4 @@
 		app.ProposeForm.reset();
 	});
 }());
+

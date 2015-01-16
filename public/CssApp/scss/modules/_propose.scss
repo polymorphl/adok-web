@@ -135,25 +135,40 @@ button.fs-continue,
 }
 
 /* Fields */
-.fs-fields {
+ol.fs-fields {
 	position: relative;
 	margin: 0 auto;
-	padding: 0;
-	top: 0;
+	padding: 0; top: 0;
 	list-style: none;
+	font-size: 21px;
+
+	textarea {
+		padding: 0; color: $blue_a;
+		width: 90%; height: 150px;
+		border: 1px solid rgba(0,0,0,0.2);
+		background-color: transparent;
+		font-weight: 700; resize: none;
+		font-size: 1em; 
+	}
+
+	& > li {
+		position: relative;
+		z-index: 1;
+		margin: 0; padding: 0;
+		border: none;
+
+		label { position: relative; }
+
+		&:hover { z-index: 999; }
+		& > label.fs-field-label {
+			display: block;
+			padding: 0; margin: 0;
+			font-weight: 700;
+			pointer-events: none;
+		}
+	}
 }
 
-.fs-fields > li {
-	position: relative;
-	z-index: 1;
-	margin: 0;
-	padding: 0;
-	border: none;
-}
-
-.fs-fields > li:hover {
-	z-index: 999;
-}
 
 .js .fs-form-full .fs-fields > li {
 	position: absolute;
@@ -167,20 +182,6 @@ button.fs-continue,
 }
 
 /* Labels & info */
-.fs-fields > li label {
-	position: relative;
-
-	&[for="price"] {
-
-	}
-}
-
-.fs-fields > li label.fs-field-label {
-	display: inline-block;
-	padding: 0 5px .5em 0;
-	font-weight: 700;
-	pointer-events: none;
-}
 
 .fs-form-full .fs-fields > li label[data-info]::after {
 	position: relative; display: inline-block;
@@ -359,17 +360,6 @@ label{
 	color: rgba(0,0,0,0.8);
 }
 
-.fs-fields textarea {
-	padding: 0.25em;
-	width: 100%;
-	height: 200px;
-	border: 2px solid rgba(0,0,0,0.2);
-	background-color: transparent;
-	color: $blue_a;
-	font-weight: 700;
-	font-size: 0.85em;
-	resize: none;
-}
 
 .fs-form-overview .fs-fields textarea {
 	height: 100px;

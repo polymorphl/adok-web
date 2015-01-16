@@ -44,36 +44,6 @@ function checkIfConnected(req, res, next) {
 	return next();
 }
 
-function getContactList(req, res, next) {
-	req.app.db.models.UserLink.find({ $or: [ { 'folwr.account': req.user.roles.account._id}, {'folwd.account.id': req.user.roles.account._id } ] }).select('-__v').populate('folwr.account').populate('folwd.account.id').exec(function(err, results) {
-		if (err)
-			res.send(400, err);
-		var toRender = [];
-		require('async').eachSeries(results, function(row, done) {
-			var toPush = {
-				id: '',
-				name: '',
-				pic: ''
-			};
-			if (row.folwr.account && row.folwd.account && row.folwd.account.id._id) {
-				if (row.folwr.account._id.toString() == req.user.roles.account._id.toString()) {
-					toPush.id = row.folwd.account.id._id;
-					toPush.name = row.folwd.account.id.name.full;
-					toPush.pic = row.folwd.account.id.picture;
-				} else {
-					toPush.id = row.folwr.account._id;
-					toPush.name = row.folwr.account.name.full;
-					toPush.pic = row.folwr.account.picture;
-				}
-				toRender.push(toPush);
-			}
-			return done();
-		});
-		req.session.contacts = toRender;
-		return next();
-	});
-}
-
 exports = module.exports = function(app, passport) {
 	//front end
 	String.prototype.capitalize = function() {
@@ -184,8 +154,10 @@ exports = module.exports = function(app, passport) {
 	app.get('/admin/search/', require('./views/admin/search/index').find);
 
 	//account
-	app.all('/account*', ensureAuthenticated);
-	app.all('/account*', ensureAccount);
+	app.all('/account*', app.modules.ensure.Authentification);
+	app.all('/account*', app.modules.ensure.Account);
+	app.all('/account*', app.modules.ensure.Alpha);
+	app.all('/account*', app.modules.account.sidebarChat);
 	//app.all('/account*', getContactList);
 	app.get('/account/', require('./views/account/index').init);
 
@@ -208,10 +180,8 @@ exports = module.exports = function(app, passport) {
 	app.delete('/account/settings/delete/', require('./views/account/settings/index').delete);
 
 	//account > propose
-	app.get('/account/propose/', require('./views/account/propose/index').init);
 	app.post('/account/propose/activity', require('./views/account/propose/index').addActivity);
-	app.post('/account/propose/exchange', require('./views/account/propose/index').addExchange);
-	app.put('/account/edit/activity', require('./views/events/activity').update);
+	app.post('/propose', app.modules.propose.Propose);
 
 	//account > zone
 	app.all('/user*', ensureAuthenticated);
@@ -279,28 +249,17 @@ exports = module.exports = function(app, passport) {
 	app.post('/follow', require('./tools/follow').AddCancelAndDeny);
 
 	//map search
-	var geocoder = require('node-geocoder').getGeocoder('google', 'https', { apiKey: 'AIzaSyCp2_kKWJ9XEVQHOZbNfgP3trYpJ0CyXtQ'});
-	app.all('/geocode*', ensureAuthenticated);
-	app.post('/geocode/', function(req, res) {
-		geocoder.geocode({address: req.body.query, country: 'France'}, function(err, results) {
-			if (err)
-				return res.send(400, 'An error occured');
-			var ret = [];
-			results.forEach(function(item) {
-				if (item.streetNumber && item.streetName && item.zipcode)
-				var addr = item.streetNumber+' '+item.streetName+', '+item.zipcode+' '+item.city;
-				ret.push({addr: addr, latlng: {lat: item.latitude, lng: item.longitude }});
-			});
-			res.jsonp(ret);
-		});
-	});
+	app.all('/geocode*', app.modules.ensure.Authentification);
+	app.post('/geocode/', app.modules.account.Geocoder);
 
-	app.all('/geojson*', ensureAuthenticated);
-	app.get('/geojson/full', require('./tools/geoGetters').init);
-	app.get('/geojson/update/:a/:e/:o', require('./tools/geoGetters').update);
+	// get items
+	app.all('/geojson*', app.modules.ensure.Authentification);
+	app.post('/geojson/full', app.modules.account.GetFullList);
+	app.post('/geojson/update', app.modules.account.RefreshList);
 
-	app.all('/usersearch*', ensureAuthenticated);
-	app.post('/usersearch', require('./tools/SearchUsers').init);
+	//user search
+	app.all('/usersearch*', app.modules.ensure.Authentification);
+	app.post('/usersearch', app.modules.search.Users);
 
 	//route not found
 	app.all('*', require('./views/http/index').http404);

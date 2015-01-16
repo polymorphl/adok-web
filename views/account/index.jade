@@ -4,13 +4,37 @@ block head
   title= t('name')
 
 block neck
- 
+ link(href='/adok_components/mapbox/mapbox.css', rel='stylesheet')
 
 block feet
-  script(src='/views/min/adok_components/home.min.js')
-  script(src='/views/min/account/index.min.js')
+  script(src='/adok_components/mapbox/mapbox.js')
+  script(src='/adok_components/mapbox/locate.js')
+  script(src='/adok_components/mapbox/markercluster.js')
+  script(src='/adok_components/mapbox/fullscreen.js')
+  script(src='/views/min/adok_components/map.min.js')
 
 block body
   div.app-content
     div.page-container
-      h1 CONNECTED
+      div.m-map-wizzem(id="map")
+        div.m-tool__wrap
+          div.m-tool(id="tool-home")
+            div.my-network
+              div.wrap
+                input.input(type="checkbox", id="network-input", name="add-my-network")
+                label.label(for='network-input')= t('userhome.network')
+            center
+              style .waiting-tiles:hover {background: grey; cursor:pointer;}
+              span.uptodate Votre liste est à jour.
+              div.waiting-tiles
+                div.area-waiting
+                  span.waiting-counter 0
+                  span.only &nbsp;proposition en attente.
+                  span.multi &nbsp;propositions en attente.
+            div.count-results
+              span.res
+              span.label= t('res')
+            div.results
+              ul#tileItems.items
+            div.no-result
+              span.no-res= t("userhome.no-res")

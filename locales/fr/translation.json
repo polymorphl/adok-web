@@ -198,6 +198,7 @@
     "free": "Gratuit",
     "place": "Adresse",
     "date": "Date",
-    "hour": "Heure"
+    "hour0": "Heure de début",
+    "hour1": "Heure de fin"
   }
 }

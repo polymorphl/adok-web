@@ -169,6 +169,9 @@ global.getLinkStatus = function(tab, uid) {
   return false;
 }
 
+// loading tools
+app.modules = require('./modules');
+
 //route requests
 require('./routes')(app, passport);
 

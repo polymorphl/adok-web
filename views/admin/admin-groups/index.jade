@@ -10,14 +10,12 @@ block feet
   script(src='/views/admin/admin-groups/index.min.js?#{cacheBreaker}')
 
 block body
-  div.page#default
-    div.container
-      div.row
-        div.col-xs-12
-          div#header
-          div#filters
-          div#results-table
-          div#results-paging
+  div.app-content
+    div.page-container
+      div#header
+      div#filters
+      div#results-table
+      div#results-paging
 
       script(type='text/template', id='tmpl-header')
         div.page-header

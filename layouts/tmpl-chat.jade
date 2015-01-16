@@ -1,8 +1,9 @@
 script(type='text/template', id='tmpl-chat')
-	div.chat(user!='<%= id %>')
+	div.chat(user!='<%= id %>', id="cu_chat")
 		div.cHead
 			|<%= name %>
-			span.cl x
+			div.close(id="clo_cur")
+				i.fa.fa-close
 		div.conversation
 			|<% _.each(reply.reverse(), function(msg) { %>
 			|<% if (msg.from == userid) { %>
@@ -13,5 +14,5 @@ script(type='text/template', id='tmpl-chat')
 			|<%= msg.text %>
 			|<% }); %>
 		div.message
-			span.writing: i.fa.fa-ellipsis-h
 			textarea.message-input
+			span.writing: i.fa.fa-ellipsis-h

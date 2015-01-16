@@ -20,42 +20,12 @@ module.exports = function(grunt) {
 		//-> for running tasks concurrently (instead of sequentially)
 		concurrent: {
 			dev: {
-				tasks: [ 'flo', 'nodemon', 'watch'],
-				//tasks: [ 'nodemon', 'watch'],
+				tasks: ['nodemon', 'watch'],
 				options: {
 					logConcurrentOutput: true
 				}
 			}
 		},
-
-		//-> instantiate fb-flo (crossplatform & cross editor live-reload & reload )
-		flo: {
-        serve: {
-            options: {
-                // fb-flo options.
-                port: 4000,
-                dir: './',
-                glob: [
-					'!**/.subl*.tmp',
-					'!**/*.TMP',
-					'!node_modules/',
-					'!public/components/'
-				],
-				// auto resolvers.
-				resolver: function(filepath, callback) {
-				if ((filepath.match(/^public(\\|\/)(views(\\|\/)min|css)(\\|\/)/) || filepath.match(/^public(\\|\/)layouts(\\|\/)/) ||filepath.match(/^(view|layout)s(\\|\/)/)) && filepath.match(/\.(js|min.js|jade|css)$/))
-					callback({
-						resourceURL: (!!filepath.match(/^public(\\|\/)/) ? filepath.split(/^public(\\|\/)/)[2] : filepath),
-						contents: fs.readFileSync(filepath),
-						reload: !filepath.match(/\.(css|js|min.js)$/),
-						update: function(_window, _resourceURL) {
-							console.log("Resource " + _resourceURL + " has just been updated with new content");
-						}
-					});
-                }
-            }
-        }
-    },
 
 		//-> utility that will monitor for any changes in your source
 		//-> and automatically restart your server
@@ -144,18 +114,6 @@ module.exports = function(grunt) {
 						'public/adok_components/FormFF/modernizr.custom.js',
 						'public/components/i18next/i18next.min.js',
 						'public/components/humane/humane.min.js',
-						'public/components/bootstrap/js/affix.js',
-						'public/components/bootstrap/js/alert.js',
-						'public/components/bootstrap/js/button.js',
-						'public/components/bootstrap/js/carousel.js',
-						'public/components/bootstrap/js/collapse.js',
-						'public/components/bootstrap/js/dropdown.js',
-						'public/components/bootstrap/js/modal.js',
-						'public/components/bootstrap/js/tooltip.js',
-						'public/components/bootstrap/js/popover.js',
-						'public/components/bootstrap/js/scrollspy.js',
-						'public/components/bootstrap/js/tab.js',
-						'public/components/bootstrap/js/transition.js',
 						'public/components/moment/moment.js',
 						'public/components/pikaday/pikaday.js',
 						'public/components/pikaday/plugins/pikaday.jquery.js',

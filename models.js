@@ -8,7 +8,7 @@ exports = module.exports = function(app, mongoose) {
   require('./schema/Account')(app, mongoose);
   require('./schema/admin/Admin')(app, mongoose);
   require('./schema/admin/AdminGroup')(app, mongoose);
-  require('./schema/Challenge')(app, mongoose);
+  require('./schema/Event')(app, mongoose);
   require('./schema/Conversation')(app, mongoose);
   require('./schema/Device')(app, mongoose);
   require('./schema/EventRegister')(app, mongoose);

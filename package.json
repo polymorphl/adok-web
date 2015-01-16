@@ -8,6 +8,7 @@
   "dependencies": {
     "async": "~0.2.9",
     "connect-mongo": "~0.4.1",
+    "colors": "~1.0.3",
     "emailjs": "~0.3.6",
     "express": "~3.4.4",
     "grunt-compass-multiple": "~0.2.1",
@@ -23,7 +24,8 @@
     "passport-local": "^1.0.0",
     "passport-oauth": "~1.0.0",
     "passport.socketio": "~3.2.0",
-    "socket.io": "~1.0.6"
+    "socket.io": "~1.0.6",
+    "walk": "~2.3.4"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -37,8 +39,6 @@
     "grunt-contrib-compass": "~0.9.0",
     "matchdep": "~0.3.0",
     "grunt-contrib-sass": "~0.7.3",
-    "minimatch": "~1.0.0",
-    "fb-flo": "~0.2",
-    "grunt-fb-flo": "~0.2"
+    "minimatch": "~1.0.0"
   }
 }

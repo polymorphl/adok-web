@@ -1,0 +1,20 @@
+script(type='text/template', id='tmpl-evenTile')
+	li.marker(class!="<%= ecat %>" markerid!='<%= eid %>')
+		.left-part
+			a.proprio(href!='/user/<%= uid %>')
+				span <%= uname.split(" ")[0] %>
+				img.acc(src!='<%= upic %>')
+		a.event_link(href!='/event/<%= ecat %>/<%= eid %>')
+			div.middle-part
+				div.title <%= etitle %>
+				<% if (ecat == "activity") { %>
+				div.participants
+					span.nb <%= enbpcur %> &nbsp;
+					span.max <%= enbpmax %> participant(s)
+				<% } else { %>
+				<% } %>
+			div.last-part
+				div.calendar
+					div.month <%= month %>
+					div.day <%= day %>
+					div.hours <%= hour %>

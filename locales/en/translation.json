@@ -198,6 +198,7 @@
     "free": "Free",
     "place": "Address",
     "date": "Date",
-    "hour": "Hour"
+    "hour0": "Start time",
+    "hour1": "End time"
   }
 }
