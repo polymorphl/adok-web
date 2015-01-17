@@ -1,0 +1,66 @@
+extends ../../../layouts/admin
+
+block head
+	title Badges / Details
+
+block feet
+	script(src='/views/min/admin/badges/details.min.js')
+
+block body
+	div.app-content
+		div.page-container
+			div#header
+			div#details
+			div#delete
+
+	script(type='text/template', id='tmpl-header')
+		div.page-header
+			h1
+				a(href='/admin/badges/') Badges
+				|  / <%- title %>
+
+	script(type='text/template', id='tmpl-details')
+		fieldset
+			legend Badge Info
+			div.alerts
+				|<% _.each(errors, function(err) { %>
+				div.alert.alert-danger.alert-dismissable
+					|<%= err %>
+				|<% }); %>
+				|<% if (success) { %>
+				div.alert.alert-info.alert-dismissable
+					button.close(type='button', data-dismiss='alert') &times;
+					| Changement(s) sauvé(s).
+				|<% } %>
+			div.control-group(class!='<%= errfor.name ? "has-error" : "" %>')
+				label.control-label Name:
+				input.form-control(type='text', name='name', value!='<%- name %>')
+				span.help-block <%= errfor['name'] %>
+			div.control-group(class!='<%= errfor.desc ? "has-error" : "" %>')
+				label.control-label Description:
+				input.form-control(type='text', name='desc', value!='<%- desc %>')
+				span.help-block <%= errfor['desc'] %>
+			div.control-group(class!='<%= errfor.title ? "has-error" : "" %>')
+				label.control-label Title:
+				input.form-control(type='text', name='title', value!='<%- title %>')
+				span.help-block <%= errfor['title'] %>
+			div.control-group
+				button.btn.btn-primary.btn-update(type='button') Mettre à jour
+
+	script(type='text/template', id='tmpl-delete')
+		fieldset
+			legend Danger Zone
+			div.alerts
+				|<% _.each(errors, function(err) { %>
+				div.alert.alert-danger.alert-dismissable
+					button.close(type='button', data-dismiss='alert') &times;
+					|<%= err %>
+				|<% }); %>
+			div.control-group
+				span.help-block
+					span.label.label-danger Action irréversible
+					|&nbsp;
+			div.control-group
+				button.btn.btn-danger.btn-delete(type='button') Supprimer
+
+	script(type='text/template', id='data-results') !{data}

@@ -11,7 +11,7 @@ exports.cryptoKey = 'k3yfOoR/@Ad/0K+';
 exports.requireAccountVerification = true;
 
 //Default Port
-exports.port = process.env.PORT || 8000;
+exports.port = process.env.PORT || 80;
 
 //Settings for Database
 exports.mongodb = {

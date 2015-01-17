@@ -29,6 +29,7 @@
 						query: that.$el.find('[name="place"]').val()
 					}).done(function(data) {
 						res($.map(data, function(item) {
+							console.log(item);
 							return {
 								label: item.addr,
 								value: item.addr,
@@ -408,7 +409,6 @@
 
     var eventData = JSON.parse(unescape( $("#event-results").html() ));
     eventData.isRegistered = $("#event-reg").html() + "";
-    console.log(eventData);
 		new app.LeftDataView(eventData);
 		new app.RightDataView(eventData);
 		new app.EditDataView(eventData);
@@ -416,26 +416,23 @@
 		new app.DeleteEventView(eventData);
 		new app.ValidEditView(eventData);
 
-    var map = L.mapbox.map('map-event', 'polymorphl.h5e69igh', {
-    	minZoom: 11, maxZoom: 19,
+    var map = L.mapbox.map('map-event', 'lucterracherwizzem.kp9oc66l', {
+    	minZoom: 5, maxZoom: 19,
     	accessToken: 'pk.eyJ1IjoicG9seW1vcnBobCIsImEiOiJaTWFpLWI4In0.cPiDB1qRwLUFGWmBRhZinA', //public token for v2.x
     	infoControl: false
     });
 
-    map.on('locationfound', function(e) {
-    	ctr = e.latlng;
-    	var homeIcon = L.icon({
-    		iconUrl: "/medias/map-marker/m-home.png",
-    		iconSize: [70, 105],
-    		iconAnchor: [36, 100]
-    	});
-    	var marker_ctr = new L.Marker([e.latlng.lat, e.latlng.lng]);
-    	marker_ctr.setIcon(homeIcon);
-    	marker_ctr.addTo(map);
-    });
-
-    map.locate({setView: false});
     map.zoomControl.setPosition('topright');
+    var e_lat = $('.elat').val();
+    var e_lng = $('.elng').val();
+    var homeIcon = L.icon({
+			iconUrl: "/medias/map-marker/mrk.png",
+			iconSize: [80, 80]
+		});
+    var marker = new L.Marker([e_lat, e_lng]);
+		marker.setIcon(homeIcon);
+		marker.addTo(map);
+    map.setView([e_lat, e_lng], 14);
 
   });
 }());

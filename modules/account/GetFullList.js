@@ -1,7 +1,5 @@
 var catTab = {
-  'activity': 0,
-  'exchange': 1,
-  'opportunity': 2
+  'activity': 0
 };
 
 exports = module.exports = function(req, res) {
@@ -11,12 +9,7 @@ exports = module.exports = function(req, res) {
     { date: { '$gt': date }, type: catTab['activity'] },
     { date: { '$lt': date }, date2: { '$gt': date }, type: catTab['exchange'] }
     ],
-    accType: req.session.accType,
-    latLng: {
-      $geoWithin: {
-        $centerSphere: [ [ parseFloat(req.body.loc[0]), parseFloat(req.body.loc[1]) ], 10/6371]
-      }
-    }
+    accType: req.session.accType
   };
 
   req.app.db.models.Event.find(query).populate('acc').sort('-date').exec(function(err, events) {

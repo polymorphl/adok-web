@@ -1,91 +1,115 @@
-.conversation-list {
-	position: relative; z-index: 10;
-	width: 900px; height: 265px;
-	bottom: 305px; right: 260px;
-	margin-right: 205px;
-	margin-bottom: 4px;
+#chat {
+	.toggle-view { 
+		left: -30px;
 
-	.chat {
-		position: relative;
-	  bottom:35px; right: 30px;
-	  float: left; height: 300px;
-	  min-height: 300px; width: 250px;
-	  background-color: $grey;
-	  z-index: 300; margin-left:20px;
-	  @include border-top-left-radius(10px);
-		@include border-top-right-radius(10px);
-
-	  .cHead, .conversation, .message, .message-input {
-			width: 100%;
-		}
-		.cHead {
-			height: 25px; line-height: 25px;
-			text-align: left; font-weight: bold;
-			text-indent: 6px; color: white;
-			background-color: green; font-size: 14px;
-			@include border-top-left-radius(10px);
-			@include border-top-right-radius(10px);
-
-			.cl {
-				float: right; margin-right: 7px;
-				display: inline-block; width: 15px;
-				height: 25px; text-align: center;
-				&:hover { color: black; }
+		label {
+			@extend %vertical-align;
+			.count {
+				position:absolute;
+				top: -2px; left: 14px;
+				padding:1px 4px; color:white;
+				background-color: $red; 
+    		font-weight:bold; font: 10px Verdana;
+    		@include border-radius(30px);
 			}
+		}
+		// end of toggle-view
+	}
+
+	.contact-list {
+		width: 100%; height: 100%; top: -1px;
+		position: relative;
+
+		.title {
+			text-transform: capitalize;
+			text-indent: 4px; display: block;
+			font-weight: bold; background-color: darken($grey, 30%);
+		}
+
+		.close {
+			opacity: .6;
+			&:hover { opacity: 1; }
+			i { color: darken(red, 3%); }
+		}
+
+		.search {
+			margin: 5px auto 0; text-align: center;
+			input#chat-search {
+				height: 25px;
+			}
+		}
+
+		.user {
+			margin-top: 10px;
+			text-indent: 8px; height: 32px;
+			line-height: 32px; cursor: pointer;
+
+			.state {
+				width: 8px; height: 8px;
+				display: inline-block;
+				margin-right: 5px;
+				background-color: $grey;
+				@include border-radius(50%);
+				&.on { background-color: green; }
+				&.off { background-color: $red; }
+			}
+
+			img { @include size(32px); @include border-radius(50em); }
+
+			.name { font-weight: 400; }
 
 			&:hover {
-				cursor: pointer; background-color: darken(green, 2%);
+				background-color: darken($grey, 10%);
 			}
 		}
+	}
 
-		::-webkit-scrollbar {
-			width: 8px;
-		}
-		::-webkit-scrollbar-button {
-			width: 0px;
-			height:0px;
-		}
-		::-webkit-scrollbar-track {
-			background:#eee;
-			border: thin solid lightgray;
-			box-shadow: 0px 0px 3px #dfdfdf inset;
-			border-radius:10px;
-		}
-		::-webkit-scrollbar-thumb {
-			background:#999;
-			border: thin solid gray;
-			border-radius:10px;
-		}
-		::-webkit-scrollbar-thumb:hover {
-			background:#7d7d7d;
-		}
-		.conversation {
-			overflow-x: hidden; overflow-y: auto;
-			position: relative;
-			background-color: darken(#FFFFFF, 10%);
-			height: 240px !important;
-			max-height: 240px !important;
+	.conversation-list {
+		width: 100%; height: 100%;
 
-		  p {
-		  	clear: both; color: black;
-		  	word-wrap: break-word;
-		  	@include white-space(pre-wrap);
-		  	max-width: 200px; font-size: 14px;
-		  	font-weight: 400;
-		  	text-align: justify!important;
-		  	padding: 5px 15px;
-		  	&.left {
-			  	background-color: rgba($blue_a, .6);
-			  	float: left; margin-left: 5px;
-		  	}
-			  &.right {
-			  	background-color: rgba(darken(#FFFFFF, 30%), .6);
-			  	float: right; margin-right: 5px;
+		.chat {
+		  float: left; height: 100%; width: 100%;
+		  background-color: darken($grey, 10%);
+
+		  .cHead, .conversation, .message, .message-input { width: 100%; }
+
+			.cHead {
+				height: 25px; line-height: 25px;
+				text-align: left; font-weight: bold;
+				text-indent: 6px; color: white; font-size: 14px;
+
+				.close i { color: darken(red, 3%); }
+			}
+
+			.conversation {
+				overflow-x: hidden; overflow-y: auto;
+				position: relative;
+				background-color: darken(#FFFFFF, 10%);
+				height: 75%;
+
+			  p {
+			  	clear: both; color: black;
+			  	word-wrap: break-word;
+			  	@include white-space(pre-wrap);
+			  	max-width: 200px; font-size: 14px;
+			  	font-weight: 400;
+			  	text-align: justify!important;
+			  	padding: 5px 15px;
+			  	&.left {
+				  	background-color: rgba($blue_b, .6);
+				  	float: left; margin-left: 5px;
+			  	}
+				  &.right {
+				  	background-color: rgba(darken(#FFFFFF, 30%), .6);
+				  	float: right; margin-right: 5px;
+				  }
 			  }
-		  }
-		}
-		.message-input {
-			height: 40px; resize: none;
+			}
+			.message-input {
+				height: 80px; resize: none;
+				width: 95%; display: block;
+				margin: 0 auto;
+			}
 		}
 	}
 }

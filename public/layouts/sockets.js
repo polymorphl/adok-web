@@ -2,7 +2,7 @@
   'use strict';
 
 	var app = app || {};
-	var socket = io.connect('http://localhost:8000/chat');
+	var socket = io.connect('http://localhost/chat');
 
 	socket.io._reconnectionDelayMax = 10000;
 	app.chats = new Array();
