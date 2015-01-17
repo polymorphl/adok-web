@@ -10,16 +10,21 @@ block body
     div.page-container
       h1 Administration
       div.display
-        a(href="/admin/accounts/")
-            div.well.stat
-              div.stat-value
-                i.fa.fa-users
-                div #{countAccount} Compte(s)
         a(href="/admin/administrators/")
             div.well.stat
               div.stat-value
                 i.fa.fa-cogs
                 div #{countAdmin} Administrateur(s)
+        a(href="/admin/badges/")
+            div.well.stat
+              div.stat-value
+                i.fa.fa-cogs
+                div #{countBadge} Badge(s)
+        a(href="/admin/accounts/")
+            div.well.stat
+              div.stat-value
+                i.fa.fa-users
+                div #{countAccount} Compte(s)
         a(href="/admin/challenges/")
             div.well.stat
               div.stat-value

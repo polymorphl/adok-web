@@ -14,7 +14,6 @@
 		url: function() {
 			return '/admin/badges/'+ (this.isNew() ? '' : this.id +'/');
 		}
-
 	});
 
   app.RecordCollection = Backbone.Collection.extend({
@@ -36,7 +35,7 @@
 		initialize: function() {
 			this.model = new app.Badge();
 			this.listenTo(this.model, 'sync', this.render);
-				this.render();
+			this.render();
 		},
 		render: function() {
 			this.$el.html(this.template( this.model.attributes ));
@@ -109,15 +108,15 @@
     },
     render: function() {
       this.$el.html(this.template( this.model.attributes ));
-      // this.$el.find('.timeago').each(function(index, indexValue) {
-      //   if (indexValue.innerText) {
-      //     var myMoment = moment(indexValue.innerText);
-      //     indexValue.innerText = myMoment.from();
-      //     if (indexValue.getAttribute('data-age')) {
-      //       indexValue.innerText = indexValue.innerText.replace('ago', 'old');
-      //     }
-      //   }
-      // });
+      this.$el.find('.timeago').each(function(index, indexValue) {
+        if (indexValue.innerText) {
+          var myMoment = moment(indexValue.innerText);
+          indexValue.innerText = myMoment.from();
+          if (indexValue.getAttribute('data-age')) {
+            indexValue.innerText = indexValue.innerText.replace('ago', 'old');
+          }
+        }
+      });
       return this;
     }
   });
@@ -127,11 +126,10 @@
     initialize: function() {
       app.mainView = this;
       this.results = JSON.parse( unescape($('#data-results').html()) );
-      // console.log(this.results);
+
       app.headerView = new app.HeaderView();
       app.resultsView = new app.ResultsView();
     }
   });
-  console.log("mainview");
   app.mainView = new app.MainView();
 }());

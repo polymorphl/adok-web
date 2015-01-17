@@ -39,5 +39,5 @@ exports.list = function(req, res, callback){
 		workflow.outcome.badge = badge;
 		return workflow.emit('response');
 	});
-
 }
+
