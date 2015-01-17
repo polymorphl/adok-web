@@ -8,8 +8,6 @@ block feet
   script(src='/adok_components/mapbox/mapbox.js')
   script(src='/adok_components/mapbox/locate.js')
   script(src='/adok_components/mapbox/fullscreen.js')
-  script(src='/adok_components/mapbox/locate.js')
-  script(src='/adok_components/mapbox/fullscreen.js')
   script(src='/views/min/events/index.min.js')
   script(src='/views/events/detail_event.js')
 
@@ -47,8 +45,8 @@ block body
           img(src='/medias/socials/g.svg')
 
   script(type='text/template', id="tmpl-right")
-    input(type="hidden", id="lat", value!="<%= latLng[1] %>")
-    input(type="hidden", id="lng", value!="<%= latLng[0] %>")
+    input.elat(type="hidden", id="lat", value!="<%= latLng[1] %>")
+    input.elng(type="hidden", id="lng", value!="<%= latLng[0] %>")
     div(id="map-event")
     div.title
       <%= title %>

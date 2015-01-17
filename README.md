@@ -42,12 +42,12 @@ db.admins.save(rootAdmin);
 
 Maintenant, utiliser la fonction de redéfinition de mot de passe : 
 
- - `http://localhost:8000/login/forgot/`
+ - `http://localhost/login/forgot/`
  - Entrer l'adresse e-mail
  - Aller voir sa boite mail et cliquer sur le lien de comfirmation
- - `http://localhost:8000/login/reset/:token/`
+ - `http://localhost/login/reset/:token/`
  - Définisser un nouveau mot de passe
- - Go sur : `http://localhost:8000/adok-adm/`
+ - Go sur : `http://localhost/adok-adm/`
  - Connexion username - password
 
 TIPS

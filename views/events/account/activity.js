@@ -14,7 +14,7 @@ exports.init = function(req, res) {
 	// find[req.session.accType+'._id'] = req.user.roles[req.session.accType]._id;
 	// find['account.account.$.conf'] = 1;
 
-	req.app.db.models.Event.findOne({_id: mongoose.Types.ObjectId(id), type: 0}, 'acc accType category title photos desc place numOfPtc latLng date date2 price').populate('acc').exec(function(err, event) {
+	req.app.db.models.Event.findOne({_id: mongoose.Types.ObjectId(id), type: 0}, 'acc accType category title photos desc place numOfPtc latLng date date2').populate('acc').exec(function(err, event) {
 		if (err || !event)
 			return require('../../http/index').http404(req, res);
 		res.locals.id = req.user._id;
@@ -72,12 +72,6 @@ exports.init = function(req, res) {
 exports.edit = function(req, res) {
 	var workflow = req.app.utility.workflow(req, res);
 
-	// console.log(req.body.year);
-	// console.log(req.body.month);
-	// console.log(req.body.day);
-	// console.log(req.body.hour);
-	// console.log(req.i18n.t('dateFormat'));
-	// console.log(req.body.month+'-'+req.body.day+'-'+req.body.year+' '+req.body.hour);
 	console.log(moment(req.body.day+'-'+req.body.month+'-'+req.body.year+' '+req.body.hour, req.i18n.t('dateFormat')));
 	console.log(moment(req.body.month+'/'+req.body.day+'/'+req.body.year+' '+req.body.hour, req.i18n.t('dateFormat')));
 	console.log(moment(req.body.day1+'-'+req.body.month1+'-'+req.body.year1+' '+req.body.hour1, req.i18n.t('dateFormat')));
@@ -101,10 +95,6 @@ exports.edit = function(req, res) {
 			workflow.outcome.errfor.place = req.i18n.t('errors.place');
 		}
 
-		if (!req.body.price) {
-			workflow.outcome.errfor.price = req.i18n.t('errors.required');
-		}
-
 		if (!req.body.numOfPtc) {
 			workflow.outcome.errfor.numOfPtc = req.i18n.t('errors.required');
 		}
@@ -121,7 +111,6 @@ exports.edit = function(req, res) {
 			date: moment(req.body.day+'/'+req.body.month+'/'+req.body.year+' '+req.body.hour, req.i18n.t('dateFormat')).toDate(),
 			date2: moment(req.body.day1+'/'+req.body.month1+'/'+req.body.year1+' '+req.body.hour1, req.i18n.t('dateFormat')).toDate(),
 			place: req.body.place,
-			price: req.body.price,
 			numOfPtc: req.body.numOfPtc,
 			desc: req.body.desc
 		};
