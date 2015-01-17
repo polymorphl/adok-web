@@ -131,7 +131,10 @@ exports = module.exports = function(app, passport) {
 	//admin > badges
 	app.get('/admin/badges/', require('./views/admin/badges/index').init);
 	app.post('/admin/badges/', require('./views/admin/badges/index').add);
-	
+	app.get('/admin/badges/:id/', require('./views/admin/badges/details').read);
+	app.put('/admin/badges/:id/', require('./views/admin/badges/details').update);
+	app.delete('/admin/badges/:id/', require('./views/admin/badges/details').delete);
+
 	//admin > accounts
 	app.get('/admin/accounts/', require('./views/admin/accounts/index').find);
 	app.post('/admin/accounts/', require('./views/admin/accounts/index').create);
