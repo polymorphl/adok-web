@@ -1,58 +1,75 @@
-/**
-* Application Core for Adok 
-**/
+// /**
+// * Application Core for Adok 
+// **/
 
 'use strict';
 
+global.__base = __dirname + '/';
+
 //dependencies
 var config = require('./config'),
+    spdy = require('spdy'),
     express = require('express'),
-    mongoStore = require('connect-mongo')(express),
+    bodyparser = require('body-parser'),
+    expressSession = require('express-session'),
+    mongoStore = require('connect-mongo')(expressSession),
     i18n = require('i18next'),
     http = require('http'),
     path = require('path'),
     passport = require('passport'),
     passportio = require('passport.socketio'),
     multer = require('multer'), // New for fix connect.multipart warning
-    mongoose = require('mongoose');
+    sslKey = require('fs').readFileSync('ssl/localhost.key', 'utf8'),
+    sslCertificate = require('fs').readFileSync('ssl/localhost.crt', 'utf8'),
+    mongoose = require('mongoose'),
+    Grid = require('gridfs-stream');
 
 //init & debug i18next
 i18n.init({
-    saveMissing: true,
-    debug: false
+  saveMissing: true,
+  debug: false
 });
+
+var SpdyOptions = {
+  key: sslKey,
+  cert: sslCertificate,
+  windowSize: 1024 * 768,
+  autoSpdy31: true
+};
 
 //create express app
 var app = express();
-
-//setup the web server
-app.server = http.createServer(app);
-
+app.expressInstance = express;
+app.uuidGen = require('node-uuid').v4;
+app.server = http.createServer(app); /* port 80 */
+app.serverDev = http.createServer(app); /* port app.get('port') */
+app.httpsServer = spdy.createServer(SpdyOptions, app);
 //setup the IO on web server
 var io = require('socket.io').listen(app.server);
 app.io = io;
 
 //setup mongoose
 app.db = mongoose.createConnection(config.mongodb.uri);
+app.db.safe = { w: 1 };
 app.db.on('error', console.error.bind(console, 'mongoose connection error: '));
 app.db.once('open', function () {
-
+  return app.gfs = Grid(app.db, mongoose.mongo);
 });
 
-//config data models
 require('./models')(app, mongoose);
 
 //setup the session store THEN initialize Socket.io to avoid error accessing sessionStore
 app.sessionStore = new mongoStore({ url: config.mongodb.uri }, function(e) {
 	//set socket.io parameters
 	io.use(passportio.authorize({
-		passport: passport,
-		cookieParser: express.cookieParser,
-		key: 'connect.sid',
-		secret: config.cryptoKey,
-		store: app.sessionStore,
-		success: onAuthorizeSuccess,
-		fail: onAuthorizeFail
+    passport: passport,
+    cookieParser: require('cookie-parser'),
+    key: 'connect.sid',
+    secret: config.cryptoKey,
+    store: app.sessionStore,
+    success: onAuthorizeSuccess,
+    fail: onAuthorizeFail,
+    cookie: {httpOnly: true, secure: true}
 	}));
 
 	function onAuthorizeSuccess(data, accept) {
@@ -67,10 +84,6 @@ app.sessionStore = new mongoStore({ url: config.mongodb.uri }, function(e) {
 	require('./tools/Socket-io')(app);
 });
 
-
-
-//config express in all environments
-app.configure(function(){
   //settings
   app.disable('x-powered-by');
   app.set('port', config.port);
@@ -96,27 +109,34 @@ app.configure(function(){
   app.set('google-oauth-key', config.oauth.google.key);
   app.set('google-oauth-secret', config.oauth.google.secret);
 
+  //GZIp for wep-server
+  var compress = require('compression');
+  app.use(compress());
+
   //middleware
-  app.use(express.favicon(__dirname + '/public/favicon.ico'));
+  app.use(require('serve-favicon')(__dirname + '/public/favicon.ico'));
   app.use(i18n.handle);
-  app.use(express.logger('dev'));
+  app.use(require('morgan')('dev'));
   app.use(express.static(path.join(__dirname, 'public')));
   app.use('/locales', express.static(path.join(__dirname, '/locales')));
   app.use('/uploads', express.static(__dirname+'/uploads'));
-  //app.use(express.bodyParser({uploadDir:'./uploads'})); // deprecated (connect and multipart warning)
+  // app.use(bodyparser({uploadDir:'./uploads'})); // deprecated (connect and multipart warning)
   /*  "In Connect 3.0, developers will have to individually
-  		include the individual middlewares where required. */
+    include the individual middlewares where required. */
   //New middleware stack for bodyParser(); (composite middleware)
-  app.use(express.json());
-  app.use(express.urlencoded());
+  app.use(bodyparser.json());
+  app.use(bodyparser.urlencoded({extended: true}));
   app.use(multer({ dest: './uploads' }));
 
-  app.use(express.methodOverride());
-  app.use(express.cookieParser());
-  app.use(express.session({
-  	key: 'connect.sid',
+  app.use(require('method-override')());
+  app.use(require('cookie-parser')());
+  app.use(require('express-session')({
+    resave: true,
+    saveUninitialized: false,
+    key: 'connect.sid',
     secret: config.cryptoKey,
-    store: app.sessionStore
+    store: app.sessionStore,
+    cookie: {httpOnly: true}
   }));
   app.use(passport.initialize());
   app.use(passport.session());
@@ -128,7 +148,12 @@ app.configure(function(){
       res.locals.accType = req.session.accType;
     next();
   });
-  app.use(app.router);
+
+  var socketCommunication = require('./tools/SocketCommunication.js');
+  socketCommunication.io = io;
+  socketCommunication.listenConnectionClientNotification(app);
+  socketCommunication.listenConnectionComment(app);
+
 
   //error handler
   app.use(require('./views/http/index').http500);
@@ -139,16 +164,17 @@ app.configure(function(){
   app.locals.copyrightName = app.get('company-name');
   app.locals.cacheBreaker = 'br34k-01';
   app.locals.moment = require('moment');
-});
 
 //config express in dev environment
-app.configure('development', function(){
-  app.use(express.errorHandler());
+var env = process.env.NODE_ENV || 'development';
+if (env == 'development') {
+  app.use(require('errorhandler')());
   app.locals.pretty = true;
-});
+}
 
 //setup passport
 require('./passport')(app, passport);
+app.passport = passport;
 
 i18n.registerAppHelper(app);
 
@@ -197,6 +223,5 @@ i18n.serveClientScript(app)
     .serveMissingKeyRoute(app);
 
 //listen up
-app.server.listen(app.get('port'), function(){
-    console.log("<# --- Adok is online on port " + app.get("port") + " --- #>")
-});
+app.server.listen(8080);
+app.serverDev.listen(app.get('port'));

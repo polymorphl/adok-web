@@ -1,6 +1,5 @@
 exports = module.exports = function(req, res) {
 
-	// console.log(req.cookies['i18next']);
 	var lng = (req.cookies && req.cookies['i18next'] ? req.cookies['i18next'] : 'fr');
 	var geocoder = require('node-geocoder').getGeocoder('google', 'https', { apiKey: 'AIzaSyCp2_kKWJ9XEVQHOZbNfgP3trYpJ0CyXtQ', language: lng});
 	geocoder.geocode(req.body.query, function(err, results) {

@@ -15,10 +15,13 @@ exports.init = function(req, res, next) {
 	var find = {};
 	var notifsOutcome = [];
 
+	console.log("[NOTIFICATION] => INIT with id: " + req.params.id);
+
 	find['to.'+req.session.accType] = req.user.roles[req.session.accType]._id;
 	if (req.params.id)
 		find['_id'] = { '$gt': req.params.id };
 	req.app.db.models.Notifications.find(find).sort({date: 'desc'}).limit(20).populate('from.account').populate('from.pro').populate('event.activity').populate('event.exchange').populate('event.opportunity').exec(function(err, notifs) {
+		console.log("[FIND NOTIFICATIONS] => " + notifs);
 		if (err)
 			return workflow.emit('exception', err);
 		require('async').eachSeries(notifs, function(notif, done) {

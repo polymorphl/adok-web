@@ -197,6 +197,7 @@
 			errors: [],
 			errfor: {},
 			type: 'act',
+			category: '',
 			title: '',
 			date0: '',
 			date1: '',
@@ -236,6 +237,7 @@
 		},
 		propose: function() {
 			this.model.save({
+				category: 0,
 				title: this.$el.find("[name='title']").val(),
 				desc: this.$el.find("[name='desc']").val(),
 				date0: moment(this.$el.find("[name='dateCtrl']").attr('v1')+' '+this.$el.find("[name='hour0']").val()),

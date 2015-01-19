@@ -1,49 +1,126 @@
 .m-zone {
-
-	.wrap_search {
-		margin: 0px auto; width: 100%;
-		padding: 5px 0;
-		#search {
-			label {padding-left: 3%;}
-		}
-
-	}
+	img { width: 42px; height: 42px; }
 
 	.m-network {
-		width: 100%; height: 100%;
-
-		& > div {
-			display: inline-block;
+		.modal__content div {
 			a {
-				display: block;
+				display: block; padding: 5px;
 				.item {
-					.pic { width: 30px; height: 30px; }
+					.pic { width: 40px; height: 40px; }
 				}
 			}
 		}
-
 		.friends {
-			width: 50%; float: left;
+			width: 50%; float: left; padding: 10px;
 			a .item {
-				background-color: lighten($blue_a, 10%);
-			}
-		}
-		.pro {
-			width: 50%; float: left;
-			a .item {
-				background-color: lighten($red, 10%);
+				img {
+					@include border-radius(50em);
+				}
 			}
 		}
 		&:after { clear: both; }
 	}
 
-	#zone-in {
-
+//picture upload
+	#picture {
+		float: left; text-align: center;
+		img {
+			@include border-radius(50em);
+			width: 200px; height: 200px;
+			background-size: cover;
+		}
+		input[type="file"] { display: none; }
 	}
 
-	#dtls-in {
-
+// Edit profil info
+	#details {
+		float: left;
+		.first {
+			float: left; margin-right: 5px;
+		}
+		#place, #phone {
+			display: inline;
+		}
+		#place-edit, button.btn-update-valid {
+			display: none;
+		}
+		.wrap-inf {
+			padding: 30px;
+			.first, .last {
+			font-weight: bold;
+			}
+			.mobile, .place {
+				i { font-size: 24px; }
+			}
+		}
+		.control-group {
+			text-align: center;
+			#up { margin-top: 15px; background-color: $blue_b; }
+			.btn-update-valid { margin-top: 15px; }
+		}
 	}
 
-	img { width: 42; height: 42px; }
+.third-part {
+	float: left;
+}
+.fourth {
+	clear: both;
+}
+// Social link
+.social_link {
+	background-color: $red;
+}
+
+//History
+	#wrap-history {
+		position: absolute; overflow: hidden;
+		width: 100%; height: 340px;
+		background-color: lighten(#CBCFCD, 10%);
+		border-top: 2px solid #CBCFCD;
+		border-bottom: 2px solid #CBCFCD;
+
+		.scroll {
+		 	position: absolute;
+			height: 0%; width: 100%;
+			a.elem {
+				display: block; height: 190px; padding: 5px; margin: 5px auto;
+				width: 600px;
+				&.acv {
+					background-color: rgba(3, 169, 244, .7);
+				}
+				&.exc {
+					background-color: $yellow;
+				}
+				&:hover {
+					color: white; text-decoration: none;
+				}
+				.photos img {
+					background-size: cover;
+					width: 180px; height: 180px;
+					float: left; margin-right: 10px;
+				}
+				.title {
+					font-weight: bold;
+				}
+				.desc {
+				}
+				.date {
+					&.start {
+
+					}
+					&.end {
+
+					}
+				}
+				.acc-photo {
+					float: right;
+					img { @include border-radius(50em); }
+					.acc-name { text-indent: 8px; display: inline-block; }
+				}
+			//end of a.elem
+			}
+		}
+	}
+
+//end of details
 }

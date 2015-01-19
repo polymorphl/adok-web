@@ -36,6 +36,10 @@
     "font-awesome": "~4.1.0",
     "leaflet.markercluster": "~0.4.0",
     "i18next": "~1.7.3",
-    "velocity": "~1.0.0"
+    "velocity": "~1.0.0",
+    "jquery-file-upload": "~9.9.0",
+    "noty": "~2.3.2",
+    "iscroll": "~5.1.3",
+    "bootstrap-social": "~4.8.0"
   }
 }

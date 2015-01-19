@@ -197,7 +197,7 @@ exports = module.exports = function(app, passport) {
 	});
 
 	//upload
-	app.all('/upload*', ensureAuthenticated);
+	app.all('/upload*', app.modules.ensure.Authentification);
 	app.post('/upload/image/:type', require('./tools/image_upload').init); // check HERE !
 
 	//follow
@@ -205,7 +205,7 @@ exports = module.exports = function(app, passport) {
 	app.post('/follow', require('./tools/follow').AddCancelAndDeny);
 
 	//notifications
-	app.all('/feed*', ensureAuthenticated);
+	app.all('/feed*', app.modules.ensure.Authentification);
 	app.get('/feed', require('./tools/Notifications').init);
 	app.get('/feed/:id', require('./tools/Notifications').init);
 	app.post('/feed/follow/accept', require('./tools/follow').notifAccept);
@@ -244,10 +244,6 @@ exports = module.exports = function(app, passport) {
 	app.post('/eventRegister/:type/:uid/deny', require('./tools/EventRegister').deny);
 	app.post('/eventRegister/accept', require('./tools/EventRegister').notifAccept);
 	app.post('/eventRegister/deny', require('./tools/EventRegister').notifDeny);
-
-	//upload
-	app.all('/upload*', ensureAuthenticated);
-	app.post('/upload/image/:type', require('./tools/image_upload').init);
 
 	//follow
 	app.post('/follow', require('./tools/follow').AddCancelAndDeny);

@@ -5,48 +5,6 @@
 
   app = app || {};
 
-  var dateEN = {
-    date: {
-      previousMonth : 'Previous Month',
-      nextMonth     : 'Next Month',
-      months        : ['January','February','March','April','May','June','July','August','September','October','November','December'],
-      weekdays      : ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
-      weekdaysShort : ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
-      timeTitles    : ['Hours', 'Minutes']
-    },
-    format: 'MM-DD-YYYY',
-    meridian: true,
-    firstDay: 0
-  };
-
-  var dateFR = {
-    date: {
-      previousMonth : 'Mois précedent',
-      nextMonth     : 'Mois suivant',
-      months        : ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
-      weekdays      : ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
-      weekdaysShort : ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
-      timeTitles    : ['Heures', 'Minutes']
-    },
-    format: 'DD-MM-YYYY',
-    meridian: false,
-    firstDay: 1
-  };
-
-  function getCookie(cname)
-  {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++)
-      {
-      var c = ca[i].trim();
-      if (c.indexOf(name)==0) return c.substring(name.length,c.length);
-      }
-    return "";
-  }
-
-  var lng = (getCookie('i18next') == 'fr') ? (dateFR) : (dateEN);
-
   app.Account = Backbone.Model.extend({
     idAttribute: '_id',
     url: '/user/'
@@ -189,19 +147,12 @@
   app.PictureView = Backbone.View.extend({
     el: '#picture',
     template: _.template( $('#tmpl-picture').html() ),
-    events: {
-      'submit form': 'preventSubmit',
-      'click .btn-update': 'update'
-    },
     initialize: function() {
       this.model = new app.Picture();
       this.syncUp();
       this.listenTo(app.mainView.user, 'change', this.syncUp);
       this.listenTo(this.model, 'sync', this.render);
       this.render();
-    },
-    preventSubmit: function(event) {
-      event.preventDefault();
     },
     syncUp: function() {
       this.model.set({
@@ -211,39 +162,23 @@
     },
     render: function() {
       this.$el.html(this.template( this.model.attributes ));
-      for (var key in this.model.attributes) {
-        if (this.model.attributes.hasOwnProperty(key)) {
-          this.$el.find('[name="'+ key +'"]').val(this.model.attributes[key]);
-        }
-      }
-    },
-    update: function() {
-      var data = new FormData();
-      var filesList = document.getElementById('files');
-      if (filesList.files.length > 0) {
-        for (var i = 0; i < filesList.files.length; i ++) {
-          data.append('file', filesList.files[i]);
-        }
-        $.ajax({
-          url: '/upload/image/avatar',
-          type: 'POST',
-          data: data,
-          cache: false,
-          contentType: false,
-          processData: false,
-          async: true,
-          success: function(res) {
-          	if (res.success) {
-  	          $('#avatar').attr('src', res.picture);
-  	          $("#minavatar").attr('src', res.picture);
-  	        } else
-  	        	alert(res.errors[0]);
-            // this.model.save({
-            //   picture: res.picture
-            // });
+      var count = 0;
+      $("#avatarUpload").fileupload({
+        dataType: 'json',
+        add: function(e, data) {
+          if (data.files[0].size < 12582912)
+            data.submit();
+          else
+            alert("Taille maximale du fichier: 12 Mo");
+        },
+        done: function(e, data) {
+          if (data.result.success) {
+            $('.self-avatar').attr('src', data.result.picture+'?'+count);
+          } else {
+            alert(data.result.errors[0]);
           }
-        });
-      }
+        }
+      });
     }
   });
 
@@ -251,7 +186,9 @@
     el: '#details',
     template: _.template( $('#tmpl-details').html() ),
     events: {
-      'click .btn-update': 'update'
+      'click .btn-update': 'detailEditable',
+      'click .btn-update-valid': 'update',
+      'click .close': 'close_response'
     },
     initialize: function() {
       this.model = new app.Details();
@@ -259,6 +196,9 @@
       this.listenTo(app.mainView.account, 'change', this.syncUp);
       this.listenTo(this.model, 'sync', this.render);
       this.render();
+    },
+    close_response: function() {
+      $(".alerts").hide();
     },
     syncUp: function() {
       this.model.set({
@@ -277,93 +217,115 @@
         }
       }
     },
-    update: function() {
+    detailEditable: function() {
+      $("#up, #place").hide();
+      $(".btn-update-valid, #place-edit").show();
+      $('.mobile i, .place i').hide()
+      $("#first").replaceWith("<input placeholder='Prénom' class='.form-control' type='text' name='first' value='"+$("#first").html()+"'/>");
+      $("#last").replaceWith("<input placeholder='Nom' class='.form-control' type='text' name='last' value='"+$("#last").html()+"'/>");
+    },
+    update: function(){
+      $("#place").show();
+      $("#first").replaceWith("<p id='first'>"+this.$el.find('[name="first"]').val()+"</p>");
+      $("#last").replaceWith("<p id='last'>"+this.$el.find('[name="last"]').val()+"</p>");
+      $("#place-edit").css("display", "none");
       this.model.save({
         first: this.$el.find('[name="first"]').val(),
         last: this.$el.find('[name="last"]').val()
       });
+      $(".btn-update").show();
+      $(".btn-update-valid").hide();
     }
   });
 
-  app.NotifLinkAccept = Backbone.View.extend({
-    el: '.link.askn',
-    events: {
-      'click .accept': 'accept'
-    },
-    accept: function() {
-      var that = this;
-      $.post('/feed/follow/accept', {
-        uid: this.$el.find('#actions').attr('uid'),
-        type: this.$el.find('#actions').attr('linktype'),
-        nid: this.$el.find('#actions').attr('nid')
-      }).done(function(data) {
-        $(that.el).remove();
-      }).fail(function() {
-        alert('An error occured');
-      });
+  app.HistoryModel = Backbone.Model.extend({
+    idAttribute: '_id',
+    defaults: {
+      id: '',
+      photos: '',
+      title: '',
+      date: '',
+      date2: '',
+      fclas: '',
+      clas: '',
+      numOfPtc: '',
+      desc: ''
     }
   });
 
-  app.NotifLinkDeny = Backbone.View.extend({
-    el: '.link.askn',
-    events: {
-      'click .deny': 'deny'
+  app.HistoryView = Backbone.View.extend({
+    el: '.scroll',
+    template: _.template( $('#tmpl-history').html() ),
+    initialize: function(item) {
+      item.clas = 'acv';
+      item.fclas = 'activity';
+      item.date = moment(item.date).format('DD.MM.YYYY - HH:mm');
+      item.date2 = moment(item.date2).format('DD.MM.YYYY - HH:mm');
+      this.model = new app.HistoryModel();
+      this.model.set(item);
+      console.log(this.model.attributes);
+      this.render();
     },
-    deny: function() {
-      var that = this;
-      $.post('/feed/follow/deny', {
-        uid: this.$el.find('#actions').attr('uid'),
-        type: this.$el.find('#actions').attr('linktype'),
-        nid: this.$el.find('#actions').attr('nid')
-      }).done(function(data) {
-        $(that.el).remove();
-      }).fail(function() {
-        alert('An error occured');
-      });
+    render: function() {
+      this.$el.html(this.$el.html() + this.template(this.model.attributes));
+      return this;
     }
   });
 
-  app.NotifEventAccept = Backbone.View.extend({
-    el: '#ntf.event',
-    events: {
-      'click .accept': 'accept'
-    },
-    accept: function() {
-      var that = this;
-      $.post('/eventRegister/accept', {
-        nid: this.$el.find('#actions').attr('nid'),
-        uid: this.$el.find('#actions').attr('uid'),
-        type: this.$el.find('#actions').attr('utype'),
-        eid: this.$el.find('#actions').attr('eid'),
-        etype: this.$el.find('#actions').attr('etype'),
-      }).done(function(data) {
-        $(that.el).remove();
-        console.log(data);
-      }).fail(function() {
-        alert('An error occured');
+  app.WrapHistoryView = Backbone.View.extend({
+    el: '#wrap-history',
+    initialize: function(item) {
+      var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+      var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+      $("#wrap-history").css("height", (h - $(".m-zone").height() - (h/12)) + "px");
+      $(".scroll").css("height", (item.length * 207) + "px");
+      var history_scroll = new IScroll('#wrap-history', {
+        mouseWheel: true,
+        scrollbars: true
       });
+
+      var i = 0;
+      while (i < item.length)
+      {
+        new app.HistoryView(item[i]);
+        ++i;
+      }
     }
   });
 
-  app.NotifEventDeny = Backbone.View.extend({
-    el: '#ntf.event',
+  app.NetworkModalModel = Backbone.Model.extend({
+    idAttribute: "_id",
+    defaults: {
+      id: ''
+    }
+  });
+
+  app.NetworkModalView = Backbone.View.extend({
+    el: '#network, .third-part',
     events: {
-      'click .deny': 'deny'
+      'click #t_network': 'display_network',
+      'click .close': 'close_network'
     },
-    deny: function() {
-      var that = this;
-      $.post('/eventRegister/deny', {
-        nid: this.$el.find('#actions').attr('nid'),
-        uid: this.$el.find('#actions').attr('uid'),
-        type: this.$el.find('#actions').attr('utype'),
-        eid: this.$el.find('#actions').attr('eid'),
-        etype: this.$el.find('#actions').attr('etype'),
-      }).done(function(data) {
-        $(that.el).remove();
-        console.log(data);
-      }).fail(function() {
-        alert('An error occured');
-      });
+    initialize: function(item) {
+      this.render();
+    },
+    close_network: function(e) {
+      $('#network .modal__header .close, .box-overlay').addClass('is-open');
+      e.preventDefault();
+      $('.box-overlay').removeClass("is-active");
+      $("body").removeClass("modal-open");
+      $('#network').velocity('transition.slideDownBigOut', { duration: 300 }).removeClass('is-open');
+    },
+    display_network: function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $('body').removeClass('with--sidebar');
+      $('.box-overlay').addClass("is-active");
+      $("body").addClass("modal-open");
+      $('#network').hide().velocity('transition.slideUpBigIn', { duration: 300 }).addClass('is-open');
+    },
+    render: function() {
+      return this;
     }
   });
 
@@ -380,14 +342,13 @@
       app.LinkCancel = new app.LinksCancelView();
       app.LinkAccept = new app.LinksAcceptView();
       app.LinkDeny = new app.LinksDenyView();
-      app.LinkNotifAccept = new app.NotifLinkAccept();
-      app.LinkNotifDeny = new app.NotifLinkDeny();
-      app.EventNotifAccept = new app.NotifEventAccept();
-      app.EventNotifDeny = new app.NotifEventDeny();
+      app.NetworkModal = new app.NetworkModalView();
+      app.WrapHistory = new app.WrapHistoryView(JSON.parse( unescape($('#data-history-event').html()) ));
     }
   });
 
   $(document).ready(function() {
     app.mainView = new app.MainView();
+    $(".btn-update-valid, #place-edit").hide();
   });
 }());

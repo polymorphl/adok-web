@@ -232,5 +232,6 @@
         "exchange": "userhome.exchange",
         "network": "userhome.network",
         "no-res": "userhome.no-res"
-    }
+    },
+    "validate": "validate"
 }

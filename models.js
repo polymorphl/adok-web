@@ -19,4 +19,5 @@ exports = module.exports = function(app, mongoose) {
   require('./schema/User')(app, mongoose);
   require('./schema/UserLink')(app, mongoose);
   require('./schema/Badges')(app, mongoose);
+  require('./schema/Comment')(app, mongoose);
 };

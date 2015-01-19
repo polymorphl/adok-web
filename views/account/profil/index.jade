@@ -1,11 +1,12 @@
 extends ../../../layouts/account
 
 block head
-	title= t('account.zone')
-
-block neck
+	title= req.user.roles.account.name.full
 
 block feet
+	script(src='/components/jquery-file-upload/js/vendor/jquery.ui.widget.js')
+	script(src='/components/jquery-file-upload/js/jquery.iframe-transport.js')
+	script(src='/components/jquery-file-upload/js/jquery.fileupload.js')
 	script(src='/views/min/adok_components/profil.min.js')
 	script(src='/views/min/account/profil/index.min.js')
 
@@ -13,53 +14,76 @@ block body
 	div.app-content
 		div.page-container
 			div.m-zone
-				div(class="wrap_search")
-					div(id="search")
-						label: i.fa.fa-search= t("zone.search")
-						input(type="text", id="searchbar")
-						div.res
-				div.m-network
-					div.friends
-						for account in friends.accounts
-							a(href='/user/'+account.id+''): span.item
-								img.pic(src=''+account.pic+'')
-								span.full= account.name
-				div#zone-in
-					if isUserAccount
-						span#modify
-						i.fa.fa-edit
-							= t('zone.editme')
+				div.m-network(id="network")
+					div.m-modal
+						div.modal__header
+							span.title Mon réseau
+							span.close
+								= t('cl')
+						div.modal__content
+							div.friends
+								for account in friends.accounts
+									a(href='/user/'+account.id+''): span.item
+										img.pic(src=''+account.pic+'')
+										span.full= account.name
+						div.modal__footer
+
 				div#picture
-				if isUserAccount
-					span#modify2
-						i.fa.fa-check
-						= t('zone.editen')
 				div#details
-				if !isUserAccount
-					if isLinked == true
-						button#link.btn.btn-primary(type='button')= t('zone.remme')
-					else if isLinked == false
-						button#link.btn.btn-primary(type='button')= t('zone.addme')
-					else if isLinked == 'waiting'
-						button#link.btn.btn-primary(type='button')= t('zone.cancel')
-					else if isLinked == 'pending'
-						button#link-accept.btn.btn-primary(type='button')= t('zone.accept')
-						button#link-deny.btn.btn-primary(type='button')= t('zone.deny')
+
+				div.third-part
+					if isUserAccount
+						button.btn(id="t_network") Mon réseau
+					div.social_link
+						if !isUserAccount
+							if isLinked == true
+								button#link.btn.btn-primary(type='button')= t('zone.remme')
+							else if isLinked == false
+								button#link.btn.btn-primary(type='button')= t('zone.addme')
+							else if isLinked == 'waiting'
+								button#link.btn.btn-primary(type='button')= t('zone.cancel')
+							else if isLinked == 'pending'
+								button#link-accept.btn.btn-primary(type='button')= t('zone.accept')
+								button#link-deny.btn.btn-primary(type='button')= t('zone.deny')
+				div.fourth
+					if (isLinked == true || isUserAccount)
+						div#wrap-history
+							div.scroll
+
+		script(type='text/template', id='tmpl-history')
+			a(class!="elem <%= clas %>" href!='/event/<%= fclas %>/<%= _id %>')
+				<% if (photos) { %>
+				div.photos
+					<%= photos %>
+				<% } else { %>
+				div.photos
+					img(src="/medias/others/1.jpg")
+				<% } %>
+				div.acc-photo
+					img(src!="<%= acc.roles.account.picture %>")
+					span.acc-name <%= acc.roles.account.name.first %>
+				div.title
+					<%= title %>
+				div.desc
+					<%= desc %>
+				div.date.start
+					<%= date %>
+				<% if (date2) { %>
+				div.date.end
+					<%= date2 %>
+				<% } %>
+				<% if (numOfPtc) { %>
+				div.numOfPtc
+					<%= numOfPtc %>
+					span  participants
+				<% } %>
 
 		script(type='text/template', id='tmpl-picture')
 			if avatar
-				img(id='avatar', src='#{avatar}')
-				form(method='post', enctype='multipart/form-data', action='/upload/image/avatar')
-					button.btn.btn-primary(type='button', id='choosepic')=t ('zone.choose')
-					div.col-sm-4
-						input.form-control(type='file', id='files', name='thumbnail')
-					div.col-sm-3
-						button.btn.btn-primary.btn-update(type='submit')= t('settings.update')
-					div.row
+				img.self-avatar(src='#{avatar}')
+			input#avatarUpload(type='file', name='files', data-url='/upload/image/avatar', style="display:block !important;")
 
 		script(type='text/template', id='tmpl-details')
-			fieldset
-			legend= t('settings.info')
 			div.alerts
 				|<% _.each(errors, function(err) { %>
 				div.alert.alert-danger.alert-dismissable
@@ -67,25 +91,22 @@ block body
 				|<% }); %>
 				|<% if (success) { %>
 				div.alert.alert-info.alert-dismissable
-				button.close(type='button', data-dismiss='alert') &times;
-				= t('settings.info-save')
+					span= t('settings.info-save')
+					button.close(type='button', data-dismiss='alert') &times;
 				|<% } %>
 			div.wrap-inf
-				div.row
-					div.col-sm-4
-						div.control-group(class!='<%= errfor.first ? "has-error" : "" %>')
-						label.control-label= t('settings.first')
-						input.form-control(type='text', name='first', value!='<%- first %>')
-						span.help-block <%= errfor.first %>
-				div.col-sm-4
+				div.first
+					div.control-group(class!='<%= errfor.first ? "has-error" : "" %>')
+					p#first <%- first %>
+					span.help-block <%= errfor.first %>
+				div.last
 					div.control-group(class!='<%= errfor.last ? "has-error" : "" %>')
-					label.control-label= t('settings.last')
-					input.form-control(type='text', name='last', value!='<%- last %>')
+					p#last <%- last %>
 					span.help-block <%= errfor['last'] %>
-				div.col-sm-2
-				div.col-sm-3
-					div.control-group
-					button.btn.btn-primary.btn-update(type='button')= t('settings.update')
+				div.control-group
+					button#up.btn.btn-primary.btn-update(type='button')= t('settings.update')
+					button.btn.btn-primary.btn-update-valid(type='button')= t('validate')
 
 		script(type='text/template', id='data-account') !{data.account}
 		script(type='text/template', id='data-user') !{data.user}
+		script(type='text/template', id='data-history-event') !{events}

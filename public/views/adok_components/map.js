@@ -257,7 +257,6 @@ function getList() {
 				elinked: item.linked
 			});
 		});
-		console.log(item);
 	}).fail(function(data) {
 		console.log("[error]fail getList:" + data);
 	});

@@ -2,9 +2,7 @@
 
 exports = module.exports = function(app, mongoose) {
   var EventRegisterSchema = new mongoose.Schema({
-    event: {
-      challenge: { type: mongoose.Schema.Types.ObjectId, ref: 'Challenge' },
-    },
+    event: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
     account: [{
       _id: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' },
       conf: { type: Number, default: 0 }

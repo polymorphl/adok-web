@@ -3,12 +3,11 @@
 var renderZone = function(req, res, next, oauthMessage) {
   var outcome = {};
   var events = {};
-  var notifications = [];
   var accountId;
   var isLinked = false;
 
   var getAccountData = function(callback) {
-    req.app.db.models.Account.findById((accountId ? accountId : req.user.roles.account.id), 'name picture place lat lng').exec(function(err, account) {
+    req.app.db.models.Account.findById((accountId ? accountId : req.user.roles.account.id), 'name picture').exec(function(err, account) {
       if (err) {
         return callback(err, null);
       }
@@ -65,7 +64,7 @@ var renderZone = function(req, res, next, oauthMessage) {
   };
 
   var getActivities = function(callback) {
-    req.app.db.models.Challenge.find({acc: (req.params.id ? req.params.id : req.user.id), accType: 'account'}, 'category date title desc photos acc').exec(function(err, activities) {
+    req.app.db.models.Event.find({acc: (req.params.id ? req.params.id : req.user.id), accType: 'account'}, 'category date title desc photos acc').exec(function(err, activities) {
       if (err)
         return callback('Error getting activities', null);
       events.activities = activities;
@@ -73,88 +72,10 @@ var renderZone = function(req, res, next, oauthMessage) {
     })
   };
 
-  var getNotifs = function(callback) {
-    var find = {};
-    var notifMsgs = require('../../../tools/Notifications').notifMsgs;
-    find['to.'+req.session.accType] = req.user.roles[req.session.accType]._id;
-    req.app.db.models.Notifications.find(find).sort({date: 'desc'}).limit(20).populate('from.account').populate('from.pro').populate('event.activity').populate('event.exchange').populate('event.opportunity').exec(function(err, notifs) {
-      if (err)
-        return null;
-      // console.log(notifs);
-      require('async').eachSeries(notifs, function(notif, done) {
-        var push = {
-          id: notif._id,
-          uid: '',
-          accType: '',
-          who: '',
-          picture: '',
-          data: '',
-          date: notif.date,
-          link: '',
-          type: notif.type,
-          etype: '',
-          eid: ''
-        };
-        if (notif.type <= 1) {
-          if (notif.from.account && notif.to.account) {
-            push.uid = notif.from.account._id;
-            push.who = notif.from.account.name.full;
-            push.picture = notif.from.account.picture;
-            push.data = req.i18n.t(notifMsgs[notif.type][0]);
-            push.link = '/user/' + notif.from.account.user.id;
-            push.accType = 'account';
-            notifications.push(push);
-          } else if (notif.from.account && notif.to.pro) {
-            push.uid = notif.from.account._id;
-            push.who = notif.from.account.name.full;
-            push.picture = notif.from.account.picture;
-            push.data = req.i18n.t(notifMsgs[notif.type][1]);
-            push.link = '/user/' + notif.from.account.user.id;
-            notifications.push(push);
-          } else if (notif.from.pro) {
-            push.uid = notif.from.pro._id;
-            push.who = notif.from.pro.name;
-            push.picture = notif.from.pro.picture;
-            push.data = req.i18n.t(notifMsgs[notif.type][1]);
-            push.link = '/pro/' + notif.from.pro.user.id;
-            push.accType = 'pro';
-            notifications.push(push);
-          }
-        } else if (notif.event.activity || notif.event.exchange || notif.event.opportunity) {
-          push.uid = notif.from[req.session.accType]._id;
-          push.accType = req.session.accType;
-          push.who = (req.session.accType == 'account' ? notif.from.account.name.full : notif.from.pro.name);
-          push.picture = (req.session.accType == 'account' ? notif.from.account.picture : notif.from.pro.picture);
-          push.data = req.i18n.t(notifMsgs[notif.type]);
-          if (notif.event.activity) {
-            push.link = '/event/activity/' + notif.event.activity._id;
-            push.eid = notif.event.activity._id;
-            push.etype = 'activity';
-          } else if (notif.event.exchange) {
-            push.link = '/event/exchange/' + notif.event.exchange._id;
-            push.eid = notif.event.exchange._id;
-            push.etype = 'exchange';
-          } else {
-            push.link = '/event/opportunity/' + notif.event.opportunity._id;
-            push.eid = notif.event.opportunity._id;
-            push.etype = 'opportunity';
-          }
-          notifications.push(push);
-        }
-        return done(null, 'done');
-      }, function(err) {
-        if (err)
-          return callback(err);
-        return callback(null, 'done');
-      });
-    });
-  };
-
   function getNetwork(req, res) {
 	  var type = req.session.accType;
 	  var links = {
-	    accounts: [],
-	    pros: []
+	    accounts: []
 		};
 
 		var pushAccounts = function(item) {
@@ -163,35 +84,15 @@ var renderZone = function(req, res, next, oauthMessage) {
 					id: item.id.user.id,
 					name: item.id.name.full,
 					pic: item.id.picture,
-					lat: item.id.lat,
-					lng: item.id.lng,
 					status: item.conf
 				};
 				links.accounts.push(toPush);
 			}
 		}
 
-		var pushPro = function(item) {
-			if (item.conf == 2) {
-				var toPush = {
-					id: item.id.user.id,
-					name: item.id.name,
-					pic: item.id.picture,
-					lat: item.id.lat,
-					lng: item.id.lng,
-					status: item.conf
-				};
-				links.pros.push(toPush);
-			}
-		}
-
 		var Links = function() {
-			req.app.db.models.UserLink.findOne({$or:[{'folwr.account': req.user.roles.account._id}, {'folwd.account.id':req.user.roles.account._id}]}).populate('folwd.account.id').populate('folwd.pro.id').populate('folwr.account').populate('folwr.pro').exec(function(err, userLinks) {
-				// if (userLinks) {
-				// 	userLinks.folwd.account.forEach(pushAccounts);
-				// 	userLinks.folwd.pro.forEach(pushPro);
-				// }
-				res.render('account/zone/user/index', {friends: {accounts: [], pros: []}});
+			req.app.db.models.UserLink.findOne({$or:[{'folwr.account': req.user.roles.account._id}, {'folwd.account.id':req.user.roles.account._id}]}).populate('folwd.account.id').populate('folwr.account').exec(function(err, userLinks) {
+				res.render('account/profil/index', {friends: {accounts: []}});
 			});
 		}
 
@@ -202,15 +103,12 @@ var renderZone = function(req, res, next, oauthMessage) {
     if (err) {
       return next(err);
     }
-    var allEvents = [];
-    allEvents.concat(events.activities, events.exchanges);
-    allEvents.sort(req.app.utility.dynamicSort("date"));
-    req.app.db.models.UserLink.find({ $or: [ { 'folwr.account': req.user.roles.account._id}, {'folwd.account.id': req.user.roles.account._id } ] }).select('-__v').populate('folwr.account').populate('folwd.account.id').populate('folwd.pro.id').exec(function(err, results) {
+    events.activities.sort(req.app.utility.dynamicSort("date"));
+    req.app.db.models.UserLink.find({ $or: [ { 'folwr.account': req.user.roles.account._id}, {'folwd.account.id': req.user.roles.account._id } ] }).select('-__v').populate('folwr.account').populate('folwd.account.id').exec(function(err, results) {
 			if (err)
 				res.send(400, err);
 			var friends = {
-				accounts: [],
-				pros: []
+				accounts: []
 			};
 			require('async').eachSeries(results, function(row, done) {
 				var friend_toPush = {};
@@ -220,9 +118,6 @@ var renderZone = function(req, res, next, oauthMessage) {
 					else
 						friend_toPush = { id: row.folwr.account.user.id, pic: row.folwr.account.picture, name: row.folwr.account.name.full };
 					friends.accounts.push(friend_toPush);
-				} else if (row.folwd.pro && row.folwd.pro.id._id) {
-					friend_toPush = { id: row.folwd.pro.id.user.id, pic: row.folwd.pro.id.picture, name: row.folwd.pro.id.name };
-					friends.pros.push(friend_toPush);
 				}
 				return done();
 			});
@@ -232,7 +127,6 @@ var renderZone = function(req, res, next, oauthMessage) {
 	        account: escape(JSON.stringify(outcome.account)),
 	        user: escape(JSON.stringify(outcome.user)),
 	      },
-	      notifications: notifications,
 	      events: events,
 	      isLinked: isLinked,
 	      isUserAccount: req.params.id == req.user.id,
@@ -246,7 +140,7 @@ var renderZone = function(req, res, next, oauthMessage) {
 		});
   };
 
-  require('async').series([getUserData, getAccountData, getLinked, getActivities, getNotifs], asyncFinally);
+  require('async').series([getUserData, getAccountData, getLinked, getActivities], asyncFinally);
 };
 
 exports.init = function(req, res, next){
@@ -284,15 +178,9 @@ exports.update = function(req, res, next){
         last: req.body.last,
         full: req.body.first +' '+ req.body.last
       },
-      phone: req.body.phone,
-      place: req.body.place,
-      lat: req.body.place_Lat,
-      lng: req.body.place_Lng,
       search: [
         req.body.first,
-        req.body.last,
-        req.body.phone,
-        req.body.place
+        req.body.last
       ]
     };
 
@@ -300,7 +188,6 @@ exports.update = function(req, res, next){
       if (err) {
         return workflow.emit('exception', err);
       }
-
       workflow.outcome.account = account;
       return workflow.emit('response');
     });
