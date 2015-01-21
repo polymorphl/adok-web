@@ -35,6 +35,25 @@
   .l-header__navbar {
     float: left; width: 90%; color: white;
 
+    .searchbar {
+      display: inline-block;
+      margin-left: 15px;
+      .icon {
+        background-color: $purple_b;
+        padding: 6px 8px;
+        i {
+          color: black; display: inline;
+        }
+        &:hover {
+          background-color: darken($purple_b, 5%);
+          cursor: pointer;
+        }
+      }
+      input {
+        height: 24px; margin-right: 5px;
+      }
+    }
+
     .navbar-l {
       float: right; width: 420px;
       padding-left: 2%;
@@ -70,14 +89,23 @@
       }
 
       span.helper {
-        z-index:2; padding: 2px; display:none;
+        z-index:2; padding: 0 2px; display:none;
         background-color: #F8F8F8; color: #717171;
         border: 1px solid #DFDFDF;
-        font-size: 12px; height: 30px;
-        letter-spacing: 1px; width: 80px;
-        line-height: 30px; text-align: center;
-        position: relative;  top: 2px;
+        font-size: 12px; height: 40px;
+        letter-spacing: 1px; min-width: 70px;
+        line-height: 40px; text-align: center;
+        position: relative; top: 5px; left: -10px;
         text-transform: capitalize;
+
+        &:after {
+          content: ""; position: absolute;
+          top: -5px; left:50%; margin-left: -10px;
+          width: 10px; height: 10px;
+          border-bottom: 1px solid $blue_b;
+          border-right: 1px solid $purple_b;
+          background: #f8f8f8; @include rotate(175);
+        }
       }
     }
 
@@ -115,11 +143,11 @@
       .lang {
         float: right; cursor: pointer;
         font-size: 11px; position: relative;
-        top: -8px; left: 25px; height: 25px;
+        top: -8px; left: 35px; height: 28px;
         padding: 0 2px;
 
         img {
-          width: 25px; height: 25px;
+          width: 20px; height: 20px;
           @include background-size(cover);
         }
         .sep {
@@ -127,16 +155,8 @@
             content: " ";
           }
         }
-
         .fr, .en {
           .txt { display: none; }
-          &.active > a > img{
-            border-bottom: 2px solid $purple_b;
-            &:hover { border-bottom: 2px solid $yellow; }
-          }
-          & > a > img:hover {
-            border-bottom: 1px solid $purple_a;
-          }
         }
       }
     }

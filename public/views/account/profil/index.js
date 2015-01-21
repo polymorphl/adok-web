@@ -304,13 +304,14 @@
     el: '#network, .third-part',
     events: {
       'click #t_network': 'display_network',
-      'click .close': 'close_network'
+      'click .close': 'close_network',
+      'click .box-overlay': 'close_network'
     },
     initialize: function(item) {
       this.render();
     },
     close_network: function(e) {
-      $('#network .modal__header .close, .box-overlay').addClass('is-open');
+      //$('#network .modal__header .close, .box-overlay').addClass('is-open');
       e.preventDefault();
       $('.box-overlay').removeClass("is-active");
       $("body").removeClass("modal-open");
@@ -323,6 +324,35 @@
       $('.box-overlay').addClass("is-active");
       $("body").addClass("modal-open");
       $('#network').hide().velocity('transition.slideUpBigIn', { duration: 300 }).addClass('is-open');
+    },
+    render: function() {
+      return this;
+    }
+  });
+
+    app.BadgeModalView = Backbone.View.extend({
+    el: '#badge, .third-part',
+    events: {
+      'click #t_badge': 'display_badge',
+      'click .close': 'close_badge',
+      'click .box-overlay': 'close_badge'
+    },
+    initialize: function(item) {
+      this.render();
+    },
+    close_badge: function(e) {
+      e.preventDefault();
+      $('.box-overlay').removeClass("is-active");
+      $("body").removeClass("modal-open");
+      $('#badge').velocity('transition.slideDownBigOut', { duration: 300 }).removeClass('is-open');
+    },
+    display_badge: function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $('body').removeClass('with--sidebar');
+      $('.box-overlay').addClass("is-active");
+      $("body").addClass("modal-open");
+      $('#badge').hide().velocity('transition.slideUpBigIn', { duration: 300 }).addClass('is-open');
     },
     render: function() {
       return this;
@@ -343,6 +373,7 @@
       app.LinkAccept = new app.LinksAcceptView();
       app.LinkDeny = new app.LinksDenyView();
       app.NetworkModal = new app.NetworkModalView();
+      app.BadgeModal = new app.BadgeModalView();
       app.WrapHistory = new app.WrapHistoryView(JSON.parse( unescape($('#data-history-event').html()) ));
     }
   });

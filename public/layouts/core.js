@@ -96,24 +96,24 @@ var refresh;
 
 	// DISABLE box-overlay when ESC
 	$(document).keyup(function(event) {
-	  if (event.keyCode == 27 && overlay.hasClass("is-active")) {
-	  	overlay.removeClass("is-active");
+	  if (event.keyCode == 27 && $('.box-overlay').hasClass("is-active")) {
+	  	$('.box-overlay').removeClass("is-active");
 	  	$("body").removeClass("modal-open");
-	  	$('.box-overlay').hide();
 	  	$("#propose").hide();
 	  	$("#contact").hide();
 	  	$("#signup").hide();
 	  	$("#signin").hide();
 	  	$("#network").hide();
+	  	$("#badge").hide();
 	  	$('#delete_prop').hide();
 	  }
 	});
 
 	//Searchbar in header
-	$("#wsearchbar").autocomplete({
+	$("#asearchbar").autocomplete({
 	  source: function(req, res) {
 	    $.post('/usersearch', {
-	      query: $("#wsearchbar").val()
+	      query: $("#asearchbar").val()
 	    }).done(function(data) {
 	      res($.map(data, function(item) {
 	        return {
@@ -123,7 +123,8 @@ var refresh;
 	        };
 	      }));
 	    }).fail(function() {
-	      console.log('[ERROR] -> wizzem_searchbar');
+	      console.log('[ERROR] -> wizzem_searchbar ->');
+	      console.log($("#asearchbar").val());
 	    })
 	  },
 	  minLength: 0,

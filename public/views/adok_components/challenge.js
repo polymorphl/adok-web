@@ -83,25 +83,6 @@
 		});
   }
 
-	// ---> Input slider price
-	function updatePrice(el, range, type) {
-		if (type == 0)
-			el.next('i.fa').fadeOut();
-    range.on("input", function(){
-      var price = $(this).val();
-      if (price == 0) {
-      	el.next('i.fa').fadeOut();
-    		el.val(i18n.t("propose.free"));
-    	} else {
-    		el.next('i.fa').fadeIn();
-    		el.val(price);
-  		}
-  	});
-  	el.on('input', function() {
-      range.prop('value', $.prop(this, 'value'));
-    });
-	}
-
 	function autocomplete(that) {
 		that.$el.find('[name="place"]').autocomplete({
 			source: function(req, res) {
@@ -226,7 +207,6 @@
 		render: function() {
 			var that = this;
 			this.$el.append(this.template(this.model.attributes));
-			updatePrice($('#priceCtrlp0'), $('#rangeCtrlp0'), 0);
 			updateDoubleDate($('[name="dateCtrl"]'), $('#rangeCtrld0'));
 			// updateDoubleHour($('[name="hourCtrl"]'), $('#rangeCtrlh0'));
 			autocomplete(this);
@@ -279,12 +259,12 @@
 			if (this.BackboneForm) {
 				this.$el.find('ul li').addClass('fs-current');
 				delete this.BackboneForm.close();
-				this.BackboneForm = null;
+				this.BackboneForm = new app.ProposeEvent();
 			}
 			if (this.FForm) {
-				// this.FForm.unwatch();
 				delete this.FForm.destroy();
-				this.FForm = null;
+				var that = this;
+				this.FForm = this.FForm = new FForm(document.getElementById('propose_wrap'), {onReview: function() { that.BackboneForm.propose(); return false; }});
 			}
 			return this;
 		},
@@ -314,7 +294,7 @@
 	m_close.on('click', function(e) {
 		$(this).addClass('is-open');
 		e.preventDefault();
-		overlay.css('visibility', 'hidden');
+		overlay.removeClass("is-active");
 		m_prop.velocity('transition.fadeOut', { }).removeClass('is-open');
 		app.ProposeForm.reset();
 	});

@@ -177,5 +177,11 @@
 
   $(document).ready(function() {
     app.mainView = new app.MainView();
+    
+    $(".alert .close").on("click", function(e){
+      e.preventDefault();
+      console.log("test");
+      $(this).remove();
+    });
   });
 }());

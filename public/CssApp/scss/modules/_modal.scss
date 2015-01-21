@@ -30,6 +30,10 @@
 	$network-width: 500px;
 	$network-height: 500px;
 
+/* Badge */
+	$badge-width: 500px;
+	$badge-height: 500px;
+
 /* Nokey */
 	$nokey-width: 600px;
 	$nokey-height: 405px;
@@ -317,6 +321,17 @@ body.modal-open {
 
 .m-network {
 	@include modal($grey, $network-width, $network-height);
+	margin: 0 auto; top: 17.5%;
+}
+
+/**
+*
+* Badge
+*
+**/
+
+.m-badge {
+	@include modal($grey, $badge-width, $badge-height);
 	margin: 0 auto; top: 17.5%;
 }
 

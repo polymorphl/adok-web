@@ -1,6 +1,6 @@
 /* Chat */
 $chat-width: 230px;
-$chat-color: lighten($grey, 20%);
+$chat-color: lighten($purple_b, 20%);
 
 /* Inventory */
 $inv-width: 400px;
@@ -13,9 +13,9 @@ $prop-color: white;
 
 .l-sidebar {
 	z-index: 100; background-color: $chat-color;
-	width: $chat-width; margin-top: 35px;
+	width: $chat-width; margin-top: 47px;
 	position: fixed;
-	@include calc(height, "100% - 35px - 25px");
+	@include calc(height, "100% - 47px - 24px");
 
 	.toggle-view {
 		cursor: pointer; float: left;
@@ -36,7 +36,7 @@ $prop-color: white;
 }
 
 @mixin sidebar($color, $width) {
-    @extend .l-sidebar; background: $color;
+    @extend .l-sidebar; background-color: $color;
     width: $width; border-top: 1px solid darken($color, 10%);
     .toggle-view {
     	background-color: darken($color, 5%);
@@ -45,12 +45,13 @@ $prop-color: white;
 }
 
 .sidebar-chat {
-  @include sidebar($grey, $chat-width);
+  @include sidebar($chat-color, $chat-width);
   top: 0; right: 0; z-index: 10000;
 
   &.is-close {
   	right: -$chat-width; opacity: 1!important;
   }
+  .title { text-align: center; color: white; }
 }
 
 .sidebar-inv {

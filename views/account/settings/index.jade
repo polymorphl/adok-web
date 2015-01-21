@@ -4,115 +4,79 @@ block head
   title= t('settings.title')
 
 block feet
-  script(src='/views/account/settings/index.min.js?#{cacheBreaker}')
+  script(src='/views/min/account/settings/index.min.js')
 
 block body
   div.app-content
     div.page-container
-            div#identity
-            div#password
-            div#delete
-          div.col-sm-3
-          div.col-sm-3
-            if oauthTwitter || oauthGoogle ||oauthFacebook
-              legend= t('settings.connect-title')
-              if oauthMessage
-                div.alerts
-                  div.alert.alert-info.alert-dismissable
-                    button.close(type='button', data-dismiss='alert') &times;
-                    |#{oauthMessage}
-              if oauthTwitter
-                if oauthTwitterActive
-                  a.btn.btn-block.btn-danger(href='/account/settings/twitter/disconnect/')
-                    i.fa.fa-twitter.fa-lg
-                    = t('settings.disconnect') + ('Twitter')
-                else
-                  a.btn.btn-block.btn-default(href='/account/settings/twitter/')
-                    i.fa.fa-twitter.fa-lg
-                    = t('settings.connect') + ('Twitter')
-              if oauthFacebook
-                if oauthFacebookActive
-                  a.btn.btn-block.btn-danger(href='/account/settings/facebook/disconnect/')
-                    i.fa.fa-facebook-square.fa-lg
-                    = t('settings.disconnect') + ('Facebook')
-                else
-                  a.btn.btn-block.btn-default(href='/account/settings/facebook/')
-                    i.fa.fa-facebook-square.fa-lg
-                    = t('settings.connect') + ('Facebook')
-              if oauthGoogle
-                if oauthGoogleActive
-                  a.btn.btn-block.btn-danger(href='/account/settings/google/disconnect/')
-                    i.fa.fa-google-plus.fa-lg
-                    = t('settings.disconnect') + ('Google')
-                else
-                  a.btn.btn-block.btn-default(href='/account/settings/google/')
-                    i.fa.fa-google-plus.fa-lg
-                    = t('settings.connect') + ('Google')
+      div#identity
+      div#password
+      div#delete
 
-        script(type='text/template', id='tmpl-identity')
-          fieldset
-            legend= t('settings.identity')
-            div.alerts
-              |<% _.each(errors, function(err) { %>
-              div.alert.alert-danger.alert-dismissable
-                button.close(type='button', data-dismiss='alert') &times;
-                |<%= err %>
-              |<% }); %>
-              |<% if (success) { %>
-              div.alert.alert-info.alert-dismissable
-                button.close(type='button', data-dismiss='alert') &times;
-                = t('settings.info-save')
-              |<% } %>
-            div.row
-              div.col-sm-6
-                div.control-group(class!='<%= errfor.username ? "has-error" : "" %>')
-                  label.control-label= t('signup.user')
-                  input.form-control(type='text', name='username', value!='<%= username %>')
-                  span.help-block <%= errfor.username %>
-              div.col-sm-6
-                div.control-group(class!='<%= errfor.email ? "has-error" : "" %>')
-                  label.control-label= t('signup.mail')
-                  input.form-control(type='text', name='email', value!='<%= email %>')
-                  span.help-block <%= errfor.email %>
-              div.control-group
-                button.btn.btn-primary.btn-update(type='button')= t('settings.update')
+  script(type='text/template', id='tmpl-identity')
+    div.alerts
+      |<% _.each(errors, function(err) { %>
+      div.alert.alert-dismissable
+        button.close(type='button', data-dismiss='alert') &times;
+        |<%= err %>
+      |<% }); %>
+      |<% if (success) { %>
+      div.alert.alert-dismissable
+        button.close(type='button', data-dismiss='alert') &times;
+        = t('settings.info-save')
+      |<% } %>
+      div.col-sm-5
+        div.control-group(class!='<%= errfor.username ? "has-error" : "" %>')
+          label.control-label= t('signup.user')
+          input.form-control(type='text', name='username', value!='<%= username %>')
+          span.help-block <%= errfor.username %>
+      div.col-sm-5
+        div.control-group(class!='<%= errfor.email ? "has-error" : "" %>')
+          label.control-label= t('signup.mail')
+          input.form-control(type='text', name='email', value!='<%= email %>')
+          span.help-block <%= errfor.email %>
+      div.col-sm-2
+        div.control-group
+          button.btn.btn-primary.btn-update(type='button')= t('settings.update')
 
-        script(type='text/template', id='tmpl-password')
-          fieldset
-            legend= t('settings.pass-change')
-            div.alerts
-              |<% _.each(errors, function(err) { %>
-              div.alert.alert-danger.alert-dismissable
-                button.close(type='button', data-dismiss='alert') &times;
-                |<%= err %>
-              |<% }); %>
-            |<% if (success) { %>
-            div.alert.alert-info.alert-dismissable
-              button.close(type='button', data-dismiss='alert') &times;
-               = t('settings.pass-changed')
-            |<% } %>
-            div.control-group(class!='<%= errfor.newPassword ? "has-error" : "" %>')
-              label.control-label= t('settings.new-pass')
-              input.form-control(type='password', name='newPassword', value!='<%= newPassword %>')
-              span.help-block <%= errfor.newPassword %>
-            div.control-group(class!='<%= errfor.confirm ? "has-error" : "" %>')
-              label.control-label= t('settings.pass-conf')
-              input.form-control(type='password', name='confirm', value!='<%= confirm %>')
-              span.help-block <%= errfor.confirm %>
-            div.control-group
-              button.btn.btn-primary.btn-password(type='button')= t('settings.update')
+  script(type='text/template', id='tmpl-password')
+    div.alerts
+      |<% _.each(errors, function(err) { %>
+      div.alert.alert-dismissable
+        button.close(type='button', data-dismiss='alert') &times;
+        |<%= err %>
+      |<% }); %>
+    |<% if (success) { %>
+    div.alert.alert-dismissable
+      button.close(type='button', data-dismiss='alert') &times;
+       = t('settings.pass-changed')
+    |<% } %>
+    div.col-sm-5
+      div.control-group(class!='<%= errfor.newPassword ? "has-error" : "" %>')
+        label.control-label= t('settings.new-pass')
+        input.form-control(type='password', name='newPassword', value!='<%= newPassword %>')
+        span.help-block <%= errfor.newPassword %>
+    div.col-sm-5
+      div.control-group(class!='<%= errfor.confirm ? "has-error" : "" %>')
+        label.control-label= t('settings.pass-conf')
+        input.form-control(type='password', name='confirm', value!='<%= confirm %>')
+        span.help-block <%= errfor.confirm %>
+    div.col-sm-2
+      div.control-group
+        button.btn.btn-primary.btn-password(type='button')= t('settings.update')
 
-        script(type='text/template', id='tmpl-delete')
-          fieldset
-            legend= t('settings.deltitle')
-            div.alerts
-              |<% _.each(errors, function(err) { %>
-              div.alert.alert-danger.alert-dismissable
-                button.close(type='button', data-dismiss='alert') &times;
-                |<%= err %>
-              |<% }); %>
-            div.control-group
-              button.btn.btn-danger.btn-delete(type='button')= t('settings.delete')
+  script(type='text/template', id='tmpl-delete')
+    div.col-sm-12
+      fieldset
+        legend= t('settings.deltitle')
+        div.alerts
+          |<% _.each(errors, function(err) { %>
+          div.alert.alert-danger.alert-dismissable
+            button.close(type='button', data-dismiss='alert') &times;
+            |<%= err %>
+          |<% }); %>
+        div.control-group
+          button.btn.btn-danger.btn-delete(type='button')= t('settings.delete')
 
-        script(type='text/template', id='data-account') !{data.account}
-        script(type='text/template', id='data-user') !{data.user}
+  script(type='text/template', id='data-account') !{data.account}
+  script(type='text/template', id='data-user') !{data.user}

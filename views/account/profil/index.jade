@@ -27,6 +27,18 @@ block body
 										img.pic(src=''+account.pic+'')
 										span.full= account.name
 						div.modal__footer
+				div.m-badge(id="badge")
+					div.m-modal
+						div.modal__header
+							span.title Mes badges
+							span.close
+								= t('cl')
+						div.modal__content
+							div.badges
+								//- for badge in badges
+								//- 	img.pic(src=''+badge.pic+'')
+								//- 	span.full= badge.title
+						div.modal__footer
 
 				div#picture
 				div#details
@@ -34,6 +46,7 @@ block body
 				div.third-part
 					if isUserAccount
 						button.btn(id="t_network") Mon réseau
+						button.btn(id="t_badge") Mes badges
 					div.social_link
 						if !isUserAccount
 							if isLinked == true
