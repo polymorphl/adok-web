@@ -3,6 +3,7 @@
 var renderZone = function(req, res, next, oauthMessage) {
   var outcome = {};
   var events = {};
+  var my_badges = {};
   var accountId;
   var isLinked = false;
 
@@ -72,6 +73,15 @@ var renderZone = function(req, res, next, oauthMessage) {
     })
   };
 
+  var getBadges = function(callback) {
+    req.app.db.models.Badge.find('name title desc').exec(function(err, badges) {
+      if (err)
+        return callback('Error getting badges', null);
+      my_badges = badges;
+      return callback(null, 'done');
+    })
+  };
+
   function getNetwork(req, res) {
 	  var type = req.session.accType;
 	  var links = {
@@ -128,6 +138,7 @@ var renderZone = function(req, res, next, oauthMessage) {
 	        user: escape(JSON.stringify(outcome.user)),
 	      },
 	      events: events,
+        badges: my_badges,
 	      isLinked: isLinked,
 	      isUserAccount: req.params.id == req.user.id,
 	      avatar: outcome.account.picture,
@@ -140,7 +151,7 @@ var renderZone = function(req, res, next, oauthMessage) {
 		});
   };
 
-  require('async').series([getUserData, getAccountData, getLinked, getActivities], asyncFinally);
+  require('async').series([getUserData, getAccountData, getLinked, getActivities, getBadges], asyncFinally);
 };
 
 exports.init = function(req, res, next){

@@ -203,5 +203,6 @@
   "userhome": {
 		"network": "Mon réseau seulement",
 		"no-res": "Aucun défi(s) disponible."
-	}
+	},
+	"validate": "Valider"
 }

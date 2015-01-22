@@ -35,9 +35,14 @@ block body
 								= t('cl')
 						div.modal__content
 							div.badges
-								//- for badge in badges
-								//- 	img.pic(src=''+badge.pic+'')
-								//- 	span.full= badge.title
+								for badge in badges
+									div.badge_a
+										div.hexagon(style="background-image: url(http://csshexagon.com/img/meow.jpg);")
+											div.hexTop
+											div.hexBottom
+										span.name= badge.name
+										span.title= badge.title
+										span.desc= badge.desc
 						div.modal__footer
 
 				div#picture

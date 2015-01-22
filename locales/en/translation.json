@@ -203,5 +203,6 @@
   "userhome": {
     "network": "My network only",
     "no-res": "No challenge(s) available."
-    }
+   },
+   "validate": "Validate"
 }
