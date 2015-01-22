@@ -130,11 +130,6 @@ body.modal-open {
 			.modal__content {
 				background-color: $color;
 			}
-
-			.modal__footer {
-				border-top: 1px solid darken($color, 15%);
-			}
-
 		}
 }
 
@@ -152,6 +147,9 @@ body.modal-open {
 		-webkit-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+	}
+	.modal__footer {
+		height: 30px!important;
 	}
 }
 

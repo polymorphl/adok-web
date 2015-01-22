@@ -3,10 +3,10 @@
 **/
 
 $(function() {
-  console.log( "ready!" );
 
-  /*-----  Logo  ------*/
+/*-----  Logo  ------*/
 
+//Comming soon
 
 /*-----  Sign-in  ------*/
 
@@ -95,5 +95,12 @@ $(function() {
     overlay.removeClass('is-active');
     m_team.velocity('transition.slideDownBigOut', { duration: 300 }).removeClass('is-open');
   });
+
+/*-----  Shake ------*/
+
+  $('.mobile a').on('click', function(){
+    $('.mobile label').velocity('callout.shake', { duration: 500 });
+  });
+
   // --> EOF
 });

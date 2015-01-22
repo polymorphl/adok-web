@@ -112,13 +112,10 @@
 			.first, .last {
 			font-weight: bold;
 			}
-			.mobile, .place {
-				i { font-size: 24px; }
-			}
 		}
 		.control-group {
 			text-align: center;
-			#up { margin-top: 15px; background-color: $blue_b; }
+			#up { margin-top: 15px; }
 			.btn-update-valid { margin-top: 15px; }
 		}
 	}

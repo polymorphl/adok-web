@@ -5,7 +5,16 @@ section {
 
   }
   &.button {
-
+    .btn-contact {
+      position: absolute; right: 130px; top: 70px;
+      color: white; cursor: pointer; font-weight: bold;
+      &:hover a { text-decoration: none!important; }
+    }
+    .btn-team {
+      position: absolute; right: 40px; top: 70px;
+      color: white; cursor: pointer; font-weight: bold;
+      &:hover a { text-decoration: none!important; }
+    }
   }
   &.mobile {
     text-align: center;

@@ -11,9 +11,8 @@
     font-weight: 700; font-size: 1em;
     background: darken($btn-main-color, 5%); color: black;
     height: 20px; text-align: center;
-    line-height: 20px; text-transform: capitalize;
+    line-height: 20px;
     padding: 0 15px; top: 0; left: 0;
-    border: 1px solid darken($grey, 10%);
     position: relative; cursor: pointer;
     @include border-radius(1px); overflow: hidden;
     @include transform(translate3d(0,0,0));
@@ -38,9 +37,22 @@
 }
 
 .btn-submit {
-    @include btn($btn-main-color, 20px);
+  @include btn($btn-main-color, 20px);
+}
+
+.btn-validate {
+  @include btn($green, 20px);
+}
+
+.btn-edit, .btn-return {
+  @include btn($yellow, 20px);
+}
+.btn-return { text-transform: capitalize; margin: 4px!important; }
+
+.btn-delete {
+  @include btn(red, 20px);
 }
 
 .btn-cancel {
-    @include btn($red, 20px);
+  @include btn($red, 20px);
 }

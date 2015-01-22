@@ -57,15 +57,6 @@ block body
         <% if (acc.roles.account.picture) { %>
         img(src!='<%= acc.roles.account.picture %>')
         <% } %>
-    <% } else { %>
-    a(href!='/pro/<%= acc._id %>', class="prop_by")
-      span= t("event.ppby")
-      div.author
-        span.fullname
-          <%= acc.roles.pro.name %>
-        <% if (acc.roles.pro.picture) { %>
-        img.pro(src!='<%= acc.roles.pro.picture %>')
-        <% } %>
     <% } %>
     div.desc
       <%= desc %>
@@ -97,19 +88,19 @@ block body
           <%= numOfPtc %>
     if (!isUserAccount)
       div.join_proposal
-        button.btn.btn-join(id="t_prop_join") Rejoindre !
+        button.btn.btn-join(id="t_prop_join") Participer
       div.left_proposal
-        button.btn.btn-left(id="t_prop_left") Partir !
+        button.btn.btn-left(id="t_prop_left") Se désinscrire
       div.waiting_proposal
         button.btn.btn-wait(id="t_prop_wait") En attente de confirmation !
     if (isUserAccount)
       div.edit_proposal
-        button.btn.btn-edit(id="t_prop_edit") Editer la proposition
+        button.btn.btn-edit(id="t_prop_edit") Editer
       div.delete_proposal
-        button.btn.btn-delete(id="t_delete_prop") SUPPRIMER !
+        button.btn.btn-delete(id="t_delete_prop") Supprimer
     div.comments
       input(id='commentTextaera' type='text', name='comment', value!='', placeholder='Poster un commentaire')
-      button.btn(id='buttonAddComment') Ajouter un commentaire
+      button.btn.btn-validate(id='buttonAddComment') Publier
       ul(id='listComment')
 
   script(type='text/template', id='event-results') !{event}

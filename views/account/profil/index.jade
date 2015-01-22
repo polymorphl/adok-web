@@ -122,8 +122,8 @@ block body
 					p#last <%- last %>
 					span.help-block <%= errfor['last'] %>
 				div.control-group
-					button#up.btn.btn-primary.btn-update(type='button')= t('settings.update')
-					button.btn.btn-primary.btn-update-valid(type='button')= t('validate')
+					button#up.btn-validate.btn-update(type='button')= t('settings.update')
+					button.btn-validate.btn-update-valid(type='button')= t('validate')
 
 		script(type='text/template', id='data-account') !{data.account}
 		script(type='text/template', id='data-user') !{data.user}
