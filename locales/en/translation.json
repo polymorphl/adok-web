@@ -161,7 +161,7 @@
 	"born": "Born ",
 	"hist": "History",
 	"or": "or",
-	"res": "résult(s)",
+	"res": "challenge(s)",
 	"to": "to",
 	"the": "The ",
 	"where": "Location :",
@@ -198,7 +198,10 @@
     "free": "Free",
     "place": "Address",
     "date": "Date",
-    "hour0": "Start time",
-    "hour1": "End time"
-  }
+    "hashtags": "Key-words"
+  },
+  "userhome": {
+    "network": "My network only",
+    "no-res": "No challenge(s) available."
+    }
 }

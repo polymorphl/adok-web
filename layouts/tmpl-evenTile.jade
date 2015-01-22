@@ -7,14 +7,16 @@ script(type='text/template', id='tmpl-evenTile')
 		a.event_link(href!='/event/<%= ecat %>/<%= eid %>')
 			div.middle-part
 				div.title <%= etitle %>
+				div.desc <%= edesc %>
 				<% if (ecat == "activity") { %>
+				<% if (enbpmax > 0) { %>
 				div.participants
 					span.nb <%= enbpcur %> &nbsp;
 					span.max <%= enbpmax %> participant(s)
+				<% } %> 
 				<% } else { %>
 				<% } %>
 			div.last-part
 				div.calendar
 					div.month <%= month %>
 					div.day <%= day %>
-					div.hours <%= hour %>

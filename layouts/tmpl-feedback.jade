@@ -13,11 +13,9 @@ script(type='text/template', id='tmpl-feedback')
 			|<% } %>
 			|<% if (!success) { %>
 		div.form-group(class!='<%= errfor.email ? "has-error" : "" %>')
-			label.control-label: i.fa.fa-user
 			input.form-control(type='text', name='email', value!='<%= email %>', placeholder= t('contact.mail'))
 			span.help-block <%= errfor.email %>
 		div.form-group(class!='<%= errfor.message ? "has-error" : "" %>')
-			label.control-label: i.fa.fa-envelope
 			textarea.form-control(name='message', rows='4', placeholder= t('contact.msg')) <%= message %>
 			span.help-block <%= errfor.message %>
 		div.form-group

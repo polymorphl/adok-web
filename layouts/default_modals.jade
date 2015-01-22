@@ -8,7 +8,6 @@ div.modals
             i.fa.fa-backward
             = t('cl')
         div.modal__content
-          h1 Login
           div.socials
             if oauthGoogle ||oauthFacebook
               if oauthMessage
@@ -21,11 +20,15 @@ div.modals
               div.form-actions
                 div.btn-group.btn-group-justified
                   if oauthFacebook
-                    a(href='/login/facebook/')
-                      img(src='/medias/socials/fb.svg' alt='Facebook')
+                    div.socials-button
+                      a.btn-facebook(href='/login/facebook/')
+                        i.fa.fa-facebook
+                        span Se connecter avec Facebook
                   if oauthGoogle
-                    a(href='/login/google/')
-                      img(src='/medias/socials/g.svg' alt='Google+')
+                    div.socials-button
+                      a.btn-google-plus(href='/login/google/')
+                        i.fa.fa-google
+                        span Se connecter avec Google+
         div.modal__footer
   div.sign-up
     div.m-signup(id="signup", aria-hidden='true')
@@ -36,7 +39,6 @@ div.modals
             i.fa.fa-backward
             = t('cl')
         div.modal__content
-          h1 Signup
           div.socials
             if oauthGoogle || oauthFacebook
               if oauthMessage
@@ -49,11 +51,15 @@ div.modals
               div.form-actions
                 div.btn-group.btn-group-justified
                   if oauthFacebook
-                    a(href='/signup/facebook/')
-                      img(src='/medias/socials/fb.svg' alt='Facebook')
+                    div.socials-button
+                      a.btn-facebook(href='/signup/facebook/')
+                        i.fa.fa-facebook
+                        span S'inscrire avec Facebook
                   if oauthGoogle
-                    a(href='/signup/google/')
-                      img(src='/medias/socials/g.svg' alt='Google+')
+                    div.socials-button
+                      a.btn-google-plus(href='/signup/google/')
+                        i.fa.fa-google
+                        span S'inscrire avec Google+
         div.modal__footer
   div.contact
     div.m-contact(id="contactm", aria-hidden='true')
@@ -65,4 +71,15 @@ div.modals
             = t('cl')
         div.modal__content
           div#contact-form
+        div.modal__footer
+  div.team
+    div.m-team(id="teamm", aria-hidden='true')
+      div.l-team.m-modal
+        div.modal__header
+          span.title Staff
+          span.close
+            i.fa.fa-backward
+            = t('cl')
+        div.modal__content
+          h2 Staff here
         div.modal__footer

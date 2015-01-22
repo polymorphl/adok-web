@@ -36,11 +36,8 @@ script(type='text/template', id='tmpl-event')
           value=moment().format('DD/MM') + " " + moment().add(1, "M").format('DD/MM'),
           max= moment().endOf('month').format('DD/MM'), min= moment().format('DD/MM'), required)
     div.fs-anim-lower#rangeCtrld0
-    label.fs-field-label.fs-anim-upper(for='hour0')= t('challenge.hour0')
-    input.fs-anim-lower(name='hour0', type='time', data-role="none", value= "01:00", required)
-    label.fs-field-label.fs-anim-upper(for='hour1')= t('challenge.hour1')
-    input.fs-anim-lower(name='hour1', type='time', data-role="none", value= "23:00", required)
-  li(data-input-trigger)
+    label.fs-field-label.fs-anim-upper(for='hashtag')= t('challenge.hashtags')
+    input.fs-anim-lower(name='hashtag', value!='<%= hashtag %>', autofocus, required)
     div.privacy#privacy
       div.ptc
         label.fs-field-label.fs-anim-upper Notifier des amis

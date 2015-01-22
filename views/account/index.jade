@@ -16,13 +16,12 @@ block body
               input.input(type="checkbox", id="network-input", name="add-my-network")
               label.label(for='network-input')= t('userhome.network')
           center
-            style .waiting-tiles:hover {background: grey; cursor:pointer;}
-            span.uptodate Votre liste est à jour.
             div.waiting-tiles
+              span.uptodate Votre liste est à jour.
               div.area-waiting
                 span.waiting-counter 0
-                span.only &nbsp;proposition en attente.
-                span.multi &nbsp;propositions en attente.
+                span.only &nbsp;défi(s) en attente.
+                span.multi &nbsp;défi(s) en attente.
           div.count-results
             span.res
             span.label= t('res')

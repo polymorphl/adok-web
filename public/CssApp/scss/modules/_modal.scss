@@ -15,16 +15,20 @@
 	$feedback-height: 210px;
 
 /* Sign-in */
-	$signin-width: 600px;
-	$signin-height: 405px;
+	$signin-width: 500px;
+	$signin-height: 300px;
 
 /* Signup  */
-	$signup-width: 800px;
-	$signup-height: 450px;
+	$signup-width: 500px;
+	$signup-height: 300px;
 
 /* Contact */
-	$contact-width: 600px;
-	$contact-height: 425px;
+	$contact-width: 500px;
+	$contact-height: 300px;
+
+/* Team */
+	$team-width: 600px;
+	$team-height: 400px;
 
 /* Network */
 	$network-width: 500px;
@@ -311,6 +315,17 @@ body.modal-open {
 		width: 90%; display: inline-block;
 	}
 
+}
+
+/**
+*
+* Team
+*
+**/
+
+.m-team {
+	@include modal($grey, $team-width, $team-height);
+	margin: 0 auto; top: 17.5%;
 }
 
 /**

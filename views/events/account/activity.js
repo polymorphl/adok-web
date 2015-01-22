@@ -7,20 +7,13 @@ exports.init = function(req, res) {
 	var find = {};
 	find['event.activity'] = id;
 
-
-
-	// console.log("ID EVENT : " + req.user._id);
-
-	// find[req.session.accType+'._id'] = req.user.roles[req.session.accType]._id;
-	// find['account.account.$.conf'] = 1;
-
-	req.app.db.models.Event.findOne({_id: mongoose.Types.ObjectId(id), type: 0}, 'acc accType category title photos desc place numOfPtc latLng date date2').populate('acc').exec(function(err, event) {
+	req.app.db.models.Event.findOne({_id: mongoose.Types.ObjectId(id), type: 0}, 'acc accType category title photos desc place numOfPtc latLng date date2 hashtag').populate('acc').exec(function(err, event) {
 		if (err || !event)
 			return require('../../http/index').http404(req, res);
 		res.locals.id = req.user._id;
 		res.locals.accType = req.session.accType;
 		req.app.db.models[event.accType.capitalize()].populate(event, {path: 'acc.roles.'+event.accType}, function(err, event) {
-			req.app.db.models.EventRegister.findOne({event: mongoose.Types.ObjectId(id)}).populate('account._id').populate('pro._id').exec(function(err, ereg) {
+			req.app.db.models.EventRegister.findOne({event: mongoose.Types.ObjectId(id)}).populate('account._id').exec(function(err, ereg) {
 				if (err || !event)
 					return require('../../http/index').http404(req, res);
 				var i = 0;
@@ -45,25 +38,14 @@ exports.init = function(req, res) {
 						++registeredCount;
 					++i;
 				}
-				//Call module addNotifications for add a new notification about this activity.
-				// var notif = require("../../../tools/RRNotifications.js");
-				// notif.addNotification(req, event, [req.user]);
-
-				// var comment = require("../../../tools/SocketCommunication.js");
-				// comment.listenConnectionComment(req.user._id, event.id, req.app);
-
-				// request for get registered users
-				// req.app.db.models.EventRegister.find({"event.activity": event.id}).exec(function(err, item) {
-				// 	console.log(item);
-				// });
 
 				// console.log(registered);
 				console.log("event => ", event);
 				console.log("part".green, participants);
 				if (ereg)
-					res.render('events/account/activity/index', {event: escape(JSON.stringify(event)), title: event.title, isRegistered: registered, participants: participants, registeredCount: registeredCount, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
+					res.render('events/account/activity/index', {event: escape(JSON.stringify(event)), title: event.title, hashtag: event.hashtag, isRegistered: registered, participants: participants, registeredCount: registeredCount, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
 				else
-					res.render('events/account/activity/index', {event: escape(JSON.stringify(event)), title: event.title, isRegistered: registered, participants: [], registeredCount: 0, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
+					res.render('events/account/activity/index', {event: escape(JSON.stringify(event)), title: event.title,hashtag: event.hashtag, isRegistered: registered, participants: [], registeredCount: 0, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
 			});
 		});
 	});
@@ -72,10 +54,6 @@ exports.init = function(req, res) {
 exports.edit = function(req, res) {
 	var workflow = req.app.utility.workflow(req, res);
 
-	console.log(moment(req.body.day+'-'+req.body.month+'-'+req.body.year+' '+req.body.hour, req.i18n.t('dateFormat')));
-	console.log(moment(req.body.month+'/'+req.body.day+'/'+req.body.year+' '+req.body.hour, req.i18n.t('dateFormat')));
-	console.log(moment(req.body.day1+'-'+req.body.month1+'-'+req.body.year1+' '+req.body.hour1, req.i18n.t('dateFormat')));
-	console.log(moment(req.body.month1+'/'+req.body.day1+'/'+req.body.year1+' '+req.body.hour1, req.i18n.t('dateFormat')));
 	workflow.on('validate', function() {
 		// console.log("body", req.body);
 		if (!req.body.id) {
@@ -87,6 +65,10 @@ exports.edit = function(req, res) {
 		}
 		else if (!/^[a-zA-Z0-9\-\_\ \(\)\!]+$/.test(req.body.title)) {
 			workflow.outcome.errfor.title = req.i18n.t('errors.userformat');
+		}
+
+		if (!req.body.hashtag) {
+			workflow.outcome.errfor.hashtag = req.i18n.t('errors.required');
 		}
 
 		if (!req.body.place) {
@@ -106,10 +88,13 @@ exports.edit = function(req, res) {
 		workflow.emit('insertEvent');
 	});
 	workflow.on('insertEvent', function() {
+		console.log(moment(req.body.day+'/'+req.body.month+'/'+req.body.year));
+		console.log(moment(req.body.day1+'/'+req.body.month1+'/'+req.body.year1));
 		var fieldsToSet = {
 			title: req.body.title,
-			date: moment(req.body.day+'/'+req.body.month+'/'+req.body.year+' '+req.body.hour, req.i18n.t('dateFormat')).toDate(),
-			date2: moment(req.body.day1+'/'+req.body.month1+'/'+req.body.year1+' '+req.body.hour1, req.i18n.t('dateFormat')).toDate(),
+			date: moment(req.body.month+'-'+req.body.day+'-'+req.body.year),
+			date2: moment(req.body.month1+'-'+req.body.day1+'-'+req.body.year1),
+			hashtag: req.body.hashtag,
 			place: req.body.place,
 			numOfPtc: req.body.numOfPtc,
 			desc: req.body.desc

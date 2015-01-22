@@ -9,25 +9,6 @@
 
 	var app = app || {};
 
-	/*-----  IntToTime for Hour input ------*/
-	function IntToTime(val){
-  	var hours = parseInt( val / 60 );
-  	var min = val - (hours * 60);
-  	var time = hours + ':' + (min < 10 ? '0' + min : min);
-  	return time;
-	}
-
-	// ---> Input slider (simple) date
-	function updateDate(el, range) {
-		el.attr("value", moment().format("YYYY-MM-DD"));
-		el.on('input', function() {
-        range.prop('valueAsNumber', $.prop(this, 'valueAsNumber'));
-    });
-    range.on('input', function() {
-        el.prop('valueAsNumber', $.prop(this, 'valueAsNumber'));
-    });
-	}
-
 	function updateDoubleDate(el, range) {
 		el.attr('v1', moment(moment().unix()*1000).format("YYYY-MM-DD"));
 		el.attr('v2', moment(moment().add(1, 'M').unix()*1000).format("YYYY-MM-DD"));
@@ -49,39 +30,6 @@
 	    }
 		});
 	}
-
-  // ---> Input slider (simple) hour
-  function updateHour(el, range) {
-		range.on("input", function(){
-			var time = IntToTime($(this).val());
-    	el.val(time);
-		});
-  }
-  // ---> Input slider (double) hour
-  function updateDoubleHour(el, range) {
-		el.attr('v1', '10:00');
-		el.attr('v2', '20:00');
-    jQuery(range).slider({
-	    range: true,
-	    min: 0, max: 1440,
-	    step: 15, values: [ 600, 1200 ],
-	    slide: function( event, ui ) {
-	      var hours1 = Math.floor(ui.values[0] / 60);
-	      var minutes1 = ui.values[0] - (hours1 * 60);
-	      if(hours1.length < 10) hours1= '0' + hours;
-	      if(minutes1.length < 10) minutes1 = '0' + minutes;
-	      if(minutes1 == 0) minutes1 = '00';
-	      var hours2 = Math.floor(ui.values[1] / 60);
-	      var minutes2 = ui.values[1] - (hours2 * 60);
-	      if(hours2.length < 10) hours2= '0' + hours;
-	      if(minutes2.length < 10) minutes2 = '0' + minutes;
-	      if(minutes2 == 0) minutes2 = '00';
-				jQuery(el).attr('v1', hours1+':'+minutes1);
-				jQuery(el).attr('v2', hours2+':'+minutes2);
-	      jQuery(el).val(hours1+':'+minutes1+' - '+hours2+':'+minutes2 );
-	    }
-		});
-  }
 
 	function autocomplete(that) {
 		that.$el.find('[name="place"]').autocomplete({
@@ -182,6 +130,7 @@
 			title: '',
 			date0: '',
 			date1: '',
+			hashtag: '',
 			place: '',
 			place_value: '',
 			place_Lat: '',
@@ -208,7 +157,6 @@
 			var that = this;
 			this.$el.append(this.template(this.model.attributes));
 			updateDoubleDate($('[name="dateCtrl"]'), $('#rangeCtrld0'));
-			// updateDoubleHour($('[name="hourCtrl"]'), $('#rangeCtrlh0'));
 			autocomplete(this);
 			autocomplete_friends(this);
 		},
@@ -220,8 +168,9 @@
 				category: 0,
 				title: this.$el.find("[name='title']").val(),
 				desc: this.$el.find("[name='desc']").val(),
-				date0: moment(this.$el.find("[name='dateCtrl']").attr('v1')+' '+this.$el.find("[name='hour0']").val()),
-				date1: moment(this.$el.find("[name='dateCtrl']").attr('v2')+' '+this.$el.find("[name='hour1']").val()),
+				date0: moment(this.$el.find("[name='dateCtrl']").attr('v1')),
+				date1: moment(this.$el.find("[name='dateCtrl']").attr('v2')),
+				hashtag: this.$el.find("[name='hashtag']").val(),
 				place: this.$el.find("[name='place']").val(),
 				place_value: this.$el.find("[name='place_value']").val(),
 				place_Lat: this.$el.find("[name='place_Lat']").val(),

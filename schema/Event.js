@@ -9,6 +9,7 @@ exports = module.exports = function(app, mongoose) {
     date2: { type: Date },
     desc: { type: String, default: '' },
     numOfPtc: { type: Number, default: 0 },
+    hashtag: { type: String },
     place: { type: String },
     latLng: [ Number ],
     photos: { type: String, default: '' },

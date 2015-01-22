@@ -1,42 +1,60 @@
-
-.logo {
-  display: inline-block;
-}
-
 section {
-	width: 100%; height: 400px;
-}
+	width: 100%;
 
+  &.text {
 
-$blur: 6px;
-
-@mixin fade{ opacity:0; }
-.str{
-  font-family:sans-serif;
-  height:1.1em;
-  line-height:1.1em;
-  
-  font-size:10em;
-  top:0;
-  bottom:0;
-  margin:auto;
-  transition:opacity 0.5s, transform 0.5s;
-  text-align:center;
-  left:0;
-  
-  font-weight: bold;
-  right:0;
-  position:absolute;
-  opacity:0;
-  transform:scale(#{$blur/320px * 100 + 100 + "%"});
-  &.active{
-    opacity:1;
-    transform:scale(1);
   }
+  &.button {
 
+  }
+  &.mobile {
+    text-align: center;
+    a {
+      cursor: pointer;
+
+      i {
+        font-size: 84px; padding: 10px;
+        &.fa-android:hover { color: #a4c639; }
+        &.fa-apple:hover { color: #d7d9d8; }
+      }
+    }
+  }
 }
-.wrap-slogan{
-  -webkit-filter:blur($blur) contrast(10);
-  position:relative;background: white;
-  height:60%; padding: 10px;
+
+.bg {
+    background: linear-gradient(
+      rgba(0, 0, 0, 0.3),
+      rgba(255, 255, 255, 0.2)
+    ),
+    url('/medias/others/1.jpg') no-repeat
+    top center fixed;
+  @include background-size(cover);
+  position: fixed; z-index: -1;
+  width: 100%; height: 100%;
+  top:0;  left:0;
+  filter: blur(3px);
+  -webkit-filter: blur(2px);
+  -moz-filter: blur(2px);
+  -o-filter: blur(2px);
+  -ms-filter: blur(2px);
+}
+
+.wrap-sections {
+  height: 100%;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.6)
+    );
+  padding: 15px;
+}
+
+.socials {
+  @extend %vertical-align;
+  .socials-button {
+    padding: 25px; margin: 0 auto;
+    width: 90%; text-align: center;
+    a {
+      padding: 15px; font-size: 18px; font-weight: 300;
+    }
+  }
 }

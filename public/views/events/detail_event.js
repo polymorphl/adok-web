@@ -56,7 +56,6 @@
 			date: '',
 			emonth: '',
 			eday: '',
-			ehour: '',
 			photos: ''
 		}
 	});
@@ -70,7 +69,6 @@
 			this.model = new app.LeftDataModel();
 			item.emonth = base.format("MMMM");
 			item.eday = base.format("DD");
-			item.ehour = base.format("HH:mm");
 			this.model.set(item);
 			this.render();
 		},
@@ -239,12 +237,12 @@
 			desc: '',
 			title: '',
 			latLng: ['', ''],
+			hashtag: '',
 			place: '',
 			numOfPtc: '',
 			eyear: '',
 			emonth: '',
 			eday: '',
-			ehour: ''
 		},
 		url: function() {
 			return ("/event/activity/"+this.id+"/edit");
@@ -265,12 +263,10 @@
 			item.eyear = moment(base).format("YYYY");
 			item.emonth = moment(base).format("MMMM");
 			item.eday = base.format("DD");
-			item.ehour = base.format("HH:mm");
 			item.date2 = moment(base1).format("YYYY-MM-DD");
 			item.eyear1 = base1.format("YYYY");
 			item.emonth1 = base1.format("MMM");
 			item.eday1 = base1.format("DD");
-			item.ehour1 = base1.format("HH:mm");
 			this.id = item._id;
 			this.model = new app.EditDataModel();
 			this.model.set(item);
@@ -291,13 +287,12 @@
 				year: this.$el.find('[name="date"]').val().split("-")[0],
 				month: this.$el.find('[name="date"]').val().split("-")[1],
 				day: this.$el.find('[name="date"]').val().split("-")[2],
-				hour: this.$el.find('[name="hour"]').val(),
 				year1: this.$el.find('[name="date1"]').val().split("-")[0],
 				month1: this.$el.find('[name="date1"]').val().split("-")[1],
 				day1: this.$el.find('[name="date1"]').val().split("-")[2],
-				hour1: this.$el.find('[name="hour1"]').val(),
 				title: this.$el.find('[name="title"]').val(),
 				desc: this.$el.find('[name="desc"]').val(),
+				hashtag: this.$el.find('[name="hashtag"]').val(),
 				place: this.$el.find('[name="place"]').val(),
 				numOfPtc: this.$el.find('[name="numOfPtc"]').val()
 			}, {
@@ -310,6 +305,8 @@
 						$('#editd_prop').hide().velocity('transition.slideUpBigIn', { duration: 300 }).addClass('is-open');
 					} else {
 							alert("Une erreur est survenue.");
+							console.log(model);
+							console.log(response);
 					}
 				},
 				error: function(model, response) {
@@ -336,12 +333,10 @@
 			item.eyear = moment(base).format("YYYY");
 			item.emonth = moment(base).format("MMMM");
 			item.eday = base.format("DD");
-			item.ehour = base.format("HH:mm");
 			item.date2 = moment(base1).format("YYYY-MM-DD");
 			item.eyear1 = base1.format("YYYY");
 			item.emonth1 = base1.format("MMM");
 			item.eday1 = base1.format("DD");
-			item.ehour1 = base1.format("HH:mm");
 			this.id = item._id;
 			this.model = new app.EditDataModel();
 			this.model.set(item);
@@ -359,14 +354,13 @@
 			$('input[name="year"]').val(this.model.attributes.eyear);
 			$('input[name="month"]').val(this.model.attributes.emonth);
 			$('input[name="day"]').val(this.model.attributes.eday);
-			$('input[name="hour"]').val(this.model.attributes.ehour);
 			$('input[name="year1"]').val(this.model.attributes.eyear1);
 			$('input[name="month1"]').val(this.model.attributes.emonth1);
 			$('input[name="day1"]').val(this.model.attributes.eday1);
-			$('input[name="hour1"]').val(this.model.attributes.ehour1);
 			$('input[name="title"]').val(this.model.attributes.title);
 			$('input[name="desc"]').val(this.model.attributes.desc);
 			$('input[name="place"]').val(this.model.attributes.place);
+			$('input[name="hashtag"]').val(this.model.attributes.hashtag);
 			$('input[name="numOfPtc"]').val(this.model.attributes.numOfPtc);
 		},
 		close_edit: function(e) {

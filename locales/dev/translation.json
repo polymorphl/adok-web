@@ -41,7 +41,8 @@
         "signin": "Connexion",
         "settings": "Réglages",
         "notif": "notifications",
-        "inv": "inventaire"
+        "inv": "inventaire",
+        "notifications": "nav.notifications"
     },
     "homepage": {},
     "contact": {
@@ -160,7 +161,7 @@
     "born": "Né le ",
     "hist": "Historique",
     "or": "ou",
-    "res": "résultat(s)",
+    "res": "défi(s)",
     "to": "au",
     "the": "Le ",
     "cl": "Fermer",
@@ -195,43 +196,11 @@
         "free": "Gratuit",
         "place": "Adresse",
         "date": "Date",
-        "hour": "Heure",
-        "event": "challenge.event",
-        "exchange": "challenge.exchange",
-        "activity": "challenge.activity",
-        "leisure": "challenge.leisure",
-        "sport": "challenge.sport",
-        "price": "challenge.price",
-        "now": "challenge.now",
-        "purchase": "challenge.purchase",
-        "sale": "challenge.sale",
-        "hire": "challenge.hire",
-        "service": "challenge.service",
-        "troc": "challenge.troc",
-        "hour0": "Heure de début",
-        "hour1": "Heure de fin"
+        "hashtags": "Mots-clés"
     },
-    "propose": {
-        "hour": "propose.hour",
-        "place": "propose.place",
-        "category": "propose.category",
-        "activity": "propose.activity",
-        "leisure": "propose.leisure",
-        "sport": "propose.sport",
-        "title": "propose.title",
-        "price": "propose.price",
-        "free": "propose.free",
-        "desc": "propose.desc",
-        "date": "propose.date",
-        "hour0": "propose.hour0",
-        "hour1": "propose.hour1"
-    },
-    "aroundme-label": "aroundme-label",
     "userhome": {
-        "activity": "userhome.activity",
-        "exchange": "userhome.exchange",
-        "network": "userhome.network",
-        "no-res": "userhome.no-res"
+        "network": "Mon réseau seulement",
+        "no-res": "Aucun défi(s) disponible."
     },
     "validate": "validate"
 }

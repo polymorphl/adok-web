@@ -30,15 +30,9 @@ script(type="text/template", id="tmpl-edit-event")
 		div.date0
 			label(for="date") Date de début
 			input(type="date" name='date')
-		div.hour0
-			label(for="hour") Heure de début
-			input(type="time" name="hour")
 		div.date1
 			label(for="date1") Date de fin
 			input(type="date" name='date1')
-		div.hour1
-			label(for="hour1") Heure de fin
-			input(type="time" name="hour1")
 		#title
 			label(for="title") Titre
 			input(name="title" type="text" value="")
@@ -48,6 +42,9 @@ script(type="text/template", id="tmpl-edit-event")
 		#place
 			label(for="place") Adresse
 			input(name="place" type="text" value="")
+		#hashtag
+			label(for="hashtag") Mots-clés
+			input(name="hashtag" type="text" value="")
 		#numOfPtc
 			label(for="numOfPtc") Nombre de participants
 			input(name="numOfPtc" type="text" value="")

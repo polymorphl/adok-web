@@ -163,7 +163,7 @@
 	"born": "Né le ",
 	"hist": "Historique",
 	"or": "ou",
-	"res": "résultat(s)",
+	"res": "défi(s)",
 	"to": "au",
 	"the": "Le ",
 	"cl": "Fermer",
@@ -198,7 +198,10 @@
     "free": "Gratuit",
     "place": "Adresse",
     "date": "Date",
-    "hour0": "Heure de début",
-    "hour1": "Heure de fin"
-  }
+  	"hashtags": "Mots-clés"
+  },
+  "userhome": {
+		"network": "Mon réseau seulement",
+		"no-res": "Aucun défi(s) disponible."
+	}
 }
