@@ -211,9 +211,6 @@ exports = module.exports = function(app, passport) {
 	app.post('/feed/follow/accept', require('./tools/follow').notifAccept);
 	app.post('/feed/follow/deny', require('./tools/follow').notifDeny);
 
-	//account > network
-	app.get('/account/network/', require('./views/account/network/index').init);
-
 	//account > settings > social
 	app.get('/account/settings/facebook/', passport.authenticate('facebook', { callbackURL: '/account/settings/facebook/callback/' }));
 	app.get('/account/settings/facebook/callback/', require('./views/account/settings/index').connectFacebook);

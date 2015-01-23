@@ -168,13 +168,15 @@ var refresh;
 
 
 	t_chat.on("click", function(){
-		m_chat.velocity('transition.bounceRightIn', { duration: 100, display: 'block', opacity: 1}).removeClass('is-close');
-		t_chat.hide();
+		m_chat.velocity('transition.bounceRightIn', { duration: 200, display: 'block', opacity: 1}).removeClass('is-close');
+		t_chat.velocity('transition.bounceRightOut', { duration: 100 });
+		$("body").addClass("sidebar-open");
 	});
 
 	clo_chat.on("click", function(){
-		m_chat.velocity('transition.bounceRightOut', { duration: 100, display: 'block', opacity: 1}).addClass('is-close');
+		m_chat.velocity('transition.bounceRightOut', { duration: 200, display: 'block', opacity: 1}).addClass('is-close');
 		t_chat.fadeIn();
+		$("body").removeClass("sidebar-open");
 	});
 
 	$(".contact-list .user").on('click', function(e) {

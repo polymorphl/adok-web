@@ -1,5 +1,5 @@
 script(type='text/template', id='tmpl-evenTile')
-	li.marker(class!="<%= ecat %>")
+	li.marker(class!="<%= ecat %>" markerid!='<%= eid %>')
 		.left-part
 			a.proprio(href!='/user/<%= uid %>')
 				span <%= uname.split(" ")[0] %>

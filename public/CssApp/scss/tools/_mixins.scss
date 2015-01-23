@@ -378,3 +378,9 @@ $prefix-for-spec:      true !default;
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
+
+@mixin grayscale($value) {
+  -webkit-filter: #{"grayscale(#{$value})"};
+  -moz-filter: #{"grayscale(#{$value})"};
+  filter:#{"grayscale(#{$value})"};
+}

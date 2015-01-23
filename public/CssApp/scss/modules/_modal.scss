@@ -27,8 +27,8 @@
 	$contact-height: 300px;
 
 /* Team */
-	$team-width: 600px;
-	$team-height: 400px;
+	$team-width: 700px;
+	$team-height: 300px;
 
 /* Network */
 	$network-width: 500px;
@@ -91,11 +91,11 @@ body.modal-open {
 			padding-top: 3px; text-indent: 10px;
 
 			.close {
-				font-size: 16px; color: black;
+				font-size: 16px; color: $purple_b;
 				text-shadow: none; font-weight: bold;
 				opacity: .8!important;
 				padding: 2px 4px 0 0;
-				i { padding-right: 5px;}
+				&:hover { color: $red; }
 			}
 		}
 
@@ -325,6 +325,43 @@ body.modal-open {
 .m-team {
 	@include modal($grey, $team-width, $team-height);
 	margin: 0 auto; top: 17.5%;
+
+	.modal__content {
+		& > div {
+			display: inline-block; text-align: center;
+			padding: 15px; @include grayscale(65%);
+			cursor: pointer;
+
+			&:hover { @include grayscale(0); }
+
+			img {
+				width: 80px; height: 80px;
+				padding: 3px; 
+				@include background-size(cover);
+				@include border-radius(100%);
+			}
+			&.dev-web {
+				float: left;
+				img {
+					border: 3px solid $blue_b;
+				}
+			}
+			&.dev-api {
+				float: right;
+				img { border: 3px solid $yellow; }
+			}
+			&.dev-mobile {
+				float: left; clear: right;
+				padding: 15px 65px;
+				img { border: 3px solid $purple_b; }
+			}
+
+			& > div {
+				color: white;
+			}
+			//end of div
+		}
+	}
 }
 
 /**
@@ -357,8 +394,7 @@ body.modal-open {
 
 .m-delete_prop {
 	@include modal($grey, $feedback-width, 150px);
-	margin: 0 auto; position: relative!important;
-	top: 50%!important; transform: translateY(-50%)!important;
+	margin: 0 auto; top: 23.5%;
 
 	button {
 		color: white; text-align: center;
@@ -379,8 +415,7 @@ body.modal-open {
 
 .m-editd_prop {
 	@include modal($grey, $feedback-width, 100px);
-	margin: 0 auto; position: relative!important;
-	top: 50%!important; transform: translateY(-50%)!important;
+	margin: 0 auto; top: 25.5%;
 
 	button {
 		color: white; text-align: center;
@@ -401,8 +436,7 @@ body.modal-open {
 
 .m-nokey {
 	@include modal($grey, $nokey-width, $nokey-height);
-	margin: 0 auto; position: relative!important;
-	top: 50%!important; transform: translateY(-50%)!important;
+	margin: 0 auto; top: 17.5%;
 
 	img.logo {
 		display: block; margin: 35px auto;

@@ -54,29 +54,6 @@ $prop-color: white;
   .title { text-align: center; color: white; }
 }
 
-.sidebar-inv {
-	@include sidebar($inv-color, $inv-width);
-	top: 0; left: 0;
-
-	.title {
-		text-transform: capitalize;
-		text-indent: 4px; display: block;
-	}
-
-	&.is-close { left: -$inv-width; opacity: 1!important; }
-
-	.toggle-view {
-		float: right; left: 30px;
-		&:after { right: 0; }
-	}
-
-	.content {
-		width: 100%; height: 100%;
-		position: absolute; top: 0;
-
-	}
-}
-
 .sidebar-prop {
 	@include sidebar($prop-color, $prop-width);
 	top: 0; left: 0;

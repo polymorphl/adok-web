@@ -3,10 +3,8 @@ div.modals
     div.m-signin(id="signin", aria-hidden='true')
       div.l-signin.m-modal
         div.modal__header
-          span.title Sign-IN!
-          span.close
-            i.fa.fa-backward
-            = t('cl')
+          span.title Connexion
+          span.close= t('cl')
         div.modal__content
           div.socials
             if oauthGoogle ||oauthFacebook
@@ -34,10 +32,8 @@ div.modals
     div.m-signup(id="signup", aria-hidden='true')
       div.l-signup.m-modal
         div.modal__header
-          span.title Sign-UP!
-          span.close
-            i.fa.fa-backward
-            = t('cl')
+          span.title Inscription
+          span.close= t('cl')
         div.modal__content
           div.socials
             if oauthGoogle || oauthFacebook
@@ -66,9 +62,7 @@ div.modals
       div.l-contact.m-modal
         div.modal__header
           span.title Contact!
-          span.close
-            i.fa.fa-backward
-            = t('cl')
+          span.close= t('cl')
         div.modal__content
           div#contact-form
         div.modal__footer
@@ -77,26 +71,27 @@ div.modals
       div.l-team.m-modal
         div.modal__header
           span.title Staff
-          span.close
-            i.fa.fa-backward
-            = t('cl')
+          span.close= t('cl')
         div.modal__content
           div.dev-web
-            img(src="#")
-            span Luc Terracher
+            img(src="/medias/team/terrac.jpg")
+            div Luc Terracher
           div.dev-web
-            img(src="#")
-            span Thomas Nadalie
+            img(src="/medias/team/nadali.jpg")
+            div Thomas Nadalie
           div.dev-api
-            img(src="#")
-            span Jonathan Collinet
+            img(src="/medias/team/collin.jpg")
+            div Jonathan Collinet
           div.dev-api
-            img(src="#")
-            span Lilian Cahuzac
+            img(src="/medias/team/cahuza.jpg")
+            div Lilian Cahuzac
           div.dev-mobile
-            img(src="#")
-            span Guillaume Fillon
+            img(src="/medias/team/fillon.jpg")
+            div Guillaume Fillon
           div.dev-mobile
-            img(src="#")
-            span Rémi Robert
+            img(src="/medias/team/robert.jpg")
+            div Rémi Robert
+          div.dev-mobile
+            img(src="/medias/team/bort.jpg")
+            div Benjamin Bort
         div.modal__footer
