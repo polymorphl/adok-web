@@ -66,26 +66,6 @@ block body
       span Adresse :
       span
         <%= place %>
-    div.numOfPtc
-      span.nblabel= t('event.numof')
-      ul#members
-        - for member in participants
-          - if (member.conf == 0) {
-          li en attente
-          li.mbrs
-            a(href='/'+(member._id.name.full ? "user" : "pro")+'/'+member._id.user.id)
-              img(height="42" width="42" src=""+member._id.picture+"", data-toggle="tooltip", data-placement="bottom", title=''+(member._id.name.full ? member._id.name.full : member._id.name)+'')
-          - }
-          - if (member.conf == 1) {
-          li confirmé
-          li.mbrs
-            a(href='/'+(member._id.name.full ? "user" : "pro")+'/'+member._id.user.id)
-              img(height="42" width="42" src=""+member._id.picture+"", data-toggle="tooltip", data-placement="bottom", title=''+(member._id.name.full ? member._id.name.full : member._id.name)+'')
-          - }
-        div.nbw
-          span.nb #{registeredCount} /
-          span.max&nbsp;
-          <%= numOfPtc %>
     if (!isUserAccount)
       div.join_proposal
         button.btn.btn-join(id="t_prop_join") Participer

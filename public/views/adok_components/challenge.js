@@ -136,7 +136,6 @@
 			place_Lat: '',
 			place_Lng: '',
 			desc: '',
-			numOfPtc: '',
 			visibility: 10,
 			toNotif: [],
 			photo: {}
@@ -175,7 +174,6 @@
 				place_value: this.$el.find("[name='place_value']").val(),
 				place_Lat: this.$el.find("[name='place_Lat']").val(),
 				place_Lng: this.$el.find("[name='place_Lng']").val(),
-				numOfPtc: this.$el.find("[name='members']").val(),
 				visibility: this.$el.find("[name='km']").val(),
 				toNotif: $.map(this.$el.find("ul.container-ptc > li"), function(item) {
 					return $(item).attr('userid');

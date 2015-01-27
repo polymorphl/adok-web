@@ -92,7 +92,8 @@
 		el: ".right",
 		template: _.template( $('#tmpl-right').html()),
 		events: {
-			'click #t_prop_edit': 'bar_edit'
+			'click #t_prop_edit': 'bar_edit',
+			'keydown #commentTextaera': 'post_comment'
 		},
 		initialize: function(item) {
 			var cattab = ["hobby", "activity", "sport"];
@@ -108,6 +109,12 @@
 			e.preventDefault();
 			$('body').removeClass('with--sidebar');
 			$('#prop_edit').velocity('transition.slideLeftIn', { duration: 300 }).removeClass('is-close');
+		},
+		post_comment: function(e) {
+			e.stopPropagation();
+			if (e.keyCode == 13) {
+				sendNewComment();
+			} else {}
 		},
 		render: function() {
 			this.$el.html(this.template( this.model.attributes ));
@@ -239,7 +246,6 @@
 			latLng: ['', ''],
 			hashtag: '',
 			place: '',
-			numOfPtc: '',
 			eyear: '',
 			emonth: '',
 			eday: '',
@@ -294,7 +300,6 @@
 				desc: this.$el.find('[name="desc"]').val(),
 				hashtag: this.$el.find('[name="hashtag"]').val(),
 				place: this.$el.find('[name="place"]').val(),
-				numOfPtc: this.$el.find('[name="numOfPtc"]').val()
 			}, {
 				success: function(model, response) {
 					if (response.success) {
@@ -358,10 +363,9 @@
 			$('input[name="month1"]').val(this.model.attributes.emonth1);
 			$('input[name="day1"]').val(this.model.attributes.eday1);
 			$('input[name="title"]').val(this.model.attributes.title);
-			$('input[name="desc"]').val(this.model.attributes.desc);
+			$('textarea[name="desc"]').val(this.model.attributes.desc);
 			$('input[name="place"]').val(this.model.attributes.place);
 			$('input[name="hashtag"]').val(this.model.attributes.hashtag);
-			$('input[name="numOfPtc"]').val(this.model.attributes.numOfPtc);
 		},
 		close_edit: function(e) {
 			e.preventDefault();
@@ -370,13 +374,18 @@
 	});
 
 	var sendNewComment = function() {
-		console.log("add new comment");
-		if (socket === null) {return;}
+		console.log("add new comment 0");
+		if (socket === null) { return; }
 		var contentCommentValue = document.getElementById('commentTextaera').value;
-		document.getElementById('commentTextaera').value = "";
 		if (contentCommentValue.length > 0) {
-			socket.emit("addComment", {'eventid':idEvent, 'typeevent':type, 'comment':contentCommentValue});
+			socket.emit("addComment", {
+				'eventid': idEvent,
+				'typeevent': type,
+				'comment': contentCommentValue
+			});
 		}
+		console.log("add new comment 1 -- need clean");
+		document.getElementById('commentTextaera').value = "";
 	};
 
   $(document).ready(function() {
@@ -397,7 +406,7 @@
       });
     });
 
-		$(document).on ("click", "#buttonAddComment", function () {
+		$(document).on("click", "#buttonAddComment", function () {
 			sendNewComment();
 		});
 

@@ -40,10 +40,6 @@ exports = module.exports = function(req, res) {
 			workflow.outcome.errfor.place = req.i18n.t('errors.required');
 		}
 
-		// if (req.body.numOfPtc < 0) {
-		// 	workflow.outcome.errfor.numOfPtc = req.i18n.t('errors.required');
-		// }
-
 		if (workflow.hasErrors()) {
 			return workflow.emit('response');
 		}
@@ -67,9 +63,7 @@ exports = module.exports = function(req, res) {
 			toNotif: req.body.toNotif
 		};
 		fieldsToSet.troc = (req.body.swap ? req.body.swap : false);
-		fieldsToSet.numOfPtc = ((!req.body.numOfPtc || !(req.body.numOfPtc).match(/^[0-9]+$/)) ? 0 : req.body.numOfPtc);
-
-		console.log("before request create");
+		
 		req.app.db.models.Event.create(fieldsToSet, function(err, event) {
 			console.log("inside".green);
 			console.log(err+''.red);
@@ -120,10 +114,6 @@ var Activity = function(req, res){
 			workflow.outcome.errfor.place = req.i18n.t('errors.place');
 		}
 
-		if (!req.body.numOfPtc < 0) {
-			workflow.outcome.errfor.numOfPtc = req.i18n.t('errors.required');
-		}
-
 		if (workflow.hasErrors()) {
 			return workflow.emit('response');
 		}
@@ -141,8 +131,6 @@ var Activity = function(req, res){
 			hashtag: req.body.hashtag,
 			place: req.body.place_value,
 			latLng: [req.body.place_Lng, req.body.place_Lat],
-			price: (!(req.body.price).match(/^[0-9]+$/) ? 0 : req.body.price),
-			numOfPtc: req.body.numOfPtc,
 			toNotif: req.body.toNotif
 		};
 		console.log("list to user : " + req.body.toNotif);

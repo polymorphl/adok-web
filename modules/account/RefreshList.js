@@ -30,7 +30,6 @@ exports = module.exports = function(req, res) {
               'd2': e.date2,
               'e': e.desc,
               'a': e.place,
-              'p': e.numOfPtc,
               'pp': e.photos,
               'pos': [
                 e.latLng[0], //longitude

@@ -7,7 +7,7 @@ exports.init = function(req, res) {
 	var find = {};
 	find['event.activity'] = id;
 
-	req.app.db.models.Event.findOne({_id: mongoose.Types.ObjectId(id), type: 0}, 'acc accType category title photos desc place numOfPtc latLng date date2 hashtag').populate('acc').exec(function(err, event) {
+	req.app.db.models.Event.findOne({_id: mongoose.Types.ObjectId(id), type: 0}, 'acc accType category title photos desc place latLng date date2 hashtag').populate('acc').exec(function(err, event) {
 		if (err || !event)
 			return require('../../http/index').http404(req, res);
 		res.locals.id = req.user._id;
@@ -55,7 +55,7 @@ exports.edit = function(req, res) {
 	var workflow = req.app.utility.workflow(req, res);
 
 	workflow.on('validate', function() {
-		// console.log("body", req.body);
+
 		if (!req.body.id) {
 			workflow.outcome.errors.push(req.i18n.t('errors.missingId'));
 		}
@@ -67,6 +67,10 @@ exports.edit = function(req, res) {
 			workflow.outcome.errfor.title = req.i18n.t('errors.userformat');
 		}
 
+		if (!req.body.desc) {
+			workflow.outcome.errfor.desc = req.i18n.t('errors.required');
+		}
+
 		if (!req.body.hashtag) {
 			workflow.outcome.errfor.hashtag = req.i18n.t('errors.required');
 		}
@@ -75,10 +79,6 @@ exports.edit = function(req, res) {
 			workflow.outcome.errfor.place = req.i18n.t('errors.required');
 		} else if (!req.body.place) {
 			workflow.outcome.errfor.place = req.i18n.t('errors.place');
-		}
-
-		if (!req.body.numOfPtc) {
-			workflow.outcome.errfor.numOfPtc = req.i18n.t('errors.required');
 		}
 
 		if (workflow.hasErrors()) {
@@ -96,7 +96,6 @@ exports.edit = function(req, res) {
 			date2: moment(req.body.month1+'-'+req.body.day1+'-'+req.body.year1),
 			hashtag: req.body.hashtag,
 			place: req.body.place,
-			numOfPtc: req.body.numOfPtc,
 			desc: req.body.desc
 		};
 		req.app.db.models.Event.findByIdAndUpdate(req.body.id, { $set: fieldsToSet }, function(err, event) {
