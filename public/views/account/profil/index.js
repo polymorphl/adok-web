@@ -374,12 +374,18 @@
       app.LinkDeny = new app.LinksDenyView();
       app.NetworkModal = new app.NetworkModalView();
       app.BadgeModal = new app.BadgeModalView();
-      app.WrapHistory = new app.WrapHistoryView(JSON.parse( unescape($('#data-history-event').html()) ));
+      //app.WrapHistory = new app.WrapHistoryView(JSON.parse( unescape($('#data-history-event').html()) ));
     }
   });
 
   $(document).ready(function() {
     app.mainView = new app.MainView();
     $(".btn-update-valid, #place-edit").hide();
+
+    $('#avatarLabel').on('click', function(e){
+        e.preventDefault();
+        console.log("a click");
+        $('#avatarUpload')[0].click();
+    });
   });
 }());

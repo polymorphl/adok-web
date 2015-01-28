@@ -99,7 +99,9 @@ block body
 		script(type='text/template', id='tmpl-picture')
 			if avatar
 				img.self-avatar(src='#{avatar}')
-			input#avatarUpload(type='file', name='files', data-url='/upload/image/avatar', style="display:block !important;")
+			form#formAvatar
+				input#avatarUpload(type='file', name='files', data-url='/upload/image/avatar')
+				btn.btn-edit#avatarLabel Editer
 
 		script(type='text/template', id='tmpl-details')
 			div.alerts
