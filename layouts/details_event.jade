@@ -20,6 +20,31 @@ div.m-editd_prop(id="editd_prop")
 			h2 Événement edité !
 		div.modal__footer
 
+div.m_report_c(id="report_c")
+	div.m-modal
+		div.modal__header
+			span.title Signaler un challenge
+			span.close
+				= t('cl')
+		div.modal__content
+			div.wrap-report
+				label Votre signalement concerne
+				select.choices
+					option(value='pdat') Diffusion d'informations personnelles
+					option(value='hrai') Haine, racisme ou insultes
+					option(value='porn') Pornographie
+					option(value='suic') Suicide ou mise en danger d'autrui
+					option(value='void') Usurpation d'identité
+					option(value='vopi') Vol de photos
+					option(value='spam') Commentaires ou messages indésirables
+				div
+					label(for="comments") Commentaires
+					textarea(id="comments")
+				div.validation
+					button.btn Envoyer
+
+		div.modal__footer
+
 div.sidebar-prop.sb.is-close(id="prop_edit")
 
 script(type="text/template", id="tmpl-edit-event")

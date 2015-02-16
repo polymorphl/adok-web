@@ -323,6 +323,36 @@
 		}
 	});
 
+	app.ReportModalView = Backbone.View.extend({
+    el: '#report_c, .right',
+    events: {
+      'click #t_report_c': 'display_report_c',
+      'click .close': 'close_report_c',
+      'click .box-overlay': 'close_report_c'
+    },
+    initialize: function(item) {
+      this.render();
+    },
+    close_report_c: function(e) {
+      e.preventDefault();
+      $('.box-overlay').removeClass("is-active");
+      $("body").removeClass("modal-open");
+      $('#report_c').velocity('transition.slideDownBigOut', { duration: 300 }).removeClass('is-open');
+    },
+    display_report_c: function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $('body').removeClass('with--sidebar');
+      $('.box-overlay').addClass("is-active");
+      $("body").addClass("modal-open");
+      $('#report_c').hide().velocity('transition.slideUpBigIn', { duration: 300 }).addClass('is-open');
+      console.log("report backbone - display");
+    },
+    render: function() {
+      return this;
+    }
+  });
+
 	app.EditDataView = Backbone.View.extend({
 		el: "#prop_edit",
 		template: _.template( $('#tmpl-edit-event').html()),
@@ -418,6 +448,7 @@
 		new app.JoinEventView(eventData);
 		new app.DeleteEventView(eventData);
 		new app.ValidEditView(eventData);
+		new app.ReportModalView();
 
     var map = L.mapbox.map('map-event', 'lucterracherwizzem.kp9oc66l', {
     	minZoom: 5, maxZoom: 19,

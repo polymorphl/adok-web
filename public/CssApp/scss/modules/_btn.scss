@@ -13,7 +13,7 @@
     font-weight: 500; font-size: 0.9em;
     background-color: darken($btn-main-color, 5%); color: black;
     height: $btn-main-size; text-align: center;
-    line-height: $btn-main-size; width: 120px;
+    line-height: $btn-main-size; width: auto;
     padding: 0 15px; top: 0; left: 0;
     position: relative; cursor: pointer;
     @include border-radius(2px); overflow: hidden;

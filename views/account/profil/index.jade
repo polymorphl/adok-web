@@ -44,6 +44,15 @@ block body
 										span.title= badge.title
 										span.desc= badge.desc
 						div.modal__footer
+				div.m-report_u(id="report_u")
+					div.m-modal
+						div.modal__header
+							span.title Signaler un utilisateur
+							span.close
+								= t('cl')
+						div.modal__content
+							p Report here
+						div.modal__footer
 
 				div#picture
 				div#details
@@ -52,17 +61,9 @@ block body
 					if isUserAccount
 						button.btn(id="t_network") Mon réseau
 						button.btn(id="t_badge") Mes badges
-					div.social_link
-						if !isUserAccount
-							if isLinked == true
-								button#link.btn.btn-primary(type='button')= t('zone.remme')
-							else if isLinked == false
-								button#link.btn.btn-primary(type='button')= t('zone.addme')
-							else if isLinked == 'waiting'
-								button#link.btn.btn-primary(type='button')= t('zone.cancel')
-							else if isLinked == 'pending'
-								button#link-accept.btn.btn-primary(type='button')= t('zone.accept')
-								button#link-deny.btn.btn-primary(type='button')= t('zone.deny')
+					if !isUserAccount
+						button.btn(id="t_badge") Nb de badges + modal pour voir
+						div: a(id="t_report_u") Signaler l'utilisateur
 				div.fourth
 					if (isLinked == true || isUserAccount)
 						div#wrap-history
@@ -89,11 +90,6 @@ block body
 				<% if (date2) { %>
 				div.date.end
 					<%= date2 %>
-				<% } %>
-				<% if (numOfPtc) { %>
-				div.numOfPtc
-					<%= numOfPtc %>
-					span  participants
 				<% } %>
 
 		script(type='text/template', id='tmpl-picture')
@@ -123,6 +119,7 @@ block body
 					div.control-group(class!='<%= errfor.last ? "has-error" : "" %>')
 					p#last <%- last %>
 					span.help-block <%= errfor['last'] %>
+			if isUserAccount
 				div.control-group
 					button#up.btn-validate.btn-update(type='button')= t('settings.update')
 					button.btn-validate.btn-update-valid(type='button')= t('validate')

@@ -64,7 +64,7 @@
     }
   }
   .right {
-    float: right; width: 77%; height: 91vh;
+    float: left; width: 75%; height: 91vh;
     margin: 7.5px;
 
     div#map-event {
@@ -117,7 +117,7 @@
       
     }
     .comments {
-      input#commentTextaera { width: 70%; }
+      input#commentTextaera { width: 80%; margin-right: 4%; }
       #listComment {
         overflow-y: auto; height: 180px;
         li {
@@ -141,6 +141,7 @@
       }
       //end of comments
     }
+    #t_report_c { cursor: pointer; }
     //end of right
   }
   //end of proposal

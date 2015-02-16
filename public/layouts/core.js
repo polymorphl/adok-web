@@ -108,6 +108,8 @@ var refresh;
 	  	$("#badge").hide();
 	  	$("#feedback").hide();
 	  	$('#delete_prop').hide();
+	  	$('#report_u').hide();
+	  	$('#report_c').hide();
 	  }
 	});
 

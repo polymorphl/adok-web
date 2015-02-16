@@ -248,7 +248,6 @@
       date2: '',
       fclas: '',
       clas: '',
-      numOfPtc: '',
       desc: ''
     }
   });
@@ -311,7 +310,6 @@
       this.render();
     },
     close_network: function(e) {
-      //$('#network .modal__header .close, .box-overlay').addClass('is-open');
       e.preventDefault();
       $('.box-overlay').removeClass("is-active");
       $("body").removeClass("modal-open");
@@ -330,7 +328,36 @@
     }
   });
 
-    app.BadgeModalView = Backbone.View.extend({
+  app.ReportModalView = Backbone.View.extend({
+    el: '#report_u, .third-part',
+    events: {
+      'click #t_report_u': 'display_report_u',
+      'click .close': 'close_report_u',
+      'click .box-overlay': 'close_report_u'
+    },
+    initialize: function(item) {
+      this.render();
+    },
+    close_report_u: function(e) {
+      e.preventDefault();
+      $('.box-overlay').removeClass("is-active");
+      $("body").removeClass("modal-open");
+      $('#report_u').velocity('transition.slideDownBigOut', { duration: 300 }).removeClass('is-open');
+    },
+    display_report_u: function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $('body').removeClass('with--sidebar');
+      $('.box-overlay').addClass("is-active");
+      $("body").addClass("modal-open");
+      $('#report_u').hide().velocity('transition.slideUpBigIn', { duration: 300 }).addClass('is-open');
+    },
+    render: function() {
+      return this;
+    }
+  });
+
+  app.BadgeModalView = Backbone.View.extend({
     el: '#badge, .third-part',
     events: {
       'click #t_badge': 'display_badge',
@@ -374,6 +401,7 @@
       app.LinkDeny = new app.LinksDenyView();
       app.NetworkModal = new app.NetworkModalView();
       app.BadgeModal = new app.BadgeModalView();
+      app.ReportModal = new app.ReportModalView();
       //app.WrapHistory = new app.WrapHistoryView(JSON.parse( unescape($('#data-history-event').html()) ));
     }
   });
