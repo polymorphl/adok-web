@@ -69,6 +69,20 @@
       return response;
     }
   });
+  
+  app.Badge = Backbone.Model.extend({
+    idAttribute: '_id',
+    defaults: {
+      // _id: undefined,
+      success: false,
+      errors: [],
+      errfor: {},
+      name: ''
+    },
+    url: function() {
+      return '/admin/accounts/'+ app.mainView.model.id +'/';
+    }
+  });
 
   app.HeaderView = Backbone.View.extend({
     el: '#header',
@@ -207,16 +221,59 @@
     }
   });
 
+  app.BadgeView = Backbone.View.extend({
+    el: '#badge',
+    template: _.template( $('#tmpl-badge').html() ),
+    events: {
+      'click .btn-update': 'addNew',
+      'keypress input[type="text"]': 'addNewOnEnter'
+    },
+    initialize: function() {
+      this.model = new app.Badge(this.model);
+      this.listenTo(this.model, 'sync', this.render);
+      this.render();
+    },
+    render: function() {
+      this.$el.html(this.template( this.model.attributes ));
+    },
+    addNewOnEnter: function(event) {
+      if (event.keyCode !== 13) { return; }
+      event.preventDefault();
+      this.addNew();
+    },
+    addNew: function() {
+      if (this.$el.find('[name="badge"]').val() === '') {
+        alert('Please enter a badge.');
+      } else {
+        this.model.save({
+          name: this.$el.find('[name="badge"]').val(),
+        },{
+          success: function(model, response) {
+            if (response.success) {
+              console.log(response);
+              model.id = response.badge.id;
+              location.href = model.url();
+            }
+            else {
+              alert(response.errors.join('\n'));
+            }
+          }
+        });
+      }
+    }
+  });
+
   app.MainView = Backbone.View.extend({
     el: '.page .container',
     initialize: function() {
       app.mainView = this;
       this.model = new app.Account( JSON.parse( unescape($('#data-record').html()) ) );
-
+      
       app.headerView = new app.HeaderView();
       app.detailsView = new app.DetailsView();
       app.deleteView = new app.DeleteView();
       app.loginView = new app.LoginView();
+      app.badgeView = new app.BadgeView();
     }
   });
 

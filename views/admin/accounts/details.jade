@@ -12,6 +12,7 @@ block body
       div#header
       div#details
       div#login
+      div#badge
       div#delete
 
   script(type='text/template', id='tmpl-header')
@@ -135,5 +136,25 @@ block body
           |&nbsp;
       div.control-group
         button.btn.btn-danger.btn-delete(type='button') Supprimer
+
+  script(type='text/template', id='tmpl-badge')
+    fieldset
+      legend Attribution de badge(s)
+      div.alerts
+        |<% _.each(errors, function(err) { %>
+        div.alert.alert-danger.alert-dismissable
+          |<%= err %>
+        |<% }); %>
+        |<% if (success) { %>
+        div.alert.alert-info.alert-dismissable
+          button.close(type='button', data-dismiss='alert') &times;
+          | Changement(s) sauvé(s).
+        |<% } %>
+      div.control-group(class!='<%= errfor.badge ? "has-error" : "" %>')
+        label.control-label Nom de badge:
+        input.form-control(type='text', name='badge', value!='<%- name %>')
+        span.help-block <%= errfor.badge %>
+      div.control-group
+        button.btn.btn-primary.btn-update(type='button') Mettre à jour
 
   script(type='text/template', id='data-record') !{data.record}

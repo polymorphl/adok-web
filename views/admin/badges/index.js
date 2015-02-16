@@ -1,8 +1,6 @@
 'use strict';
 
 exports.init = function(req, res){
-		//console.log(req.app.db.models.Badge.find({}));
-		//require('async').parallel(/*mes sous-fonctions avec un [] en first*/);
 		req.app.db.models.Badge.find().sort('name').exec(function(error, results) {
 			if (error) {
 					console.log(error);
@@ -31,6 +29,7 @@ exports.add = function(req, res, callback){
 	});
 };
 
+// Utile ??
 exports.list = function(req, res, callback){
 	req.app.db.models.Badge.find().sort('name').exec(function(err, badge){
 		if (err){

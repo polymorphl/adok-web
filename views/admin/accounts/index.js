@@ -443,3 +443,76 @@ exports.delete = function(req, res, next){
 
   workflow.emit('validate');
 };
+
+exports.attachBadge = function(req, res, next){
+  var workflow = req.app.utility.workflow(req, res);
+
+  workflow.on('validate', function() {
+    if (!req.user.roles.admin.isMemberOf('root')) {
+      workflow.outcome.errors.push('You may not add badges.');
+      return workflow.emit('response');
+    }
+
+    workflow.emit('addBadge');
+  });
+
+  workflow.on('addBadge', function() {
+    req.app.db.models.Badge.findOne( { name : req.body.name }).exec(function(err, badge) {
+      console.log("retour de ces morts"+ badge);
+      if (err) {
+        return workflow.emit('exception', err || 500);
+      }
+      workflow.emit('patchAccount', badge);
+    });
+  });
+
+  workflow.on('patchAccount', function(badge) {
+    req.app.db.models.Account.findById(req.params.id).exec(function(err, res) {
+      if (res.badges.indexOf(badge.id.toString()) != -1){
+        // req.app.db.models.Account.findByIdAndUpdate(res.id, {$pull: {badges: badge.id}}).exec(function(err, count, newTab){
+        //   if (err) {
+        //     return workflow.emit('exception', err);
+        //   }
+        //   workflow.outcome.badges = newTab;
+        //   return workflow.emit('response');
+        // });
+      }
+      else {
+        res.badges.push(badge.id.toString());
+        res.save(function(err, res) {
+          if (err) {
+            console.log(err);
+            return workflow.emit('exception', err);
+          }
+          workflow.outcome.badges = res.badges;
+          workflow.emit('response');
+        });
+      }
+    });
+  });
+  workflow.emit('validate');
+};
+
+exports.dettachBadge = function(req, res, next){
+  var workflow = req.app.utility.workflow(req, res);
+
+  workflow.on('validate', function() {
+    if (!req.user.roles.admin.isMemberOf('root')) {
+      workflow.outcome.errors.push('You may not delete badges.');
+      return workflow.emit('response');
+    }
+
+    workflow.emit('deleteBadge');
+  });
+
+  workflow.on('deleteBadge', function() {
+    req.app.db.models.Account.findByIdAndUpdate(res.id, {$pull: {badges: badge.id}}).exec(function(err, newTab){
+      if (err) {
+        return workflow.emit('exception', err);
+      }
+      workflow.outcome.badges = newTab;
+      return workflow.emit('response');
+    });
+  });
+  workflow.emit('validate');
+};
