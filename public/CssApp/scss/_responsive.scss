@@ -72,8 +72,11 @@
 		color: $blue_a; height: 50px!important;
 		padding: 7px 0 0 25px!important;
 		.wrap {
-			.logo-1 { color: white!important; }
-			.logo-2 { color: white!important; }
+			.logo-1 {
+			 color: white!important;
+			 position: absolute!important;
+			 left: 47.5%;
+			}
 		}
 	}
 
@@ -114,11 +117,15 @@
 		}
 
 		.navbar-r {
-			float: left!important; margin-top: 30px; width: 100%;
-			padding-left: 20px; border-top: 1px solid black;
-			left: 0; right: 0; bottom: 30px; position: absolute;
+			float: left!important; width: 100%; padding-left: 20px;
+			left: 0; right: 0; top: 30px; position: absolute;
+			font-size: 18px;
 
 			li { color:white!important; }
+
+			.navbar-h {
+				margin: 0 12px 0 0!important;
+			}
 
 			.nav-dropdown {
 				padding-left: 20px; width: inherit!important;
@@ -136,6 +143,12 @@
 				float: left!important; font-size: 14px!important;
 				top: 0px!important; left: 10px !important; clear: both;
 				border-left: none!important; border-right: none!important;
+				margin-bottom: 15px;
+
+				img {
+					width: 45px!important;
+					height: 45px!important;
+				}
 			}
 		}
 	}
@@ -195,6 +208,32 @@
 	.m-feedback {
 		width: 90%!important; height: 200px!important;
 		.m-modal { height: 200px!important; }
+	}
+
+	.m-contact, .m-team, .m-signin, .m-signup {
+		width: 90%!important; height: 300px!important;
+		.m-modal { height: 300px!important; }
+	}
+
+	.m-team .modal__content > div {
+		display: block!important;
+		float: none!important;
+		width: 120px;
+		margin: 0 auto;
+		padding: 0!important;
+	}
+
+	.wrap-sections {
+		section {
+			btn.btn-contact {
+				right: 120px!important;
+				top: 15px!important;
+			}
+			btn.btn-team {
+				right: 30px!important;
+				top: 15px!important;
+			}
+		}
 	}
 
 	.sidebar-inv {

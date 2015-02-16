@@ -60,8 +60,8 @@ section {
 .socials {
   @extend %vertical-align;
   .socials-button {
-    padding: 25px; margin: 0 auto;
-    width: 90%; text-align: center;
+    padding: 25px 0; margin: 0 auto;
+    width: 100%; text-align: center;
     a {
       padding: 15px; font-size: 18px; font-weight: 300;
     }
