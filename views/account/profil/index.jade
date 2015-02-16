@@ -51,7 +51,19 @@ block body
 							span.close
 								= t('cl')
 						div.modal__content
-							p Report here
+							div.wrap-report
+								label Votre signalement concerne
+								select.choices
+									option(value='hrai') Haine, racisme ou insultes
+									option(value='porn') Pornographie
+									option(value='void') Usurpation d'identité
+									option(value='vopi') Vol de photos
+									option(value='othe') Autre(s)
+								div
+									label(for="comments") Commentaires
+									textarea(id="comments")
+								div.validation
+									button.btn Envoyer
 						div.modal__footer
 
 				div#picture

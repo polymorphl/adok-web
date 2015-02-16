@@ -59,6 +59,17 @@
 	.m-badge {
 		.modal__content{
 			div.badge_a {
+				display: -webkit-flex;
+   			display: flex;
+   			-webkit-align-items: center;
+				align-items: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				-webkit-flex-flow: column wrap;
+				flex-flow: column wrap;
+				-webkit-align-content: center;
+				align-content: center;
+				margin: 5px 0;
 				.hexagon {
 				  position: relative;
 				  width: 100px;  height: 57.74px;

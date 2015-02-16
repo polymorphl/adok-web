@@ -200,17 +200,17 @@ body.modal-open {
 
 .m-report_u {
 	@include modal($grey, $report-width, $report-height);
-	margin: 0 auto; top: 17.5%;
+	margin: 0 auto; top: 17.5%; color: white;
 
-	.help-block {
-		width: 60%; margin: 0;
+	.wrap-report {
+		margin: 0 auto; text-align: center;
+		textarea {
+			display: inline-block;
+			width: 90%; height: 50%;
+			resize: none;
+		}
 	}
-
-	.form-group {
-		width: 90%; margin: 5px auto;
-	}
-
-	.validation { text-align: center; }
+	
 }
 
 .m_report_c {
