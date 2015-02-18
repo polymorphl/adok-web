@@ -244,10 +244,6 @@
       id: '',
       photos: '',
       title: '',
-      date: '',
-      date2: '',
-      fclas: '',
-      clas: '',
       desc: ''
     }
   });
@@ -256,13 +252,8 @@
     el: '.scroll',
     template: _.template( $('#tmpl-history').html() ),
     initialize: function(item) {
-      item.clas = 'acv';
-      item.fclas = 'activity';
-      item.date = moment(item.date).format('DD.MM.YYYY - HH:mm');
-      item.date2 = moment(item.date2).format('DD.MM.YYYY - HH:mm');
       this.model = new app.HistoryModel();
       this.model.set(item);
-      console.log(this.model.attributes);
       this.render();
     },
     render: function() {
@@ -274,6 +265,7 @@
   app.WrapHistoryView = Backbone.View.extend({
     el: '#wrap-history',
     initialize: function(item) {
+      console.log("test");
       var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
       var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
       $("#wrap-history").css("height", (h - $(".m-zone").height() - (h/12)) + "px");
@@ -284,6 +276,7 @@
       });
 
       var i = 0;
+      console.log(item.length)
       while (i < item.length)
       {
         new app.HistoryView(item[i]);
@@ -402,7 +395,7 @@
       app.NetworkModal = new app.NetworkModalView();
       app.BadgeModal = new app.BadgeModalView();
       app.ReportModal = new app.ReportModalView();
-      //app.WrapHistory = new app.WrapHistoryView(JSON.parse( unescape($('#data-history-event').html()) ));
+      app.WrapHistory = new app.WrapHistoryView(JSON.parse( unescape($('#data-history-event').html()) ));
     }
   });
 

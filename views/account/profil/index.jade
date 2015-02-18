@@ -82,7 +82,7 @@ block body
 							div.scroll
 
 		script(type='text/template', id='tmpl-history')
-			a(class!="elem <%= clas %>" href!='/event/<%= fclas %>/<%= _id %>')
+			a(class!="elem" href!='/event/<%= _id %>')
 				<% if (photos) { %>
 				div.photos
 					<%= photos %>
@@ -97,12 +97,6 @@ block body
 					<%= title %>
 				div.desc
 					<%= desc %>
-				div.date.start
-					<%= date %>
-				<% if (date2) { %>
-				div.date.end
-					<%= date2 %>
-				<% } %>
 
 		script(type='text/template', id='tmpl-picture')
 			if avatar

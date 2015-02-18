@@ -22,7 +22,7 @@
 
     .wrap {
       .logo-adok {
-        width: 42px; height: 42px;
+        width: 42px; height: 42px; display: none;
         margin-right: 5px; margin-top: -11px;
       }
       .logo-1 { 
@@ -56,7 +56,7 @@
     }
 
     .navbar-l {
-      float: right; width: 420px;
+      float: right; width: auto;
       padding-left: 2%;
 
       li {

@@ -122,6 +122,7 @@ module.exports = function(grunt) {
 						'public/adok_components/ripple/ripple.js',
 						'public/adok_components/FormFF/classie.js',
 						'public/adok_components/FormFF/FormFF.js',
+						'public/components/iscroll/build/iscroll.js',
 						'public/tools/CalcDistLatLong.js',
 						'public/layouts/core.js'
 					],

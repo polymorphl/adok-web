@@ -42,7 +42,6 @@ exports = module.exports = function(req, res) {
             req.app.db.models.UserLink.findOne(find).exec(function(err, res) {
               if (res || (e.acc.roles[e.accType]._id == req.user.roles[req.session.accType]._id))
                 to_add.linked = true;
-              console.log("HEY! -> " +to_add);
               eventsList.push(to_add);
               return cb(null);
             });

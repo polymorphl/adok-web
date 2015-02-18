@@ -147,13 +147,14 @@ app.StackTileView = Backbone.View.extend({
 	initialize: function(item) {
 		this.id = item.id;
 		$('.uptodate').hide();
-		console.log("hey");
-		$(".waiting-counter").html(++counter);
+		$(".area-waiting").hide();
 		$(".waiting-tiles").show();
-		if (counter > 1){
+		$(".waiting-counter").html(++counter);
+		if (counter >= 1) {
+			$(".area-waiting").show();
 			$(".waiting-tiles .only").hide();
 			$(".waiting-tiles .multi").show();
-		}else {
+		} else {
 			$(".waiting-tiles .only").show();
 			$(".waiting-tiles .multi").hide();
 		}

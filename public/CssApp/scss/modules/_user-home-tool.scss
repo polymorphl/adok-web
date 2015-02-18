@@ -49,6 +49,7 @@
 				.area-waiting {
 					color: darken($yellow, 10%);
 					.waiting-counter { font-weight: bold; }
+					.only { display: none; }
 				}
 				&:hover {
 				background: grey; cursor:pointer;

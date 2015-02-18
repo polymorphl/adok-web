@@ -64,20 +64,24 @@ var renderZone = function(req, res, next, oauthMessage) {
     });
   };
 
-  var getActivities = function(callback) {
-    req.app.db.models.Event.find({acc: (req.params.id ? req.params.id : req.user.id), accType: 'account'}, 'category date title desc photos acc').exec(function(err, activities) {
-      if (err)
-        return callback('Error getting activities', null);
-      events.activities = activities;
-      return callback(null, 'done');
-    })
-  };
-
   var getBadges = function(callback) {
     req.app.db.models.Badge.find('name title desc').exec(function(err, badges) {
       if (err)
         return callback('Error getting badges', null);
       my_badges = badges;
+      return callback(null, 'done');
+    })
+  };
+
+  var getEvent = function(callback) {
+    req.app.db.models.Event.find({acc: (req.params.id ? req.params.id : req.user.id), accType: 'account'}, 'title desc photos acc start latLng accType').populate("acc").exec(function(err, activities) {
+      if (err)
+        return callback('Error getting activities', null);
+      req.app.db.models.Account.populate(activities, {path: "acc.roles.account"}, function(err, row){
+        if (err)
+          return callback('Error getting activities', null);
+      });
+      events = activities;
       return callback(null, 'done');
     })
   };
@@ -113,45 +117,55 @@ var renderZone = function(req, res, next, oauthMessage) {
     if (err) {
       return next(err);
     }
-    events.activities.sort(req.app.utility.dynamicSort("date"));
-    req.app.db.models.UserLink.find({ $or: [ { 'folwr.account': req.user.roles.account._id}, {'folwd.account.id': req.user.roles.account._id } ] }).select('-__v').populate('folwr.account').populate('folwd.account.id').exec(function(err, results) {
-			if (err)
-				res.send(400, err);
-			var friends = {
-				accounts: []
-			};
-			require('async').eachSeries(results, function(row, done) {
-				var friend_toPush = {};
-				if (row.folwd.account && row.folwd.account && row.folwd.account.id._id) {
-					if (row.folwr.account._id.toString() == req.user.roles.account._id.toString())
-						friend_toPush = { id: row.folwd.account.id.user.id, pic: row.folwd.account.id.picture, name: row.folwd.account.id.name.full };
-					else
-						friend_toPush = { id: row.folwr.account.user.id, pic: row.folwr.account.picture, name: row.folwr.account.name.full };
-					friends.accounts.push(friend_toPush);
-				}
-				return done();
-			});
-			res.render('account/profil/index', {
-	      friends: friends,
-	      data: {
-	        account: escape(JSON.stringify(outcome.account)),
-	        user: escape(JSON.stringify(outcome.user)),
-	      },
-	      events: events,
+    var allEvents = [];
+    allEvents.sort(req.app.utility.dynamicSort("date"));
+    req.app.db.models.UserLink.find({ $or: [ { 'folwr.account': req.user.roles.account._id}, {'folwd.account.id': req.user.roles.account._id } ] }).select('-__v').populate('folwr.account').populate('folwd.account.id').populate('folwd.pro.id').exec(function(err, results) {
+      if (err)
+        res.send(400, err);
+      var friends = {
+        accounts: [],
+        pros: []
+      };
+      require('async').eachSeries(results, function(row, done) {
+        console.log("[DEBUG] => fill view user");
+        var friend_toPush = {};
+        if (row.folwd.account && row.folwd.account && row.folwd.account.id._id) {
+          if (row.folwr.account._id.toString() == req.user.roles.account._id.toString())
+            friend_toPush = { id: row.folwd.account.id.user.id, pic: row.folwd.account.id.picture, name: row.folwd.account.id.name.full };
+          else
+            friend_toPush = { id: row.folwr.account.user.id, pic: row.folwr.account.picture, name: row.folwr.account.name.full };
+          friends.accounts.push(friend_toPush);
+        } else if (row.folwd.pro && row.folwd.pro.id._id) {
+          friend_toPush = { id: row.folwd.pro.id.user.id, pic: row.folwd.pro.id.picture, name: row.folwd.pro.id.name };
+          friends.pros.push(friend_toPush);
+        }
+        return done();
+      });
+      console.log("[DEBUG] => RENDER NOW view");
+      console.log("[IMG URL] => url : " + outcome.account.picture);
+      res.render('account/profil/index', {
+        friends: friends,
+        data: {
+          account: escape(JSON.stringify(outcome.account)),
+          user: escape(JSON.stringify(outcome.user)),
+        },
+        events: escape(JSON.stringify(events)),
         badges: my_badges,
-	      isLinked: isLinked,
-	      isUserAccount: req.params.id == req.user.id,
-	      avatar: outcome.account.picture,
-	      oauthMessage: oauthMessage,
-	      oauthGoogle: !!req.app.get('google-oauth-key'),
-	      oauthGoogleActive: outcome.user.google ? !!outcome.user.google.id : false,
-	      oauthFacebook: !!req.app.get('facebook-oauth-key'),
-	      oauthFacebookActive: outcome.user.facebook ? !!outcome.user.facebook.id : false
+        isLinked: isLinked,
+        isUserAccount: req.params.id == req.user.id,
+        avatar: outcome.account.picture,
+        oauthMessage: oauthMessage,
+        oauthTwitter: !!req.app.get('twitter-oauth-key'),
+        oauthTwitterActive: outcome.user.twitter ? !!outcome.user.twitter.id : false,
+        oauthGoogle: !!req.app.get('google-oauth-key'),
+        oauthGoogleActive: outcome.user.google ? !!outcome.user.google.id : false,
+        oauthFacebook: !!req.app.get('facebook-oauth-key'),
+        oauthFacebookActive: outcome.user.facebook ? !!outcome.user.facebook.id : false
     	});
 		});
   };
 
-  require('async').series([getUserData, getAccountData, getLinked, getActivities, getBadges], asyncFinally);
+  require('async').series([getUserData, getAccountData, getLinked, getEvent, getBadges], asyncFinally);
 };
 
 exports.init = function(req, res, next){

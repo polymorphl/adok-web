@@ -20,14 +20,6 @@ block body
         div.right
 
   script(type='text/template', id="tmpl-left")
-    div.pictures
-      <% if (photos) { %>
-      img(src!="<%= photos %>")
-      <%} else {%>
-      div._blank(id="#addPicture")
-        div.txt Ajouter une image
-        span.icon: i.fa.fa-picture-o
-      <%}%>
     div.share
       div.title= t('event.shrtitle')
       a.fb(href='#', target='_blank')
@@ -36,6 +28,14 @@ block body
       a.g(href='#', onclick='javascript:window.open(this.href,\'\', \'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600\');return false;')
         div.g
           img(src='/medias/socials/g.svg')
+    div.pictures
+      <% if (photos) { %>
+      img(src!="<%= photos %>")
+      <%} else {%>
+      div._blank(id="#addPicture")
+        div.txt Ajouter une image
+        span.icon: i.fa.fa-picture-o
+      <%}%>
 
   script(type='text/template', id="tmpl-right")
     input.elat(type="hidden", id="lat", value!="<%= latLng[1] %>")

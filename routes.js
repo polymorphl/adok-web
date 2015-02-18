@@ -182,7 +182,6 @@ exports = module.exports = function(app, passport) {
 	app.delete('/account/settings/delete/', require('./views/account/settings/index').delete);
 
 	//account > propose
-	// app.post('/account/propose/activity', require('./views/account/propose/index').addActivity);
 	app.post('/propose', app.modules.propose.Propose);
 
 	//account > zone
