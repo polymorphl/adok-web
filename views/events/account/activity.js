@@ -7,7 +7,7 @@ exports.init = function(req, res) {
 	var find = {};
 	find['event.activity'] = id;
 
-	req.app.db.models.Event.findOne({_id: mongoose.Types.ObjectId(id), type: 0}, 'acc accType category title photos desc place latLng date date2 hashtag').populate('acc').exec(function(err, event) {
+	req.app.db.models.Event.findOne({_id: mongoose.Types.ObjectId(id)}, 'acc accType title photos desc place latLng hashtag').populate('acc').exec(function(err, event) {
 		if (err || !event)
 			return require('../../http/index').http404(req, res);
 		res.locals.id = req.user._id;
@@ -92,8 +92,6 @@ exports.edit = function(req, res) {
 		console.log(moment(req.body.day1+'/'+req.body.month1+'/'+req.body.year1));
 		var fieldsToSet = {
 			title: req.body.title,
-			date: moment(req.body.month+'-'+req.body.day+'-'+req.body.year),
-			date2: moment(req.body.month1+'-'+req.body.day1+'-'+req.body.year1),
 			hashtag: req.body.hashtag,
 			place: req.body.place,
 			desc: req.body.desc

@@ -14,15 +14,8 @@ app.TileData = Backbone.Model.extend({
 	idAttribute: '_id',
 	defaults: {
 		eid: '',
-		etype: '',
-		enbpcur: 0,
-		enbpmax: 0,
 		etitle: '',
 		edesc: '',
-		ecat: '',
-		ecateg: '',
-		ed1: '',
-		ed2: '',
 		eplace: '',
 		month: '',
 		day: '',
@@ -54,9 +47,6 @@ app.TileView = Backbone.View.extend({
 			"12":"DEC"
 		};
 		this.model = new app.TileData();
-		item.month = tab[item.ed1.split("-")[1]];
-		item.day = item.ed1.split("-")[0];
-		item.hour = item.eh1;
 		this.model.set(item);
 		this.render(item.prepend);
 	},
@@ -200,25 +190,7 @@ var eventPos = {
 
 var event_container = $('ul.items');
 
-var pictab = [
-	[
-		'm-activity.png',
-		'm-loisir.png',
-		'm-sport.png'
-	],
-	[
-		'm-purchase.png',
-		'm-sale.png',
-		'm-hire.png',
-		'm-service.png'
-	]
-];
-var cattab = [
-	"activity",
-	"exchange"
-];
-
-	getList();
+getList();
 
 var callCount = false;
 function getList() {
@@ -231,15 +203,8 @@ function getList() {
 			ids.push(item.id);
 			new app.TileView({
 				eid: item.id,
-				etype: item.type,
-				enbpcur: 0,
-				enbpmax: item.p,
 				etitle: item.t,
 				edesc: item.e,
-				ecat: cattab[item.type],
-				ecateg: item.c,
-				ed1: moment(item.d).format("DD-MM-YYYY"),
-				ed2: (item.d2 == undefined ? '' : ' au '+moment(item.d2).format("DD-MM-YYYY")),
 				eplace: item.a.split(",")[0],
 				uid: item.by.id,
 				uname: item.by.name,
@@ -264,15 +229,8 @@ function getList() {
 				ids.push(item.id);
 				new app.TileView({
 					eid: item.id,
-					etype: item.type,
-					enbpcur: 0,
-					enbpmax: item.p,
 					etitle: item.t,
 					edesc: item.e,
-					ecat: cattab[item.type],
-					ecateg: item.c,
-					ed1: moment(item.d).format("DD-MM-YYYY"),
-					ed2: (item.d2 == undefined ? '' : ' au '+moment(item.d2).format("DD-MM-YYYY")),
 					eplace: item.a.split(",")[0],
 					uid: item.by.id,
 					uname: item.by.name,

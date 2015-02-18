@@ -29,17 +29,19 @@
 		.my-network {
 			margin-bottom: 2px;
 			.wrap {
-				text-align: left; text-indent: 5px;
+				text-align: center;
 				background-color: darken($tool-bg-wrap-color, 16);
 
 				.label {
-					font-weight: normal; cursor: pointer;
-					font-size: 12px;
+					font-weight: bold; cursor: pointer;
+					font-size: 14px;
 				}
 			}
 		}
 
 		center {
+
+
 			.waiting-tiles {
 				.uptodate {
 					color: white; padding: 5px;
@@ -55,9 +57,10 @@
 		}
 
 		.count-results {
-			text-indent: 15px; font-size: 21px;
+			text-align: center; font-size: 21px;
+			margin: 0 auto;
 			.res {
-				color: $blue_c; font-weight: bold;
+				color: $purple_b; font-weight: bold;
 			}
 			.label {
 
@@ -66,7 +69,7 @@
 
 		.results {
 			clear: both; overflow-y: overlay;
-			height: 500px;
+			height: 500px; width: 600px; margin: 0 auto;
 			background-color: darken($tool-bg-wrap-color, 16);
 			ul.items {
 					li {
@@ -117,50 +120,18 @@
 								color: black;
 							}
 							.middle-part {
-								float: left; width: 38%; height: 100px;
+								float: left; width: 70%; height: 100px;
 								margin: 0 4px; padding: 0;
 								.title {
 									font-size: 18px; font-weight: bold;
 								}
 								.desc {
-									text-overflow: ellipsis; width: 450px;
+									text-overflow: ellipsis; width: 250px;
 									white-space: nowrap;
 									overflow: hidden; padding: 5px;
 								}
 							}
-							.category {
-								img.icon {
-									width: 20px; height: 20px;
-								}
-								.cat {}
-							}
 							.place { font-size: 14px; }
-
-							.last-part {
-								float: left; width: 34%; height: 100px;
-								background-color: whitesmoke;
-						    div.calendar {
-						    	width: 65px; text-align: center;
-						    	margin: 0 auto; @extend %vertical-align;
-						      div.month {
-						        background-color: $purple_a; color: #fff;
-						        line-height: 15px; font-size: 15px;
-						        text-transform: uppercase; height: 15px;
-						      }
-						      div.day {
-						        background-color: #fff; color: #000;
-						        font-weight: 700; font-size: 20px;
-						        padding-bottom: 8px; position: relative;
-										line-height: 20px; height: 20px;
-						        &:after {
-						          content:""; position:absolute;
-						          bottom:0; right:0;
-						          border-right: white 8px solid;
-						          border-top: rgba(0,0,0,.18) 8px solid;
-						        }
-						      }
-						    }
-							}
 						}
 						//end of li
 					}

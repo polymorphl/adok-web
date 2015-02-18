@@ -81,8 +81,6 @@ exports = module.exports = function(app, passport) {
 	app.get('/login/google/callback/', require('./views/login/index').loginGoogle);
 
 	//adok-adm
-	//app.all('/adok-adm*', ensureAuthenticated);
-	//app.all('/adok-adm*', ensureAdmin);
 	app.get('/adok-adm/', require('./views/adok-adm/index').init);
 	app.post('/adok-adm/', require('./views/adok-adm/index').login);
 
@@ -184,7 +182,7 @@ exports = module.exports = function(app, passport) {
 	app.delete('/account/settings/delete/', require('./views/account/settings/index').delete);
 
 	//account > propose
-	app.post('/account/propose/activity', require('./views/account/propose/index').addActivity);
+	// app.post('/account/propose/activity', require('./views/account/propose/index').addActivity);
 	app.post('/propose', app.modules.propose.Propose);
 
 	//account > zone
@@ -221,11 +219,11 @@ exports = module.exports = function(app, passport) {
 	app.get('/account/settings/google/disconnect/', require('./views/account/settings/index').disconnectGoogle);
 
 	app.all('/event*', app.modules.ensure.Authentification);
-	app.get('/event/activity/:id', function(req, res, next) {
+	app.get('/event/:id', function(req, res, next) {
 		if (req.session.accType == 'account')
 			require('./views/events/account/activity').init(req, res, next);
 	});
-	app.put('/event/activity/:id/edit', function(req, res, next) {
+	app.put('/event/:id/edit', function(req, res, next) {
 		if (req.session.accType == 'account')
 			require('./views/events/account/activity').edit(req, res, next);
 	});

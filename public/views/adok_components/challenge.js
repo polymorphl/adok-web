@@ -9,28 +9,6 @@
 
 	var app = app || {};
 
-	function updateDoubleDate(el, range) {
-		el.attr('v1', moment(moment().unix()*1000).format("YYYY-MM-DD"));
-		el.attr('v2', moment(moment().add(1, 'M').unix()*1000).format("YYYY-MM-DD"));
-		jQuery(range).slider({
-	  	range: true,
-	    min: moment().unix()*1000,
-	    max: moment().add(1, 'M').unix()*1000,
-	    step: 86400000,
-	    values: [ moment().unix()*1000, moment().add(1, 'M').unix()*1000 ],
-	    slide: function( event, ui ) {
-	    	var day1 = moment(ui.values[0]).toDate();
-	    	var day2 = moment(ui.values[1]).toDate();
-	    	var d1 = moment(day1).format("DD/MM");
-	    	var d2 = moment(day2).format("DD/MM");
-				jQuery(el).attr('v1', moment(day1).format("YYYY-MM-DD"));
-				jQuery(el).attr('v2', moment(day2).format("YYYY-MM-DD"));
-	      jQuery(el).val( d1 + " " + d2 );
-	  		// FORMAT : DD-MM DD-MM
-	    }
-		});
-	}
-
 	function autocomplete(that) {
 		that.$el.find('[name="place"]').autocomplete({
 			source: function(req, res) {
@@ -125,18 +103,13 @@
 		defaults: {
 			errors: [],
 			errfor: {},
-			type: 'act',
-			category: '',
 			title: '',
-			date0: '',
-			date1: '',
 			hashtag: '',
 			place: '',
 			place_value: '',
 			place_Lat: '',
 			place_Lng: '',
 			desc: '',
-			visibility: 10,
 			toNotif: [],
 			photo: {}
 		}
@@ -155,7 +128,6 @@
 		render: function() {
 			var that = this;
 			this.$el.append(this.template(this.model.attributes));
-			updateDoubleDate($('[name="dateCtrl"]'), $('#rangeCtrld0'));
 			autocomplete(this);
 			autocomplete_friends(this);
 		},
@@ -164,24 +136,20 @@
 		},
 		propose: function() {
 			this.model.save({
-				category: 0,
 				title: this.$el.find("[name='title']").val(),
 				desc: this.$el.find("[name='desc']").val(),
-				date0: moment(this.$el.find("[name='dateCtrl']").attr('v1')),
-				date1: moment(this.$el.find("[name='dateCtrl']").attr('v2')),
 				hashtag: this.$el.find("[name='hashtag']").val(),
 				place: this.$el.find("[name='place']").val(),
 				place_value: this.$el.find("[name='place_value']").val(),
 				place_Lat: this.$el.find("[name='place_Lat']").val(),
 				place_Lng: this.$el.find("[name='place_Lng']").val(),
-				visibility: this.$el.find("[name='km']").val(),
 				toNotif: $.map(this.$el.find("ul.container-ptc > li"), function(item) {
 					return $(item).attr('userid');
 				})
 			},{
 				success: function(model, response) {
 					if (response.success) {
-						location.href = '/event/activity/'+response.event._id;
+						location.href = '/event/'+response.event._id;
 					} else
 						model.set(response);
 				}

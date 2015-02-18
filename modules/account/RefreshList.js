@@ -5,10 +5,6 @@ var catTab = {
 exports = module.exports = function(req, res) {
   var date = Date.now(),
   query = {
-    $or : [
-    { date: { '$gt': date }, type: catTab['activity'] },
-    { date: { '$lt': date }, date2: { '$gt': date }, type: catTab['exchange'] }
-    ],
     _id: { '$nin': req.body.idsTab || [] },
     accType: req.session.accType
   };
@@ -24,10 +20,7 @@ exports = module.exports = function(req, res) {
           if (e.acc) {
             var to_add = {
               'id': e._id,
-              'c': e.category,
               't': e.title,
-              'd': e.date,
-              'd2': e.date2,
               'e': e.desc,
               'a': e.place,
               'pp': e.photos,
@@ -35,11 +28,10 @@ exports = module.exports = function(req, res) {
                 e.latLng[0], //longitude
                 e.latLng[1]  //latitude
               ],
-              'type': e.type,
               'linked': false,
               'by': {
                 'id': e.acc._id,
-                'type': (e.accType == 'account' ? 'user' : 'pro'),
+                'type': 'user',
                 'name': e.acc.roles[e.accType].name.full || e.acc.roles[e.accType].name,
                 'pic': e.acc.roles[e.accType].picture
               }
@@ -50,6 +42,7 @@ exports = module.exports = function(req, res) {
             req.app.db.models.UserLink.findOne(find).exec(function(err, res) {
               if (res || (e.acc.roles[e.accType]._id == req.user.roles[req.session.accType]._id))
                 to_add.linked = true;
+              console.log("HEY! -> " +to_add);
               eventsList.push(to_add);
               return cb(null);
             });

@@ -82,7 +82,7 @@ $explosion-duration: 0.3s;
 		@include appearance(none); @include position($option-size / 5 0 0 5);
 		@include size($option-size); @include transition;
 		background: $option-color; border: 1px solid darken($blue_a, 5%);
-		color: #fff; cursor: pointer; z-index: 1000;
+		color: #fff; cursor: pointer; z-index: 100;
 		display: inline-block; outline: none;
 		position: relative; margin-right: 0.2rem;
 

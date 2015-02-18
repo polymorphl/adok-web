@@ -30,12 +30,6 @@ script(type='text/template', id='tmpl-event')
     input.fs-anim-lower(type='hidden', name='place_value', value!='<%= place_value %>', required)
     input.fs-anim-lower(type='hidden', name='place_Lat', value!='<%= place_Lat %>', required)
     input.fs-anim-lower(type='hidden', name='place_Lng', value!='<%= place_Lng %>', required)
-  li(data-input-trigger)
-    label.fs-field-label.fs-anim-upper(for='fromDate')= t('challenge.date')
-    input.fs-anim-lower(name='dateCtrl', type='text', data-role="none",
-          value=moment().format('DD/MM') + " " + moment().add(1, "M").format('DD/MM'),
-          max= moment().endOf('month').format('DD/MM'), min= moment().format('DD/MM'), required)
-    div.fs-anim-lower#rangeCtrld0
     label.fs-field-label.fs-anim-upper(for='hashtag')= t('challenge.hashtags')
     input.fs-anim-lower(name='hashtag', value!='<%= hashtag %>', autofocus, required)
     div.privacy#privacy
@@ -43,8 +37,7 @@ script(type='text/template', id='tmpl-event')
         label.fs-field-label.fs-anim-upper Notifier des amis
         input(type="text", name="ptc_list")
         ul.container-ptc
-
-
+    
 script(type='text/template', id='tmpl-invitation_item')
   li(userID!="<%= uid %>")
     img(src!="<%= pic %>")

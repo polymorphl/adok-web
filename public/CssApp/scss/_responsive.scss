@@ -87,6 +87,11 @@
 		width: $menu-width!important;
 		@include transform(translateX($menu-width * -1));
 
+		.searchbar {
+			input {
+				width: 75%;
+			}
+		}
 		.navbar-l {
 			float: left!important; width:inherit!important;
 			margin: 0!important; padding-left: 0px!important;
@@ -101,7 +106,7 @@
 					line-height: 40px;
 					border-bottom: 1px solid $header-bg;
 
-					img { display: none!important; }
+					img, i { display: none!important; }
 				}
 				.helper {
 					display: block!important; background-color: transparent!important;
@@ -117,9 +122,9 @@
 		}
 
 		.navbar-r {
-			float: left!important; width: 100%; padding-left: 20px;
-			left: 0; right: 0; top: 30px; position: absolute;
-			font-size: 18px;
+			width: 100%; padding-left: 10px;
+			left: 0; right: 0; bottom: 30px; 
+			font-size: 18px; position: absolute;
 
 			li { color:white!important; }
 
@@ -129,6 +134,7 @@
 
 			.nav-dropdown {
 				padding-left: 20px; width: inherit!important;
+				margin-top: 120px; border-top: 1px solid $purple_a;
 
 				.nav-dropdown-menu {
 					color: white!important; display: block!important;
@@ -243,12 +249,19 @@
 		}
 	}
 
+	.results {
+		width: 350px!important;
+		overflow-x: hidden;
+		ul#tileItems {
+			margin: 0 2.5%; width: 330px;
+		}
+	}
+
 
 }
 
 @media only screen and (max-width: $width-x-small) {
 
-	#map  { display: none; }
 	.l-footer {
 		.l-footer__links { display: none; }
 	}

@@ -65,11 +65,11 @@
 	 */
 	FForm.prototype.options = {
 		// show progress bar
-		ctrlProgress : true,
+		ctrlProgress : false,
 		// show navigation dots
-		ctrlNavDots : true,
+		ctrlNavDots : false,
 		// show [current field]/[total fields] status
-		ctrlNavPosition : true,
+		ctrlNavPosition : false,
 		// reached the review and submit step
 		onReview : function() { return false; }
 	};
@@ -346,10 +346,10 @@
 
 				if( self.isLastStep ) {
 					// show the complete form and hide the controls
-					self._hideCtrl( self.ctrlNav );
-					self._hideCtrl( self.ctrlProgress );
-					self._hideCtrl( self.ctrlContinue );
-					self._hideCtrl( self.ctrlFldStatus );
+					// self._hideCtrl( self.ctrlNav );
+					// self._hideCtrl( self.ctrlProgress );
+					// self._hideCtrl( self.ctrlContinue );
+					// self._hideCtrl( self.ctrlFldStatus );
 					// replace class fs-form-full with fs-form-overview
 					classie.remove( self.formEl, 'fs-form-full' );
 					classie.add( self.formEl, 'fs-form-overview' );

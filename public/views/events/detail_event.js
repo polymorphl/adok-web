@@ -53,9 +53,6 @@
 	app.LeftDataModel = Backbone.Model.extend({
 		idAttribute: '_id',
 		defaults: {
-			date: '',
-			emonth: '',
-			eday: '',
 			photos: ''
 		}
 	});
@@ -64,11 +61,7 @@
 		el: ".left",
 		template: _.template( $('#tmpl-left').html()),
 		initialize: function(item) {
-			moment.localeData("fr");
-			var base = moment(item.date);
 			this.model = new app.LeftDataModel();
-			item.emonth = base.format("MMMM");
-			item.eday = base.format("DD");
 			this.model.set(item);
 			this.render();
 		},
@@ -87,6 +80,8 @@
 			return ("/event/ownerActions/"+this.id+"/delete");
 		}
 	});
+
+
 
 	app.RightDataView = Backbone.View.extend({
 		el: ".right",
@@ -226,7 +221,7 @@
 	          else {
 	          	alert("Une erreur est survenue.");
 	          }
-           	location.href = "/event/activity/"+model.id;
+           	location.href = "/event/"+model.id;
           }
           else {
           	alert("Une erreur est survenue.");
@@ -240,18 +235,14 @@
 		idAttribute: '_id',
 		defaults: {
 			id: '',
-			date: '',
 			desc: '',
 			title: '',
 			latLng: ['', ''],
 			hashtag: '',
-			place: '',
-			eyear: '',
-			emonth: '',
-			eday: '',
+			place: ''
 		},
 		url: function() {
-			return ("/event/activity/"+this.id+"/edit");
+			return ("/event/"+this.id+"/edit");
 		}
 	});
 
@@ -262,17 +253,6 @@
 			'click .close': 'close_edit_p'
 		},
 		initialize: function(item) {
-			moment.localeData('fr');
-			var base = moment(item.date);
-			var base1 = moment(item.date2);
-			item.date = moment(base).format("YYYY-MM-DD");
-			item.eyear = moment(base).format("YYYY");
-			item.emonth = moment(base).format("MMMM");
-			item.eday = base.format("DD");
-			item.date2 = moment(base1).format("YYYY-MM-DD");
-			item.eyear1 = base1.format("YYYY");
-			item.emonth1 = base1.format("MMM");
-			item.eday1 = base1.format("DD");
 			this.id = item._id;
 			this.model = new app.EditDataModel();
 			this.model.set(item);
@@ -283,19 +263,13 @@
 			$('.box-overlay').removeClass("is-active");
 			$("body").removeClass("modal-open");
 			$('#editd_prop').velocity('transition.slideDownBigOut', { duration: 300 }).removeClass('is-open');
-			location.href = "/event/activity/"+this.id;
+			location.href = "/event/"+this.id;
 		},
 		validation: function(e) {
 			e.preventDefault();
 			e.stopPropagation();
 			this.model.save({
 				id: this.id,
-				year: this.$el.find('[name="date"]').val().split("-")[0],
-				month: this.$el.find('[name="date"]').val().split("-")[1],
-				day: this.$el.find('[name="date"]').val().split("-")[2],
-				year1: this.$el.find('[name="date1"]').val().split("-")[0],
-				month1: this.$el.find('[name="date1"]').val().split("-")[1],
-				day1: this.$el.find('[name="date1"]').val().split("-")[2],
 				title: this.$el.find('[name="title"]').val(),
 				desc: this.$el.find('[name="desc"]').val(),
 				hashtag: this.$el.find('[name="hashtag"]').val(),
@@ -361,17 +335,6 @@
 			'click .refresh': 'refresh_data'
 		},
 		initialize: function(item) {
-			moment.localeData('fr');
-			var base = moment(item.date);
-			var base1 = moment(item.date2);
-			item.date = moment(base).format("YYYY-MM-DD");
-			item.eyear = moment(base).format("YYYY");
-			item.emonth = moment(base).format("MMMM");
-			item.eday = base.format("DD");
-			item.date2 = moment(base1).format("YYYY-MM-DD");
-			item.eyear1 = base1.format("YYYY");
-			item.emonth1 = base1.format("MMM");
-			item.eday1 = base1.format("DD");
 			this.id = item._id;
 			this.model = new app.EditDataModel();
 			this.model.set(item);
@@ -384,14 +347,6 @@
 			return this;
 		},
 		refresh_data: function() {
-			$('input[name="date"]').val(this.model.attributes.date);
-			$('input[name="date1"]').val(this.model.attributes.date2);
-			$('input[name="year"]').val(this.model.attributes.eyear);
-			$('input[name="month"]').val(this.model.attributes.emonth);
-			$('input[name="day"]').val(this.model.attributes.eday);
-			$('input[name="year1"]').val(this.model.attributes.eyear1);
-			$('input[name="month1"]').val(this.model.attributes.emonth1);
-			$('input[name="day1"]').val(this.model.attributes.eday1);
 			$('input[name="title"]').val(this.model.attributes.title);
 			$('textarea[name="desc"]').val(this.model.attributes.desc);
 			$('input[name="place"]').val(this.model.attributes.place);
@@ -420,7 +375,7 @@
 
   $(document).ready(function() {
     app.Actions = new app.ownerActions();
-    socket = io.connect("http://localhost/comment", {'secure': true});
+    socket = io.connect("http://localhost:8080/comment", {'secure': true});
 
     socket.on('connect', function(socketClient) {
       socket.emit('idevent', {'eventid':idEvent, 'typeevent':type});
@@ -442,7 +397,7 @@
 
     var eventData = JSON.parse(unescape( $("#event-results").html() ));
     eventData.isRegistered = $("#event-reg").html() + "";
-		new app.LeftDataView(eventData);
+    new app.LeftDataView(eventData);
 		new app.RightDataView(eventData);
 		new app.EditDataView(eventData);
 		new app.JoinEventView(eventData);

@@ -2,15 +2,7 @@ var moment = require('moment');
 var colors = require('colors');
 
 exports = module.exports = function(req, res) {
-	var typeAssoc = {
-		act: 0
-	};
 
-	var selector = {
-		'act': Activity
-	};
-
-	// selector[req.body.type](req, res);
 	var workflow = req.app.utility.workflow(req, res);
 
 	workflow.on('validate', function() {
@@ -23,14 +15,6 @@ exports = module.exports = function(req, res) {
 		}
 
 		var reg = new RegExp(req.i18n.t('dateRegex'));
-
-		if (!req.body.date0) {
-			workflow.outcome.errfor.date = req.i18n.t('errors.required');
-		}
-
-		if (!req.body.date1) {
-			workflow.outcome.errfor.date = req.i18n.t('errors.required');
-		}
 
 		if (!req.body.hashtag) {
 			workflow.outcome.errfor.hashtag = req.i18n.t('errors.required');
@@ -51,28 +35,22 @@ exports = module.exports = function(req, res) {
 		var fieldsToSet = {
 			acc: req.user._id,
 			accType: req.session.accType,
-			type: typeAssoc[req.body.type],
-			category: req.body.category,
 			title: req.body.title,
 			desc: req.body.desc,
-			date: moment(req.body.date0).toDate(),
-			date2: moment(req.body.date1).toDate(),
 			hashtag: req.body.hashtag,
 			place: req.body.place_value,
 			latLng: [req.body.place_Lng, req.body.place_Lat],
 			toNotif: req.body.toNotif
 		};
-		fieldsToSet.troc = (req.body.swap ? req.body.swap : false);
 		
 		req.app.db.models.Event.create(fieldsToSet, function(err, event) {
 			console.log("inside".green);
 			console.log(err+''.red);
-			console.log(event+''.green);
 			if (err) {
 				return workflow.emit('exception', err);
 			}
 			var notif = require('../../tools/RRNotifications.js');
-			notif.addNotification(req.app, req, event, req.body.toNotif, typeAssoc[req.body.type]);
+			notif.addNotification(req.app, req, event, req.body.toNotif, "challenge");
 			workflow.outcome.event = event;
 			return workflow.emit('response');
 		});
@@ -84,7 +62,6 @@ exports = module.exports = function(req, res) {
 
 var Activity = function(req, res){
 	var workflow = req.app.utility.workflow(req, res);
-	// req.body.date0 = moment(req.body.date0, "DD/MM/YYYY HH:mm").toDate();
 
 	workflow.on('validate', function() {
 		if (!req.body.title) {
@@ -96,13 +73,6 @@ var Activity = function(req, res){
 
 		var reg = new RegExp(req.i18n.t('dateRegex'));
 
-		if (!req.body.date0) {
-			workflow.outcome.errfor.date = req.i18n.t('errors.required');
-		}
-
-		if (!req.body.date1) {
-			workflow.outcome.errfor.date = req.i18n.t('errors.required');
-		}
 
 		if (!req.body.hashtag) {
 			workflow.outcome.errfor.hashtag = req.i18n.t('errors.required');
@@ -126,8 +96,6 @@ var Activity = function(req, res){
 			accType: req.session.accType,
 			title: req.body.title,
 			desc: req.body.desc,
-			date: moment(req.body.date0).toDate(),
-			date2: moment(req.body.date1).toDate(),
 			hashtag: req.body.hashtag,
 			place: req.body.place_value,
 			latLng: [req.body.place_Lng, req.body.place_Lat],
@@ -138,7 +106,7 @@ var Activity = function(req, res){
 			if (err)
 				return workflow.emit('exception', err);
 			var notif = require('../../tools/RRNotifications.js');
-			notif.addNotification(req.app, req, event, req.body.toNotif, "activity");
+			notif.addNotification(req.app, req, event, req.body.toNotif, "challenge");
 			workflow.outcome.event = event;
 			return workflow.emit('response');
 		});

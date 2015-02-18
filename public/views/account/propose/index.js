@@ -12,14 +12,11 @@
 			errfor: {},
 			category: '',
 			title: '',
-			date: moment().add(10, 'minutes').toDate(),
 			time: moment(moment().add(10, 'minutes')).format('HH:mm'),
 			place_value: '',
 			place_Lat: '',
 			place_Lng: '',
 			place: '',
-			price: '0',
-			numOfPtc: '',
 			photos: '',
 			desc: ''
 		}
@@ -84,14 +81,7 @@
 			this.$el.html(this.template( this.model.attributes ));
 			this.$el.find('[name="desc"]').val(this.model.attributes.desc);
 			this.$el.find('[name="title"]').focus();
-			this.$el.find('[name="date"]').pikaday({
-				firstDay: lng.firstDay,
-				format: lng.format,
-				defaultDate: this.model.attributes.date,
-				setDefaultDate: this.model.attributes.date,
-				i18n: lng.date,
-				showMeridian: lng.meridian
-			});
+			);
 			//this.$el.find('[name="time"]').timepicker();
 			this.$el.find('[name="place"]').autocomplete({
 				source: function(req, res) {
@@ -129,7 +119,6 @@
 
 			this.model.save({
 				title: this.$el.find('[name="title"]').val(),
-				date: this.$el.find('[name="date"]').val(),
 				time: this.$el.find('[name="time"]').val(),
 				place: this.$el.find('[name="place"]').val(),
 				place_value: this.$el.find('[name="place_value"]').val(),
