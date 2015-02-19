@@ -23,7 +23,7 @@ exports = module.exports = function(app, mongoose) {
     devices: {
       deviceId: {type: mongoose.Schema.Types.ObjectId, ref: 'Device'}
     },
-    badges: {type: Array},
+    badges: [{type: mongoose.Schema.Types.ObjectId, ref: 'Badge'}],
     isVerified: { type: String, default: '' },
     picture: {type: String, default: ''},
     search: [String],

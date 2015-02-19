@@ -78,6 +78,7 @@
     template: _.template( $('#tmpl-results-table').html() ),
     initialize: function() {
       this.collection = new app.RecordCollection( app.mainView.results );
+      console.log(app.mainView.results);
       this.listenTo(this.collection, 'reset', this.render);
       this.render();
     },
@@ -86,6 +87,7 @@
 
       var frag = document.createDocumentFragment();
       this.collection.each(function(record) {
+      	console.log(record);
         var view = new app.ResultsRowView({ model: record });
         frag.appendChild(view.render().el);
       }, this);

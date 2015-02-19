@@ -95,6 +95,25 @@ exports.read = function(req, res, next){
     });
   };
 
+  var getBadge = function(callback) {
+    var parsedList = [];
+
+    req.app.db.models.Account.findById(req.params.id).populate('badges', 'name').exec(function(err, account){
+      if (err){
+        return callback(err, null);
+      }
+      for (var i = 0; i < account.badges.length; i++) {
+        var toAdd = {
+            _id: account.badges[i]._id
+          , name: account.badges[i].name
+        };
+        parsedList.push(toAdd);
+      };
+      outcome.badges = parsedList;
+      return callback(null, 'done');     
+    });
+  };
+
   var asyncFinally = function(err, results) {
     if (err) {
       return next(err);
@@ -107,13 +126,14 @@ exports.read = function(req, res, next){
       res.render('admin/accounts/details', {
         data: {
           record: escape(JSON.stringify(outcome.record)),
-          statuses: outcome.statuses
+          statuses: outcome.statuses,
+          results: escape(JSON.stringify(outcome.badges))
         }
       });
     }
   };
 
-  require('async').parallel([getStatusOptions, getRecord], asyncFinally);
+  require('async').parallel([getStatusOptions, getRecord, getBadge], asyncFinally);
 };
 
 exports.create = function(req, res, next){
@@ -458,7 +478,6 @@ exports.attachBadge = function(req, res, next){
 
   workflow.on('addBadge', function() {
     req.app.db.models.Badge.findOne( { name : req.body.name }).exec(function(err, badge) {
-      console.log("retour de ces morts"+ badge);
       if (err) {
         return workflow.emit('exception', err || 500);
       }
@@ -469,27 +488,23 @@ exports.attachBadge = function(req, res, next){
   workflow.on('patchAccount', function(badge) {
     req.app.db.models.Account.findById(req.params.id).exec(function(err, res) {
       if (res.badges.indexOf(badge.id.toString()) != -1){
-        // req.app.db.models.Account.findByIdAndUpdate(res.id, {$pull: {badges: badge.id}}).exec(function(err, count, newTab){
-        //   if (err) {
-        //     return workflow.emit('exception', err);
-        //   }
-        //   workflow.outcome.badges = newTab;
-        //   return workflow.emit('response');
-        // });
+          if (err) {
+            return workflow.emit('exception', err);
+          }
       }
       else {
         res.badges.push(badge.id.toString());
         res.save(function(err, res) {
           if (err) {
-            console.log(err);
             return workflow.emit('exception', err);
           }
-          workflow.outcome.badges = res.badges;
+          workflow.outcome.badge = badge;
           workflow.emit('response');
         });
       }
     });
   });
+
   workflow.emit('validate');
 };
 
@@ -498,19 +513,16 @@ exports.dettachBadge = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.user.roles.admin.isMemberOf('root')) {
-      workflow.outcome.errors.push('You may not delete badges.');
-      return workflow.emit('response');
+      return workflow.emit('exception', 'You may not delete badges.');
     }
-
     workflow.emit('deleteBadge');
   });
 
   workflow.on('deleteBadge', function() {
-    req.app.db.models.Account.findByIdAndUpdate(res.id, {$pull: {badges: badge.id}}).exec(function(err, newTab){
+    req.app.db.models.Account.findByIdAndUpdate(req.params.id, {$pull: {badges: req.params.badgeID}}).exec(function(err, newTab){
       if (err) {
         return workflow.emit('exception', err);
       }
-      workflow.outcome.badges = newTab;
       return workflow.emit('response');
     });
   });

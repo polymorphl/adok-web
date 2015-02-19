@@ -13,6 +13,7 @@ block body
       div#details
       div#login
       div#badge
+      div#results-table
       div#delete
 
   script(type='text/template', id='tmpl-header')
@@ -155,6 +156,29 @@ block body
         input.form-control(type='text', name='badge', value!='<%- name %>')
         span.help-block <%= errfor.badge %>
       div.control-group
-        button.btn.btn-primary.btn-update(type='button') Mettre à jour
+        button.btn.btn-primary.btn-update(type='button') Ajouter
+  
+  script(type='text/template', id='tmpl-results-table')
+    fieldset
+      legend Liste des Badge(s)
+      table.table.table-striped
+        thead
+          tr
+            th
+            th(style='background-color:blue; text-align:center')
+              | Badge Name          
+        tbody#results-rows(style='border: 5px solid red')
+
+  script(type='text/template', id='tmpl-results-row')
+    td
+      input.btn.btn-default.btn-sm.btn-dettach(type='button', value='Dettach')
+    td(style='text-align:center')
+      span.badge-clear <%= name %>
+
+  script(type='text/template', id='tmpl-results-empty-row')
+    tr
+      td(colspan='4') Any badge finded
+
+  script(type='text/template', id='data-results') !{data.results}
 
   script(type='text/template', id='data-record') !{data.record}

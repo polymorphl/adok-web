@@ -80,7 +80,15 @@
       name: ''
     },
     url: function() {
-      return '/admin/accounts/'+ app.mainView.model.id +'/';
+      return '/admin/accounts/'+ app.mainView.model.id + '/' + (this.isNew() ? '' : this.id);
+    }
+  });
+
+  app.RecordCollection = Backbone.Collection.extend({
+    model: app.Badge,
+    url: '/admin/accounts/',
+    parse: function(results) {
+      return results.data;
     }
   });
 
@@ -250,9 +258,8 @@
         },{
           success: function(model, response) {
             if (response.success) {
-              console.log(response);
-              model.id = response.badge.id;
-              location.href = model.url();
+              app.resultView.collection.add(new app.Badge(response.badge))
+              app.resultView.render();
             }
             else {
               alert(response.errors.join('\n'));
@@ -263,17 +270,78 @@
     }
   });
 
+ app.ResultsView = Backbone.View.extend({
+    el: '#results-table',
+    template: _.template( $('#tmpl-results-table').html() ),
+    initialize: function() {
+      this.collection = new app.RecordCollection( app.mainView.results );
+      this.listenTo(this.collection, 'reset', this.render);
+      this.render();
+    },
+    render: function() {
+      this.$el.html( this.template() );
+
+      var frag = document.createDocumentFragment();
+      this.collection.each(function(record) {
+        var view = new app.ResultsRowView({ model: record });
+        frag.appendChild(view.render().el);
+      }, this);
+      $('#results-rows').append(frag);
+
+      if (this.collection.length === 0) {
+        $('#results-rows').append( $('#tmpl-results-empty-row').html() );
+      }
+    }
+  });
+
+  app.ResultsRowView = Backbone.View.extend({
+    tagName: 'tr',
+    template: _.template( $('#tmpl-results-row').html() ),
+    events: {
+      'click .btn-dettach': 'dettachBadge'
+    },
+    dettachBadge: function() {
+      if (confirm('Are you sure?')) {
+        this.model.destroy({
+          success: function(model, response) {
+            if (response.success) {
+              app.resultView.render();
+            }
+            else {
+              app.dettachView.model.set(response);
+            }
+          }
+        });
+      }      
+    },
+    render: function() {
+      this.$el.html(this.template( this.model.attributes ));
+      this.$el.find('.timeago').each(function(index, indexValue) {
+        if (indexValue.innerText) {
+          var myMoment = moment(indexValue.innerText);
+          indexValue.innerText = myMoment.from();
+          if (indexValue.getAttribute('data-age')) {
+            indexValue.innerText = indexValue.innerText.replace('ago', 'old');
+          }
+        }
+      });
+      return this;
+    }
+  });
+
   app.MainView = Backbone.View.extend({
     el: '.page .container',
     initialize: function() {
       app.mainView = this;
       this.model = new app.Account( JSON.parse( unescape($('#data-record').html()) ) );
-      
+      this.results = JSON.parse( unescape($('#data-results').html()) );
+
       app.headerView = new app.HeaderView();
       app.detailsView = new app.DetailsView();
       app.deleteView = new app.DeleteView();
       app.loginView = new app.LoginView();
       app.badgeView = new app.BadgeView();
+      app.resultView = new app.ResultsView();
     }
   });
 
