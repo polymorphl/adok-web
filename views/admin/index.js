@@ -2,7 +2,7 @@
 
 exports.init = function(req, res, next){
   var sigma = {};
-  var collections = ['Account', 'Admin', 'Event', 'Badge'];
+  var collections = ['Account', 'Admin', 'Event', 'Badge', 'Report'];
   var queries = [];
 
   collections.forEach(function(el, i, arr) {

@@ -65,12 +65,22 @@ var renderZone = function(req, res, next, oauthMessage) {
   };
 
   var getBadges = function(callback) {
-    req.app.db.models.Badge.find('name title desc').exec(function(err, badges) {
-      if (err)
-        return callback('Error getting badges', null);
-      my_badges = badges;
-      return callback(null, 'done');
-    })
+    var parsedList = [];
+
+    req.app.db.models.Account.findById(req.params.id).populate('badges', 'name').exec(function(err, account){
+      if (err){
+        return callback(err, null);
+      }
+      for (var i = 0; i < account.badges.length; i++) {
+        var toAdd = {
+            _id: account.badges[i]._id
+          , name: account.badges[i].name
+        };
+        parsedList.push(toAdd);
+      };
+      my_badges = parsedList;
+      return callback(null, 'done');     
+    });
   };
 
   var getEvent = function(callback) {

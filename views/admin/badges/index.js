@@ -1,15 +1,15 @@
 'use strict';
 
 exports.init = function(req, res){
-		req.app.db.models.Badge.find().sort('name').exec(function(error, results) {
-			if (error) {
-					console.log(error);
-			}
-			res.render('admin/badges/index', {
-				'title': 'Badges',
-				'data': escape(JSON.stringify(results))
-			});
+	req.app.db.models.Badge.find().sort('name').exec(function(error, results) {
+		if (error) {
+				console.log(error);
+		}
+		res.render('admin/badges/index', {
+			'title': 'Badges',
+			'data': escape(JSON.stringify(results))
 		});
+	});
 }
 
 exports.add = function(req, res, callback){

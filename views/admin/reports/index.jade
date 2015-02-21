@@ -1,0 +1,40 @@
+extends ../../../layouts/admin
+
+block head
+	title Report Area
+
+block feet
+	script(src='/views/min/admin/reports/index.min.js')
+
+block body
+	div.app-content
+		div.page-container
+			div#results-table
+
+		script(type='text/template', id='tmpl-results-table')
+			fieldset
+				legend Report(s) list
+				table.table.table-striped
+					thead
+						tr
+							th
+							th(style='background-color:blue; text-align:center')
+								| User Id
+							th(style='background-color:white; text-align:center')
+								| Description					
+					tbody#results-rows(style='border: 5px')
+
+		script(type='text/template', id='tmpl-results-row')
+			td
+				input.btn.btn-default.btn-sm.btn-details(type='button', value='Edit')
+			td(style='text-align:center')
+				span.badge-clear <%= reportId %>
+			td(style='text-align:center')
+				span.badge-clear <%= desc %>
+
+		script(type='text/template', id='tmpl-results-empty-row')
+			tr
+				td(colspan='4') Any report finded
+
+	
+		script(type='text/template', id='data-results') !{data}		

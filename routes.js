@@ -126,13 +126,6 @@ exports = module.exports = function(app, passport) {
 	app.put('/admin/admin-groups/:id/permissions/', require('./views/admin/admin-groups/index').permissions);
 	app.delete('/admin/admin-groups/:id/', require('./views/admin/admin-groups/index').delete);
 
-	//admin > badges
-	app.get('/admin/badges/', require('./views/admin/badges/index').init);
-	app.post('/admin/badges/', require('./views/admin/badges/index').add);
-	app.get('/admin/badges/:id/', require('./views/admin/badges/details').read);
-	app.put('/admin/badges/:id/', require('./views/admin/badges/details').update);
-	app.delete('/admin/badges/:id/', require('./views/admin/badges/details').delete);
-
 	//admin > accounts
 	app.get('/admin/accounts/', require('./views/admin/accounts/index').find);
 	app.post('/admin/accounts/', require('./views/admin/accounts/index').create);
@@ -145,6 +138,17 @@ exports = module.exports = function(app, passport) {
 	app.post('/admin/accounts/:id/notes/', require('./views/admin/accounts/index').newNote);
 	app.post('/admin/accounts/:id/status/', require('./views/admin/accounts/index').newStatus);
 	app.delete('/admin/accounts/:id/', require('./views/admin/accounts/index').delete);
+
+	//admin > badges
+	app.get('/admin/badges/', require('./views/admin/badges/index').init);
+	app.post('/admin/badges/', require('./views/admin/badges/index').add);
+	app.get('/admin/badges/:id/', require('./views/admin/badges/details').read);
+	app.put('/admin/badges/:id/', require('./views/admin/badges/details').update);
+	app.delete('/admin/badges/:id/', require('./views/admin/badges/details').delete);
+
+	//admin > reports
+	app.get('/admin/reports/', require('./views/admin/reports/index').read);
+	app.post('/admin/reports/create/', require('./views/admin/reports/index').create);
 
 	 //admin > statuses
 	app.get('/admin/statuses/', require('./views/admin/statuses/index').find);
