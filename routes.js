@@ -19,6 +19,13 @@ function ensureAdmin(req, res, next) {
 	res.redirect('/');
 }
 
+function isBanned(req, res, next) {
+	if (!(req.user.banned)) {
+		return next();
+	}
+	res.redirect('/');
+}
+
 function ensureAccount(req, res, next) {
 	if (req.user.canPlayRoleOf('account') && req.session.accType == 'account') {
 		if (req.app.get('require-account-verification')) {
@@ -149,6 +156,9 @@ exports = module.exports = function(app, passport) {
 	//admin > reports
 	app.get('/admin/reports/', require('./views/admin/reports/index').read);
 	app.post('/admin/reports/create/', require('./views/admin/reports/index').create);
+	app.post('/admin/reports/lock-account/', require('./views/admin/reports/index').lockAccount);
+	app.post('/admin/reports/unlock-account/', require('./views/admin/reports/index').unlockAccount);
+	app.delete('/admin/reports/delete/', require('./views/admin/reports/index').delete);
 
 	 //admin > statuses
 	app.get('/admin/statuses/', require('./views/admin/statuses/index').find);
