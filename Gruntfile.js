@@ -81,6 +81,7 @@ module.exports = function(grunt) {
 			clientJS: {
 				 files: [
 					'public/layouts/**/*.js', '!public/layouts/**/*.min.js',
+					'public/adok_components/**/*.js', '!public/adok_components/**/*.min.js',
 					'public/views/**/*.js', '!public/views/**/*.min.js'
 				 ],
 				 tasks: ['newer:uglify']

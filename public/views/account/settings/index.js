@@ -35,26 +35,6 @@
     }
   });
 
-  app.Password = Backbone.Model.extend({
-    idAttribute: '_id',
-    defaults: {
-      success: false,
-      errors: [],
-      errfor: {},
-      newPassword: '',
-      confirm: ''
-    },
-    url: '/account/settings/password/',
-    parse: function(response) {
-      if (response.user) {
-        app.mainView.user.set(response.user);
-        delete response.user;
-      }
-
-      return response;
-    }
-  });
-
   app.Delete = Backbone.Model.extend({
     idAttribute: '_id',
     defaults: {
@@ -104,34 +84,6 @@
     }
   });
 
-  app.PasswordView = Backbone.View.extend({
-    el: '#password',
-    template: _.template( $('#tmpl-password').html() ),
-    events: {
-      'click .btn-password': 'password'
-    },
-    initialize: function() {
-      this.model = new app.Password({ _id: app.mainView.user.id });
-      this.listenTo(this.model, 'sync', this.render);
-      this.render();
-    },
-    render: function() {
-      this.$el.html(this.template( this.model.attributes ));
-
-      for (var key in this.model.attributes) {
-        if (this.model.attributes.hasOwnProperty(key)) {
-          this.$el.find('[name="'+ key +'"]').val(this.model.attributes[key]);
-        }
-      }
-    },
-    password: function() {
-      this.model.save({
-        newPassword: this.$el.find('[name="newPassword"]').val(),
-        confirm: this.$el.find('[name="confirm"]').val()
-      });
-    }
-  });
-
   app.DeleteView = Backbone.View.extend({
     el: '#delete',
     template: _.template( $('#tmpl-delete').html() ),
@@ -170,7 +122,6 @@
       this.user = new app.User( JSON.parse( unescape($('#data-user').html()) ) );
 
       app.identityView = new app.IdentityView();
-      app.passwordView = new app.PasswordView();
       app.deleteView = new app.DeleteView();
     }
   });
@@ -180,7 +131,6 @@
     
     $(".alert .close").on("click", function(e){
       e.preventDefault();
-      console.log("test");
       $(this).remove();
     });
   });

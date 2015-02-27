@@ -1,5 +1,6 @@
 {
 	"name": "adok",
+	"noval": "S'il vous plaît, remplissez le champ avant de continuer",
 	"errors": {
 		"404": "Page introuvable",
 		"404l": "La ressource que vous avez demandée n'existe pas",

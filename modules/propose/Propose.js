@@ -37,7 +37,7 @@ exports = module.exports = function(req, res) {
 			accType: req.session.accType,
 			title: req.body.title,
 			desc: req.body.desc,
-			hashtag: req.body.hashtag,
+			hashtag: req.body.hashtag.split(" "),
 			place: req.body.place_value,
 			latLng: [req.body.place_Lng, req.body.place_Lat],
 			toNotif: req.body.toNotif

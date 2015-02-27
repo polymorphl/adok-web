@@ -158,8 +158,9 @@
 	 */
 	FForm.prototype._addErrorMsg = function() {
 		// error message
-		this.msgError = createElement( 'div', { cName : 'errfor', appendTo : this.el } );
+		this.msgError = createElement( 'div', { cName : 'fs-message-error', appendTo : this.el } );
 	}
+
 
 	/**
 	 * init events
@@ -461,35 +462,16 @@
 	// TODO: this is a very basic validation function. Only checks for required fields..
 	FForm.prototype._validade = function() {
 		var fld = this.fields[ this.current ],
-			input = fld.querySelectorAll( 'input[required], textarea[required], select[required]' ),
-			errors = {};
-		console.log(errors);
+				input = fld.querySelectorAll( 'input[required], textarea[required]' );
+		var errors = {};
 
 		if( !input ) return true;
 
 		for (var i = 0; i < input.length; i++) {
 			switch( input[i].tagName.toLowerCase() ) {
 				case 'input' :
-					if( input[i].type === 'radio' || input[i].type === 'checkbox' ) {
-						var checked = 0;
-						[].slice.call( fld.querySelectorAll( 'input[name="' + input[i].name + '"]' ) ).forEach( function( inp ) {
-							if( inp.checked ) {
-								++checked;
-							}
-						} );
-						console.log("checked"+checked);
-						if( !checked ) {
-							errors[input[i].name] = 'NOVAL';
-						}
-					}
-					else if( input[i].value === '' ) {
-						errors[input[i].name] = 'NOVAL';
-					}
-					break;
-
-				case 'select' :
-					// assuming here '' or '-1' only
-					if( input[i].value === '' || input[i].value === '-1' ) {
+					
+					if( input[i].value === '' ) {
 						errors[input[i].name] = 'NOVAL';
 					}
 					break;
@@ -502,15 +484,8 @@
 			}
 		}
 
-		var dates = fld.querySelector('input[id="dateCtrld0"]');
-		var hours = fld.querySelector('input[id="hourCtrlh0"]');
-		if (dates && hours) {
-			if (moment($(dates).attr('v1')+' '+$(hours).attr('v1'), "DD/MM/YYYY HH:mm").toDate() <= Date.now())
-				errors['dateCtrl'] = "Date de début inférieure à la date actuelle";
-		}
 		if( Object.keys(errors).length ) {
-			console.log("errors");
-			console.log(errors);
+			console.log("errors> " + JSON.stringify(errors));
 			this._showError( errors );
 			return false;
 		}
@@ -521,23 +496,20 @@
 	// TODO
 	FForm.prototype._showError = function( err ) {
 		var message = '';
-		// switch( err ) {
-		// 	case 'NOVAL' :
-		// 		message = '1 - input field no value';
-		// 		break;
-		// 	case 'INVALIDEMAIL' :
-		// 		message = '2 - invalid email address';
-		// 		break;
-		// 	// ...
-		// };
+		switch( err ) {
+			case 'NOVAL' : 
+				message = $.i18n.t("noval");
+				break;
+		};
 		this.msgError.innerHTML = message;
-		//this._showCtrl( this.msgError );
+		this._showCtrl( this.msgError );
 	}
 
 	// clears/hides the current error message
 	FForm.prototype._clearError = function() {
 		this._hideCtrl( this.msgError );
 	}
+
 
 	FForm.prototype.destroy = function() {
 		this._deleteEvents();

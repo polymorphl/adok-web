@@ -15,19 +15,25 @@ $font2: Georgia, serif;
 // -----------------------------
 
 // Graphic chart
-$blue_a: lighten(#95C8EC, 5%);
-$blue_b: #95C8EC;
-$blue_c: #455ede;
-$purple_a: #b388ff;
-$purple_b: #7c4dff;
-$purple_c: #651fff;
+$blue_a: #d0d9ff; //rgb(208, 217, 255) -- light
+$blue_b: #5677fc; //rgb(86, 119, 252) -- normal
+$blue_c: #455ede; //rgb(2, 85, 237) -- Strong
+
+$purple_a: #b388ff; //rgb(179, 136, 255) -- Light
+$purple_b: #7c4dff; //rgb(124, 77, 255) -- normal
+$purple_c: #651fff; //rgb(101, 31, 255) -- Strong
+
 $green: #66CD00;
 $yellow: darken(#FFDD65, 3%);
+
+$blck: #000000;
 $divider: lighten(#000000, 12%);
-$hint: lighten(#000000, 15%);
+$hint: lighten(#000000, 26%);
 $icons: lighten(#000000, 54%);
 $txt: lighten(#000000, 87%);
-$blck: #000000;
+
+// End of Graphic chart
+
 
 $red: #FF0000;
 $grey: $hint;

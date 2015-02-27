@@ -192,6 +192,14 @@
 		@include calc(height, "100% - 50px - 25px");
 	}
 
+	#t_chat {
+		left: -61px!important;
+		top: -1px;
+		height: 60px!important;
+		width: 60px!important;
+		label { top: 60%!important; }
+	}
+
 	.m-modal {
 		width: auto!important; height: 400px!important;
 		margin: 0 10px;
@@ -219,7 +227,8 @@
 		.m-modal { height: 200px!important; }
 	}
 
-	.m-contact, .m-team, .m-signin, .m-signup {
+	.m-contact, .m-team, .m-signin, .m-signup, .m-network, .m-badge,
+	.m-report_u, .m-report_e {
 		width: 90%!important; height: 300px!important;
 		.m-modal { height: 300px!important; }
 	}
@@ -230,6 +239,13 @@
 		width: 120px;
 		margin: 0 auto;
 		padding: 0!important;
+	}
+
+	.m-network {
+		color: white;
+		img {
+			width: 20px!important; height: 20px!important;
+		}
 	}
 
 	.wrap-sections {
