@@ -71,18 +71,16 @@ var renderZone = function(req, res, next, oauthMessage) {
       if (err){
         return callback(err, null);
       }
-      req.app.db.models.Account.findById(account.roles.account.id).populate('badges', 'name').exec(function (err, acc){
-        if (err)
-          return callback(err, null);
-        for (var i = 0; i < acc.badges.length; i++) {
-          var toAdd = {
-              _id: acc.badges[i]._id
-            , name: acc.badges[i].name
-          };
-          parsedList.push(toAdd);
-        }
-        my_badges = parsedList;
-      });
+      console.log("toto:");
+      console.log(account);
+      // for (var i = 0; i < account.badges.length; i++) {
+      //   var toAdd = {
+      //       _id: account.badges[i]._id
+      //     , name: account.badges[i].name
+      //   };
+      //   parsedList.push(toAdd);
+      // };
+      my_badges = parsedList;
       return callback(null, 'done');     
     });
   };

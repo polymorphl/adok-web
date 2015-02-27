@@ -104,31 +104,6 @@ exports.unlockAccount = function (req, res, next) {
 	workflow.emit('validate');	
 }
 
-exports.unlockAccount = function (req, res, next) {
-	var workflow = req.app.utility.workflow(req, res);
-
-	workflow.on('validate', function () {
-		if (!req.user.roles.admin.isMemberOf('root')) {
-			workflow.outcome.errors.push('You may not edit accounts.');
-			return workflow.emit('response');
-		}
-		workflow.emit('lockAccount');
-	});
-
-	workflow.on('lockAccount', function () {
-		// waiting for an Id : id
-		req.app.db.models.Report.findById(req.body.id).populate('to').exec(function(err, account) {
-			if (err) {
-				return workflow.emit('exception', err);
-			}
-			account.to.banned = false;
-			workflow.outcome.account = account;
-			workflow.emit('response');
-		});		
-	});
-	workflow.emit('validate');	
-}
-
 exports.delete = function  (req, res, next) {
 	var workflow = req.app.utility.workflow(req, res);
 

@@ -23,6 +23,7 @@ function isBanned(req, res, next) {
 	if (!(req.user.banned)) {
 		return next();
 	}
+	return next('Votre compte a ete suspendu.');
 	res.redirect('/');
 }
 
@@ -173,6 +174,7 @@ exports = module.exports = function(app, passport) {
 	//account
 	app.all('/account*', app.modules.ensure.Authentification);
 	app.all('/account*', app.modules.ensure.Account);
+	app.all('/account*', isBanned);	
 	app.all('/account*', app.modules.ensure.Alpha);
 	app.all('/account*', app.modules.account.sidebarChat);
 	//app.all('/account*', getContactList);
