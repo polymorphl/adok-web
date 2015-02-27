@@ -161,28 +161,4 @@ var refresh;
 		m_feed.velocity('transition.slideDownBigOut', { duration: 300 }).removeClass('is-open');
 	});
 
-
-	/*-----  Chat  ------*/
-	var m_chat = $('#chat'); //				wrap du chat
-	var t_chat = $('#t_chat'); // 		toggle-view
-	var clo_chat = $("#clo_chat"); //	close chat
-	var cu_chat = $("#cu_chat"); // 	current-chat
-	var clo_cur =$("#clo_cur"); //		close-current
-
-
-	t_chat.on("click", function(){
-		m_chat.velocity('transition.bounceRightIn', { duration: 100, display: 'block', opacity: 1}).removeClass('is-close');
-		t_chat.hide();
-	});
-
-	clo_chat.on("click", function(){
-		m_chat.velocity('transition.bounceRightOut', { duration: 100, display: 'block', opacity: 1}).addClass('is-close');
-		t_chat.fadeIn();
-	});
-
-	$(".contact-list .user").on('click', function(e) {
-		cu_chat.velocity('transition.bounceIn', { duration: 100 });
-		$("#chat .list, #chat .search").hide();
-	});
-
 }());

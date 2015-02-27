@@ -174,7 +174,6 @@ exports = module.exports = function(app, passport) {
 	app.all('/account*', app.modules.ensure.Authentification);
 	app.all('/account*', app.modules.ensure.Account);
 	app.all('/account*', app.modules.ensure.Alpha);
-	app.all('/account*', app.modules.account.sidebarChat);
 	//app.all('/account*', getContactList);
 	app.get('/account/', require('./views/account/index').init);
 

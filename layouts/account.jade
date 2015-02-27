@@ -53,7 +53,6 @@ html
                 img#profilavatar(src='#{req.user.roles.account.picture}')
                 span.helper= req.user.roles.account.name.first
         include notifications
-        include chat
 
         block body
 
@@ -69,7 +68,6 @@ html
         div.app-cache(id="app-cache")
 
       include feedback
-      include tmpl-chat
       include tmpl-feedback
       include tmpl-evenTile
 
@@ -83,6 +81,5 @@ html
       script(src='/views/min/adok_components/notifications.min.js')
       script(src='/views/min/adok_components/challenge.min.js')
       script(src='/socket.io/socket.io.js')
-      script(src='/layouts/sockets.js')
 
       block feet

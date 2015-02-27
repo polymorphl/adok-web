@@ -65,13 +65,12 @@ var renderZone = function(req, res, next, oauthMessage) {
   };
 
   var getBadges = function(callback) {
-    var parsedList = [];
-
-    req.app.db.models.Account.findById(req.params.id).populate('badges', 'name').exec(function(err, account){
+    req.app.db.models.Account.findById((req.params.id ? req.params.id : req.user.id), 'badges').populate("badges", "_id name").exec(function(err, keywords){
       if (err){
         return callback(err, null);
       }
-      for (var i = 0; i < account.badges.length; i++) {
+      console.log("keywords: " + keywords);
+      for (var i = 0; i < keywords.length; i++) {
         var toAdd = {
             _id: account.badges[i]._id
           , name: account.badges[i].name
@@ -79,6 +78,7 @@ var renderZone = function(req, res, next, oauthMessage) {
         parsedList.push(toAdd);
       };
       my_badges = parsedList;
+      console.log("getBadges > " + my_badges);
       return callback(null, 'done');     
     });
   };
