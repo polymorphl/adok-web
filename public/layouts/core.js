@@ -121,11 +121,10 @@ var refresh;
 	    }).done(function(data) {
 	    	console.log("data =>", data);
 	    	var i = 0;
-	    	var ite = [{}];
+	    	var ite = new Array();
 	    	while (data[i])
 	    	{
-	    		ite[i].label = data[i].name;
-	    		ite[i].url = data[i].link;
+	    		ite.push({label: data[i].name, url: data[i].link});
 	    		++i;
 	    	}
 	      res(ite);
