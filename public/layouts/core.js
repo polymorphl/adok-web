@@ -119,21 +119,24 @@ var refresh;
 	    $.post('/usersearch', {
 	      query: $("#asearchbar").val()
 	    }).done(function(data) {
-	      res($.map(data, function(item) {
-	        return {
-	          label: item.name,
-	          value: item.name,
-	          link: item.link
-	        };
-	      }));
+	    	console.log("data =>", data);
+	    	var i = 0;
+	    	var ite = [{}];
+	    	while (data[i])
+	    	{
+	    		ite[i].label = data[i].name;
+	    		ite[i].url = data[i].link;
+	    		++i;
+	    	}
+	      res(ite);
 	    }).fail(function() {
 	      console.log('[ERROR] -> wizzem_searchbar ->');
 	      console.log($("#asearchbar").val());
-	    })
+	    });
 	  },
-	  minLength: 0,
+	  minLength: 4,
 	  select: function(e, ui) {
-	    location.href = ui.item.link;
+	  	location.href = ui.item.url;
 	  }
 	});
 
