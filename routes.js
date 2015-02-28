@@ -202,6 +202,7 @@ exports = module.exports = function(app, passport) {
 
 	//account > zone
 	app.all('/user*', ensureAuthenticated);
+	app.all('/user*', isBanned);		
 	app.get('/user/', function(req, res, next) {
 		require('./views/'+req.session.accType+'/profil/index').init(req, res, next);
 	});
@@ -220,6 +221,7 @@ exports = module.exports = function(app, passport) {
 
 	//notifications
 	app.all('/feed*', app.modules.ensure.Authentification);
+	app.all('/feed*', isBanned);		
 	app.get('/feed', require('./tools/Notifications').init);
 	app.get('/feed/:id', require('./tools/Notifications').init);
 	app.post('/feed/follow/accept', require('./tools/follow').notifAccept);
