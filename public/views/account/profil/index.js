@@ -395,7 +395,7 @@
       app.NetworkModal = new app.NetworkModalView();
       app.BadgeModal = new app.BadgeModalView();
       app.ReportModal = new app.ReportModalView();
-      app.WrapHistory = new app.WrapHistoryView(JSON.parse( unescape($('#data-history-event').html()) ));
+      //app.WrapHistory = new app.WrapHistoryView(JSON.parse( unescape($('#data-history-event').html()) ));
     }
   });
 
@@ -408,5 +408,9 @@
         console.log("a click");
         $('#avatarUpload')[0].click();
     });
+
+    var nb_b = $('#badge .badges > .badge_a').length;
+    $('#t_badge span').html(nb_b);
+
   });
 }());
