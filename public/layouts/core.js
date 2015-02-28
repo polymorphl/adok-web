@@ -119,12 +119,12 @@ var refresh;
 	    $.post('/usersearch', {
 	      query: $("#asearchbar").val()
 	    }).done(function(data) {
-	    	console.log("merde !!data =>", data);
+	    	console.log("data =>", data);
 	    	var i = 0;
 	    	var ite = [{}];
 	    	while (data[i])
 	    	{
-	    		ite[i].title = data[i].name;
+	    		ite[i].label = data[i].name;
 	    		ite[i].url = data[i].link;
 	    		++i;
 	    	}
@@ -134,7 +134,7 @@ var refresh;
 	      console.log($("#asearchbar").val());
 	    });
 	  },
-	  minLength: 2,
+	  minLength: 4,
 	  select: function(e, ui) {
 	  	location.href = ui.item.url;
 	  }
