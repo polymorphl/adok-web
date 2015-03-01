@@ -50,6 +50,15 @@
     }
   });
 
+  app.Report = Backbone.View.extend({
+    idAttribute: '_id',
+    defaults: {
+      category: '',
+      comments: ''
+    },
+    url: '/user/'
+  });
+
   app.LinksView = Backbone.View.extend({
     el: '#link',
     events: {
@@ -375,7 +384,52 @@
       $('#badge').hide().velocity('transition.slideUpBigIn', { duration: 300 }).addClass('is-open');
     },
     render: function() {
+      console.log(this);
       return this;
+    }
+  });
+
+  app.ReportView = Backbone.View.extend({
+    el: '#createReport',
+    template: _.template( $('#tmpl-createReport').html() ),
+    events: {
+      'click .btn-create_report': 'addNew'
+    },
+    initialize: function() {
+      this.model = new app.Report();
+      this.listenTo(this.model, 'sync', this.render);
+      this.render();
+    },
+    render: function() {
+      this.$el.html(this.template( this.model.attributes ));
+    },
+    addNewOnEnter: function(event) {
+      if (event.keyCode !== 13) { return; }
+      event.preventDefault();
+      this.addNew();
+    },
+    addNew: function() {
+      if (this.$el.find('[name="value"]').val() === '') {
+        alert('Please enter a category.');
+      } else if (this.$el.find('[name="comments"]').val() === '') {
+        alert('Please enter a description.');
+      }
+      else {
+        this.model.save({
+          category: this.$el.find('[name="value"]').val(),
+          comments: this.$el.find('[name="comments"]').val()
+        },{
+          success: function(model, response) {
+            if (response.success) {
+              model.id = response.report._id;
+              location.href = model.url();
+            }
+            else {
+              alert(response.errors.join('\n'));
+            }
+          }
+        });
+      }
     }
   });
 
@@ -395,7 +449,8 @@
       app.NetworkModal = new app.NetworkModalView();
       app.BadgeModal = new app.BadgeModalView();
       app.ReportModal = new app.ReportModalView();
-      app.WrapHistory = new app.WrapHistoryView(JSON.parse( unescape($('#data-history-event').html()) ));
+      app.reportView = new app.ReportView();
+      //app.WrapHistory = new app.WrapHistoryView(JSON.parse( unescape($('#data-history-event').html()) ));
     }
   });
 
@@ -408,5 +463,9 @@
         console.log("a click");
         $('#avatarUpload')[0].click();
     });
+
+    var nb_b = $('#badge .badges > .badge_a').length;
+    $('#t_badge span').html(nb_b);
+
   });
 }());

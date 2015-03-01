@@ -1,7 +1,7 @@
 /**
 *
 * Notifications
-* Edition Wizzem 2014
+* Edition adok 2015
 *
 **/
 
@@ -15,12 +15,11 @@ var idLastNotif = '000000000000000000000000';
 	'use strict';
 
 	$(document).ready(function() {
-		var socket = io.connect('http://localhost/notification', {secure: true});
+		var socket = io.connect('http://localhost:8080/notification', {secure: true});
 		socket.on("connection", function(socket) {
 			console.log("Connection socket notification");
 		});
 		socket.on("notification", function(alert) {
-			//humane.log("Welcome Back");
 			if (alert.type == 0) {
 				var n = noty({
 					text        : alert.notificationContent.content.nameUser  + alert.msg + alert.title,
@@ -109,14 +108,8 @@ var idLastNotif = '000000000000000000000000';
 				theme       : 'defaultTheme'});
 			}
 		}
-// toastr.options.showMethod = 'slideDown';
-			// toastr.options.hideMethod = 'slideUp';
-			// toastr.options.timeOut = 6000;
-			// toastr.options.progressBar = true;
-			// toastr.options.closeButton = true;
-			// toastr.success(alert.title);
-			//toastr.info(notification);
-		});
+	});
+
 
 		socket.on('displaynotification', function(notifs) {
 			var bodyNotificationContent = "";
@@ -165,6 +158,10 @@ var idLastNotif = '000000000000000000000000';
 			} else
 				console.log(res.errors[0]);
 		});
+		//Count notifications
+		var nb_n = $('#notifications > .event').length;
+		console.log("notif " + $('#notifications > .event').length);
+		$('#t_notif .count').html(nb_n);
 	};
 
 	//Function to update notifications feed
@@ -185,8 +182,5 @@ var idLastNotif = '000000000000000000000000';
 	//getNotifs();
 	//Set update notifications fedd interval
 	//setInterval(updateNotifs, 30000);
-
-	/*-----  Velocity:Notifications  ------*/
-
 
 }());

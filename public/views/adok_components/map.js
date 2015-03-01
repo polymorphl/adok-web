@@ -176,13 +176,9 @@ app.StackTileView = Backbone.View.extend({
 	}
 });
 
-app.RegisteredView = Backbone.View.extend({
+app.RegisteredView = Backbone.View.extend({});
 
-});
-
-app.NotRegisteredView = Backbone.View.extend({
-
-});
+app.NotRegisteredView = Backbone.View.extend({});
 
 var eventPos = {
 		lat : $('#lat').val(),
@@ -253,5 +249,5 @@ function getList() {
 };
 
 $(document).ready(function(){
-	
+
 });

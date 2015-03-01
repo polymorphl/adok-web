@@ -2,8 +2,8 @@ exports = module.exports = function (req, res, next) {
 	var workflow = req.app.utility.workflow(req, res);
 
   workflow.on('validate', function() {
-    if (!req.body.reportId) {
-      workflow.outcome.errfor.reportId = req.i18n.t('errors.required');
+    if (!req.body.comments) {
+      workflow.outcome.errfor.comments = req.i18n.t('errors.required');
     }
 
     if (workflow.hasErrors()) {
@@ -15,8 +15,8 @@ exports = module.exports = function (req, res, next) {
   workflow.on('createReport', function () {
 		var newReport = {
 			from: req.user._id,
-			to: req.body.reportId,
-			desc: req.body.desc
+			to: req.params.id,
+			desc: req.body.comments
 		};
 
 		req.app.db.models.Report.create(newReport, function (err, report) {
