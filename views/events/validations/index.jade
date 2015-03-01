@@ -1,0 +1,39 @@
+extends ../../../layouts/account
+
+block head
+	title #{title}
+
+block feet
+	script(src='/views/events/validations/index.js')
+
+block body
+	div.app-content
+		div.page-container
+			#valiflux
+			#legend
+			#actions
+				button#btn-valid Valider
+				button#btn-refuse Refuser
+			input(type="text", placeholder="Comment it!")
+			button#send-comment send
+			#comment
+
+	script(type="text/template", id="tmpl-valiflux")
+		.item
+			span.picture <%= epicture %>
+			span.username <%= eusername %>
+
+	script(type="text/template", id="tmpl-legend")
+		ul.list
+			li <%= legend %>
+
+	script(type="text/template", id="tmpl-comment")
+		#fluxcomment
+			.item-comment
+				.picture <%= cpicture %>
+				.username <%= cusername %>
+				.comment <%= comment %>
+
+	script(type='text/template', id='data-valiflux') !{valiflux}
+	script(type='text/template', id='data-legend') !{legend}
+	script(type='text/template', id='data-comment') !{comment}
