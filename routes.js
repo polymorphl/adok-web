@@ -155,11 +155,11 @@ exports = module.exports = function(app, passport) {
 	app.delete('/admin/badges/:id/', require('./views/admin/badges/details').delete);
 
 	//admin > reports
-	app.get('/admin/reports/', require('./views/admin/reports/index').read);
-	app.post('/admin/reports/create/', require('./views/admin/reports/index').create);
-	app.post('/admin/reports/lock-account/', require('./views/admin/reports/index').lockAccount);
-	app.post('/admin/reports/unlock-account/', require('./views/admin/reports/index').unlockAccount);
-	app.delete('/admin/reports/delete/', require('./views/admin/reports/index').delete);
+	app.get('/admin/reports/', app.modules.report.ListReport);
+	app.post('/admin/reports/create/', app.modules.report.CreateReport);
+	app.post('/admin/reports/lock-account/', app.modules.report.LockAccount);
+	app.post('/admin/reports/unlock-account/', app.modules.report.UnlockAccount);
+	app.delete('/admin/reports/delete/', app.modules.report.DeleteReport);
 
 	 //admin > statuses
 	app.get('/admin/statuses/', require('./views/admin/statuses/index').find);
@@ -273,6 +273,13 @@ exports = module.exports = function(app, passport) {
 	//user search
 	app.all('/usersearch*', app.modules.ensure.Authentification);
 	app.post('/usersearch', app.modules.search.Users);
+
+	//report
+	app.get('/reports', app.modules.report.ListReport);
+	app.post('/reports/create', app.modules.report.CreateReport);
+	app.post('/reports/lock-account', app.modules.report.LockAccount);
+	app.post('/reports/unlock-account', app.modules.report.UnlockAccount);
+	app.delete('/reports/delete', app.modules.report.DeleteReport);	
 
 	//route not found
 	app.all('*', require('./views/http/index').http404);
