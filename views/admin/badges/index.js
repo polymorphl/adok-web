@@ -29,16 +29,3 @@ exports.add = function(req, res, callback){
 	});
 };
 
-/*<<<<<<< Updated upstream
-=======
-exports.list = function(req, res, callback){
-	req.app.db.models.Badge.find().sort('name').exec(function(err, badge){
-		if (err){
-			return workflow.emit('exception', err);
-		}
-		workflow.outcome.badge = badge;
-		return workflow.emit('response');
-	});
-}
->>>>>>> Stashed changes*/
-

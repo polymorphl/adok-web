@@ -297,6 +297,64 @@
 		}
 	});
 
+  app.ReportModel = Backbone.Model.extend({
+    idAttribute: '_id',
+    url: '/reports/create',
+    defaults: {
+      category: '',
+      comments: ''
+    },
+  });
+
+  app.ReportView = Backbone.View.extend({
+    el: '#createReport',
+    template: _.template( $('#tmpl-createReport').html() ),
+    events: {
+      'click .btn.btn-create_report': 'addNew'
+    },
+    initialize: function() {
+      this.model = new app.ReportModel();
+      this.listenTo(this.model, 'sync', this.render);
+      this.render();
+    },
+    render: function() {
+      this.$el.html(this.template( this.model.attributes ));
+    },
+    addNewOnEnter: function(event) {
+      if (event.keyCode !== 13) { return; }
+      event.preventDefault();
+      event.stopPropagation();
+      this.addNew();
+    },
+    addNew: function(e) {
+      if (this.$el.find('[name="value"]').val() === '') {
+        alert('Please enter a category.');
+      } else if (this.$el.find('[name="comments"]').val() === '') {
+        alert('Please enter a description.');
+      }
+      else {
+        this.model.save({
+          category: this.$el.find('[name="category"]').val(),
+          comments: this.$el.find('[name="comments"]').val()
+        },{
+          success: function(model, response) {
+            console.log("Pas d'erreur ?");
+            if (response.success) {
+              // console.log("respo " + JSON.stringify(response));
+              // model.id = response.report._id;
+              //location.href = model.url();
+              console.log("report-> SUCCESS");
+            }
+            else {
+              alert(response.errors.join('\n'));
+              console.log("report-> FAIL!");
+            }
+          }
+        });
+      }
+    }
+  });
+
 	app.ReportModalView = Backbone.View.extend({
     el: '#report_c, .right',
     events: {
@@ -404,6 +462,7 @@
 		new app.DeleteEventView(eventData);
 		new app.ValidEditView(eventData);
 		new app.ReportModalView();
+		new app.ReportView();
 
     var map = L.mapbox.map('map-event', 'lucterracherwizzem.kp9oc66l', {
     	minZoom: 5, maxZoom: 19,
