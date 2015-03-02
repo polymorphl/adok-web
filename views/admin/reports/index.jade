@@ -18,15 +18,19 @@ block body
 					thead
 						tr
 							th
-							th(style='background-color:blue; text-align:center')
+							th(style='text-align:center')
+								| Type
+							th(style='text-align:center')
 								| Category
-							th(style='background-color:white; text-align:center')
+							th(style='text-align:center')
 								| Description					
 					tbody#results-rows(style='border: 5px')
 
 		script(type='text/template', id='tmpl-results-row')
 			td
 				input.btn.btn-default.btn-sm.btn-details(type='button', value='Edit')
+			td(style='text-align:center')
+				span.badge-clear <%= type %>
 			td(style='text-align:center')
 				span.badge-clear <%= category %>
 			td(style='text-align:center')

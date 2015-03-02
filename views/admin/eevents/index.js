@@ -10,7 +10,7 @@ exports.init = function(req, res, next){
 
 	req.app.db.models.Event.pagedFind({
 		filters: filters,
-		keys: 'lat lng date title',
+		keys: 'lat lng date title start',
 		limit: req.query.limit,
 		page: req.query.page,
 		sort: req.query.sort
@@ -27,9 +27,7 @@ exports.init = function(req, res, next){
 		else {
 			var n = 0;
 			var us = {
-				_id: 0,
-				username: '',
-				email: ''
+				_id: 0
 			};
 			while (results.data[n]) {
 				console.log(results.data[n]._id);
@@ -39,14 +37,11 @@ exports.init = function(req, res, next){
 					}
 					else {
 						us._id = res._id;
-						us.username = res.acc.username;
-						us.email = res.acc.email;
 					}
 				});
 				++n;
 			}
 			results.filters = req.query;
-			console.log();
 			res.render('admin/eevents/index', { data: { results: JSON.stringify(results), us: us } });
 		}
 	});
@@ -76,11 +71,9 @@ exports.update = function(req, res, next){
 
 	workflow.on('UpdateCases', function() {
 		req.app.db.models.Aevent.update({ _id: req.params.id }, {
-			category: req.body.category,
-			date: req.body.date,
+			start: req.body.start,
 			lat: req.body.lat,
 			lng: req.body.lng,
-			numOfPtc: req.body.numOfPtc,
 			timeCreated: req.body.timeCreated,
 			desc: req.body.desc,
 			photos: req.body.photos,

@@ -144,7 +144,7 @@ ol.fs-fields {
 	font-size: 21px;
 
 	textarea {
-		padding: 0; color: $blue_c;
+		padding: 0; color: $purple_c;
 		width: 90%; height: 150px;
 		border: 1px solid rgba(0,0,0,0.2);
 		background-color: transparent;
@@ -231,7 +231,7 @@ ol.fs-fields {
 	width: 65%; border: none;
 	border-bottom: 1px solid rgba(0,0,0,0.2);
 	background-color: transparent;
-	color: $blue_c; text-overflow: ellipsis;
+	color: $purple_c; text-overflow: ellipsis;
 	font-weight: bold; font-size: 1.2em;
 }
 
@@ -255,7 +255,7 @@ ol.fs-fields {
 }
 
 .fs-form-overview .fs-fields input:focus {
-	background-color: $blue_a; /* Fixes chrome bug with placeholder */
+	background-color: $purple_c; /* Fixes chrome bug with placeholder */
 }
 
 .fs-form-overview .fs-fields input {
@@ -356,7 +356,7 @@ label{
 
 .fs-fiedls {
 
-	input[type="radio"]:checked + label { color: $blue_a; }
+	input[type="radio"]:checked + label { color: $purple_c; }
 }
 
 .fs-form-overview .fs-fields .fs-radio-custom input[type="radio"]:checked + label {
@@ -379,7 +379,7 @@ label{
 }
 
 .fs-form-overview .fs-fields textarea:focus {
-	background: $blue_c;
+	background: $purple_c;
 }
 
 .fs-form div.cs-select.cs-skin-boxes {
@@ -472,13 +472,13 @@ label{
 
 .fs-nav-dots button:hover::before,
 .fs-nav-dots button.fs-dot-current::before {
-	background: $blue_a;
+	background: $purple_c;
 }
 
 /* Progress bar */
 .fs-progress {
 	position: absolute; top: 0; width: 0%;
-	height: 0.5em; background: $blue_a;
+	height: 0.5em; background: $purple_c;
 	-webkit-transition: width 0.3s ease-in-out;
 	transition: width 0.3s ease-in-out;
 }
@@ -486,7 +486,7 @@ label{
 /* Number indicator */
 .fs-numbers {
 	position: absolute; top: 0; right: 0;
-	overflow: hidden; color: lighten($blue_a, 10%);
+	overflow: hidden; color: $purple_c;
 	margin: 40px; width: 2em;
 	font-weight: 700; font-size: 2em;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;

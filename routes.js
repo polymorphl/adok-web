@@ -156,10 +156,11 @@ exports = module.exports = function(app, passport) {
 
 	//admin > reports
 	app.get('/admin/reports/', app.modules.report.ListReport);
-	app.post('/admin/reports/create/', app.modules.report.CreateReport);
-	app.post('/admin/reports/lock-account/', app.modules.report.LockAccount);
-	app.post('/admin/reports/unlock-account/', app.modules.report.UnlockAccount);
-	app.delete('/admin/reports/delete/', app.modules.report.DeleteReport);
+	app.get('/admin/reports/:id/', require('./views/admin/reports/details').read);
+	// app.post('/admin/reports/create/', app.modules.report.CreateReport);
+	// app.post('/admin/reports/lock-account/', app.modules.report.LockAccount);
+	// app.post('/admin/reports/unlock-account/', app.modules.report.UnlockAccount);
+	// app.delete('/admin/reports/delete/', app.modules.report.DeleteReport);
 
 	 //admin > statuses
 	app.get('/admin/statuses/', require('./views/admin/statuses/index').find);

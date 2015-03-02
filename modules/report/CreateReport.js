@@ -1,6 +1,6 @@
 exports = module.exports = function (req, res, next) {
 	var workflow = req.app.utility.workflow(req, res);
-
+	console.log('report èèèè> here');
   workflow.on('validate', function() {
     if (!req.body.comments) {
       workflow.outcome.errfor.comments = req.i18n.t('errors.required');

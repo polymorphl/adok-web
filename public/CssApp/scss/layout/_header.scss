@@ -13,7 +13,7 @@
   z-index: 1;
   position: fixed; left: 0; right: 0;
   height: $header-height; line-height: $header-height;
-  background-color: $grey; color: $header-bg;
+  background-color: $blue_c; color: $header-bg;
 
   .l-header__logo {
     padding: 0 0 0 25px;  height: $header-height;
@@ -26,7 +26,7 @@
         margin-right: 5px; margin-top: -11px;
       }
       .logo-1 { 
-        color: $purple_a; font-family: "wolfInTheCity";
+        color: white; font-family: "wolfInTheCity";
         font-size: 2.8rem; position: relative; top: -5px;
       }
       &:hover { text-decoration: none; }
@@ -65,7 +65,10 @@
         padding-left: 30px; float: left;
         height: 43px; width: 95px;
 
-        i { color: $blue_a; }
+        i { 
+          color: white; background-color: $purple_b;
+          padding: 10px 12px; @include border-radius(50px);
+        }
 
         .propose {
           cursor: pointer;

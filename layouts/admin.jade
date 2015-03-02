@@ -20,8 +20,8 @@ html
               img(src="/medias/logo/logo-bg.png" class="logo-adok")
               span.logo-1 adok
           - var n = 0
-          - var elem = ["Comptes", "Administrateurs", "Challenges", "Badges"]
-          - var link = ["accounts", "administrators", "eevents",  "badges", ""]
+          - var elem = ["Comptes", "Administrateurs", "Challenges", "Badges", "Signalements"]
+          - var link = ["accounts", "administrators", "eevents",  "badges", "reports"]
           - elem.forEach(function(item) {
             a.nav-elem(href='/admin/' + link[n] + '/')= item
             if (link[n + 1] != "")

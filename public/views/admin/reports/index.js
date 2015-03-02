@@ -7,8 +7,9 @@
 		idAttribute: '_id',
 		defaults: {
 			_id: undefined,
-			reportID: '',
-			desc: ''
+			name: '',
+			desc: '',
+			title: ''
 		},
 		url: function() {
 			return '/admin/reports/'+ (this.isNew() ? '' : this.id +'/');
@@ -23,62 +24,11 @@
 	  }
 	});
 
-	// app.HeaderView = Backbone.View.extend({
-	// 	el: '#addReport',
-	// 	template: _.template( $('#tmpl-addReport').html() ),
-	// 	events: {
-	// 		'submit form': 'preventSubmit',
-	// 		'keypress input[type="text"]': 'addNewOnEnter',
-	// 		'click .btn-add': 'addNew'
-	// 	},
-	// 	initialize: function() {
-	// 		this.model = new app.Report();
-	// 		this.listenTo(this.model, 'sync', this.render);
-	// 		this.render();
-	// 	},
-	// 	render: function() {
-	// 		this.$el.html(this.template( this.model.attributes ));
-	// 	},
-	// 	addNewOnEnter: function(event) {
-	// 		if (event.keyCode !== 13) { return; }
-	// 		event.preventDefault();
-	// 		this.addNew();
-	// 	},
-	// 	addNew: function() {
-	// 		if (this.$el.find('[name="name"]').val() === '') {
-	// 			alert('Please enter a name.');
-	// 		}	else if (this.$el.find('[name="desc"]').val() === '') {
-	// 			alert('Please enter a description.');
-	// 		} else if (this.$el.find('[name="title"]').val() === '') {
-	// 			alert('Please enter a title.');
-	// 		}
-	// 		else {
-	// 			this.model.save({
-	// 				name: this.$el.find('[name="name"]').val(),
-	// 				desc: this.$el.find('[name="desc"]').val(),
-	// 				title: this.$el.find('[name="title"]').val()
-	// 			},{
-	// 				success: function(model, response) {
-	// 					if (response.success) {
-	// 						model.id = response.Report._id;
-	// 						location.href = model.url();
-	// 					}
-	// 					else {
-	// 						alert(response.errors.join('\n'));
-	// 					}
-	// 				}
-	// 			});
-	// 		}
-	// 	}
-	// });
-
  app.ResultsView = Backbone.View.extend({
     el: '#results-table',
     template: _.template( $('#tmpl-results-table').html() ),
     initialize: function() {
-    	console.log(app.mainView.results);
       this.collection = new app.RecordCollection( app.mainView.results );
-      console.log(app.mainView.results);
       this.listenTo(this.collection, 'reset', this.render);
       this.render();
     },
@@ -106,8 +56,7 @@
       'click .btn-details': 'viewDetails'
     },
     viewDetails: function() {
-      location.href = '/admin/reports/create/';
-      console.log(location.href);
+      location.href = this.model.url();
     },
     render: function() {
       this.$el.html(this.template( this.model.attributes ));
@@ -130,7 +79,6 @@
       app.mainView = this;
       this.results = JSON.parse( unescape($('#data-results').html()) );
 
-      // app.headerView = new app.HeaderView();
       app.resultsView = new app.ResultsView();
     }
   });

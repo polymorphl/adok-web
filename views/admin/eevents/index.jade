@@ -27,8 +27,6 @@ block body
 			thead
 				tr
 					th
-					th username
-					th email
 					th Nom
 					th Latitude / Longitude
 					th Date
@@ -38,8 +36,6 @@ block body
 	script(type='text/template', id='tmpl-results-row')
 		td
 			input.btn.btn-default.btn-sm.btn-details(type='button', value='Editer')
-		td <%= acc.username %>
-		td <%= acc.email %>
 		td <%= title %>
 		td <%= lat %> / <%= lng %>
 		td <%= date %>
