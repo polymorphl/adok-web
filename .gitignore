@@ -10,6 +10,7 @@ public/components/font-awesome/scss/_variables.scss
 public/css/main.css
 public/js/*.min.js
 public/css/*.min.css
+public/css/scss/admin.css
 public/img/min/
 public/layouts/*.min.js
 public/layouts/*.min.css
