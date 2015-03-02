@@ -14,9 +14,6 @@ block body
 			#actions
 				button#btn-valid Valider
 				button#btn-refuse Refuser
-			input(type="text", placeholder="Comment it!")
-			button#send-comment send
-			#comment
 
 	script(type="text/template", id="tmpl-valiflux")
 		.item
@@ -27,13 +24,5 @@ block body
 		ul.list
 			li <%= legend %>
 
-	script(type="text/template", id="tmpl-comment")
-		#fluxcomment
-			.item-comment
-				.picture <%= cpicture %>
-				.username <%= cusername %>
-				.comment <%= comment %>
-
 	script(type='text/template', id='data-valiflux') !{valiflux}
 	script(type='text/template', id='data-legend') !{legend}
-	script(type='text/template', id='data-comment') !{comment}

@@ -247,6 +247,10 @@ exports = module.exports = function(app, passport) {
 		if (req.session.accType == 'account')
 			require('./views/events/delete').init(req, res, next);
 	});
+	app.put('/event/ownerActions/:id/join', function(req, res, next) {
+		if (req.session.accType == 'account')
+			require('./views/events/account/join').init(req, res, next);
+	});
 
 	app.get('/event/:id/validation', require('./views/events/validations/index').init);
 	app.get('/event/:id/validation/visualizer', require('./views/events/validations/visualizer').init);
