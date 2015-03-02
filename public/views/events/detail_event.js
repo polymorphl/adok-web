@@ -335,6 +335,7 @@
       else {
         this.model.save({
           category: this.$el.find('[name="category"]').val(),
+          type: 'event',          
           comments: this.$el.find('[name="comments"]').val()
         },{
           success: function(model, response) {

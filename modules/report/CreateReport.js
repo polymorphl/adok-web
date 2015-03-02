@@ -17,6 +17,7 @@ exports = module.exports = function (req, res, next) {
 			from: req.user._id,
 			to: req.params.id,
 			category: req.body.category,
+			type: req.body.type,
 			comments: req.body.comments
 		};
 
