@@ -51,19 +51,7 @@ block body
 							span.close
 								= t('cl')
 						div.modal__content
-							div.wrap-report
-								label Votre signalement concerne
-								select.choices
-									option(value='hrai') Haine, racisme ou insultes
-									option(value='porn') Pornographie
-									option(value='void') Usurpation d'identité
-									option(value='vopi') Vol de photos
-									option(value='othe') Autre(s)
-								div
-									label(for="comments") Commentaires
-									textarea(id="comments")
-								div.validation
-									button.btn-create_report Envoyer
+							#createReport
 						div.modal__footer
 
 				div#picture
@@ -112,6 +100,21 @@ block body
 					<%= title %>
 				div.desc
 					<%= desc %>
+					
+		script(type='text/template', id='tmpl-createReport')
+			div.wrap-report
+				label Votre signalement concerne
+				select.category(id="category", name="category")
+					option(value='hrai') Haine, racisme ou insultes
+					option(value='porn') Pornographie
+					option(value='void') Usurpation d'identité
+					option(value='vopi') Vol de photos
+					option(value='othe') Autre(s)
+				div
+					label(for="comments") Commentaires
+					textarea.comments(id="comments", name="comments")
+				div.validation
+					button.btn.btn-create_report Envoyer
 
 		script(type='text/template', id='tmpl-picture')
 			if avatar

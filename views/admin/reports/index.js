@@ -1,7 +1,13 @@
 'use strict';
 
 exports.read = function  (req, res, next) {
-	req.app.modules.report.ListReport();
+	req.app.db.models.Report.find().exec(function(err, results) {
+		if (err)
+			return next(err);
+		res.render('admin/reports/index', {
+			'data': escape(JSON.stringify(results))
+		});
+	});	
 }
 
 exports.create = function (req, res, next) {

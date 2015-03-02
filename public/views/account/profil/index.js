@@ -50,15 +50,6 @@
     }
   });
 
-  app.Report = Backbone.View.extend({
-    idAttribute: '_id',
-    defaults: {
-      category: '',
-      comments: ''
-    },
-    url: '/user/'
-  });
-
   app.LinksView = Backbone.View.extend({
     el: '#link',
     events: {
@@ -274,22 +265,19 @@
   app.WrapHistoryView = Backbone.View.extend({
     el: '#wrap-history',
     initialize: function(item) {
-      console.log("test");
-      var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
-      var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
-      $("#wrap-history").css("height", (h - $(".m-zone").height() - (h/12)) + "px");
-      $(".scroll").css("height", (item.length * 207) + "px");
-      var history_scroll = new IScroll('#wrap-history', {
-        mouseWheel: true,
-        scrollbars: true
-      });
-
-      var i = 0;
-      console.log(item.length)
-      while (i < item.length)
-      {
-        new app.HistoryView(item[i]);
-        ++i;
+      var i = -1;
+      if (item.length > 0) {
+        var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+        var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+        $("#wrap-history").css("height", (h - $(".m-zone").height() - (h/12)) + "px");
+        $(".scroll").css("height", (item.length * 207) + "px");
+        var history_scroll = new IScroll('#wrap-history', {
+          mouseWheel: true, scrollbars: true
+        });
+        while (i < item.length) {
+          new app.HistoryView(item[i]);
+          ++i;
+        }
       }
     }
   });
@@ -384,19 +372,27 @@
       $('#badge').hide().velocity('transition.slideUpBigIn', { duration: 300 }).addClass('is-open');
     },
     render: function() {
-      console.log(this);
       return this;
     }
+  });
+
+  app.ReportModel = Backbone.Model.extend({
+    idAttribute: '_id',
+    url: '/reports/create',
+    defaults: {
+      category: '',
+      comments: ''
+    },
   });
 
   app.ReportView = Backbone.View.extend({
     el: '#createReport',
     template: _.template( $('#tmpl-createReport').html() ),
     events: {
-      'click .btn-create_report': 'addNew'
+      'click .btn.btn-create_report': 'addNew'
     },
     initialize: function() {
-      this.model = new app.Report();
+      this.model = new app.ReportModel();
       this.listenTo(this.model, 'sync', this.render);
       this.render();
     },
@@ -406,9 +402,10 @@
     addNewOnEnter: function(event) {
       if (event.keyCode !== 13) { return; }
       event.preventDefault();
+      event.stopPropagation();
       this.addNew();
     },
-    addNew: function() {
+    addNew: function(e) {
       if (this.$el.find('[name="value"]').val() === '') {
         alert('Please enter a category.');
       } else if (this.$el.find('[name="comments"]').val() === '') {
@@ -416,16 +413,20 @@
       }
       else {
         this.model.save({
-          category: this.$el.find('[name="value"]').val(),
+          category: this.$el.find('[name="category"]').val(),
           comments: this.$el.find('[name="comments"]').val()
         },{
           success: function(model, response) {
+            console.log("Pas d'erreur ?");
             if (response.success) {
-              model.id = response.report._id;
-              location.href = model.url();
+              // console.log("respo " + JSON.stringify(response));
+              // model.id = response.report._id;
+              //location.href = model.url();
+              console.log("report-> SUCCESS");
             }
             else {
               alert(response.errors.join('\n'));
+              console.log("report-> FAIL!");
             }
           }
         });

@@ -275,11 +275,11 @@ exports = module.exports = function(app, passport) {
 	app.post('/usersearch', app.modules.search.Users);
 
 	//report
-	app.get('/reports/', app.modules.report.ListReport);
-	app.post('/reports/create/', app.modules.report.CreateReport);
-	app.post('/reports/lock-account/', app.modules.report.LockAccount);
-	app.post('/reports/unlock-account/', app.modules.report.UnlockAccount);
-	app.delete('/reports/delete/', app.modules.report.DeleteReport);	
+	app.get('/reports', app.modules.report.ListReport);
+	app.post('/reports/create', app.modules.report.CreateReport);
+	app.post('/reports/lock-account', app.modules.report.LockAccount);
+	app.post('/reports/unlock-account', app.modules.report.UnlockAccount);
+	app.delete('/reports/delete', app.modules.report.DeleteReport);	
 
 	//route not found
 	app.all('*', require('./views/http/index').http404);

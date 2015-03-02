@@ -16,7 +16,8 @@ exports = module.exports = function (req, res, next) {
 		var newReport = {
 			from: req.user._id,
 			to: req.params.id,
-			desc: req.body.comments
+			category: req.body.category,
+			comments: req.body.comments
 		};
 
 		req.app.db.models.Report.create(newReport, function (err, report) {
