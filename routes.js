@@ -175,7 +175,7 @@ exports = module.exports = function(app, passport) {
 	//account
 	app.all('/account*', app.modules.ensure.Authentification);
 	app.all('/account*', app.modules.ensure.Account);
-	app.all('/account*', isBanned);	
+	app.all('/account*', isBanned);
 	app.all('/account*', app.modules.ensure.Alpha);
 	//app.all('/account*', getContactList);
 	app.get('/account/', require('./views/account/index').init);
@@ -249,7 +249,14 @@ exports = module.exports = function(app, passport) {
 	app.get('/event/ownerActions', function(req, res, next) {
 		if (req.session.accType == 'account')
 			require('./views/events/delete').init(req, res, next);
-	})
+	});
+	app.put('/event/ownerActions/:id/join', function(req, res, next) {
+		if (req.session.accType == 'account')
+			require('./views/events/account/join').init(req, res, next);
+	});
+
+	app.get('/event/:id/validation', require('./views/events/validations/index').init);
+	app.get('/event/:id/validation/:id/visualizer', require('./views/events/validations/visualizer').init);
 
 	app.put('/event/ownerActions/:id/join', require('./views/events/account/join').init);
 	app.delete('/event/ownerActions/:id/delete', require('./views/events/account/delete').init);

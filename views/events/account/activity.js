@@ -3,7 +3,9 @@ var mongoose = require('mongoose');
 
 exports.init = function(req, res) {
 	var id = req.params.id;
-	var registered;
+	var registered = 0;
+	var registeredCount = 0;
+	var participants = [];
 	var find = {};
 	find['event.activity'] = id;
 
@@ -13,39 +15,16 @@ exports.init = function(req, res) {
 		res.locals.id = req.user._id;
 		res.locals.accType = req.session.accType;
 		req.app.db.models[event.accType.capitalize()].populate(event, {path: 'acc.roles.'+event.accType}, function(err, event) {
-			req.app.db.models.EventRegister.findOne({event: mongoose.Types.ObjectId(id)}).populate('account._id').exec(function(err, ereg) {
+			req.app.db.models.EventRegister.findOne({eid: mongoose.Types.ObjectId(id)}).exec(function(err, ereg) {
 				if (err || !event)
 					return require('../../http/index').http404(req, res);
 				var i = 0;
-				while (ereg && ereg[req.session.accType][i]) {
-					if ([ereg[req.session.accType][i]._id].indexOf(req.user.roles[req.session.accType]._id)) {
-						if (ereg[req.session.accType][i].conf == 1)
-							registered = true;
-						else if (ereg[req.session.accType][i].conf == 2)
-							registered = "refused";
-						else
-							registered = "pending";
-						break;
-					} else
-						i++;
-				}
-				registered = (registered === undefined ? false : registered);
-				var participants = (ereg ? ereg['account'].concat(ereg['pro']) : []);
-				var registeredCount = 0;
-				i = 0;
-				while (participants && participants[i]) {
-					if (participants[i].conf == 1)
-						++registeredCount;
-					++i;
-				}
 
-				// console.log(registered);
-				console.log("event => ", event);
-				console.log("part".green, participants);
+				console.log(ereg);
 				if (ereg)
-					res.render('events/account/activity/index', {event: escape(JSON.stringify(event)), title: event.title, hashtag: event.hashtag, isRegistered: registered, participants: participants, registeredCount: registeredCount, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
+					res.render('events/account/activity/index', {event: escape(JSON.stringify(event)), title: event.title, hashtag: event.hashtag, isRegistered: "true", participants: [], registeredCount: 0, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
 				else
-					res.render('events/account/activity/index', {event: escape(JSON.stringify(event)), title: event.title,hashtag: event.hashtag, isRegistered: registered, participants: [], registeredCount: 0, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
+					res.render('events/account/activity/index', {event: escape(JSON.stringify(event)), title: event.title, hashtag: event.hashtag, isRegistered: "false", participants: [], registeredCount: 0, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
 			});
 		});
 	});

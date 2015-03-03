@@ -1,0 +1,27 @@
+extends ../../../layouts/account
+
+block head
+	title #{title}
+
+block feet
+	script(src='/views/events/validations/index.js')
+
+block body
+	div.app-content
+		div.page-container
+			#legend
+			#valiflux
+			#prop
+			button.propose Proposez la votre !
+
+	script(type="text/template", id="tmpl-valiflux")
+		.item
+			img.picture(src!="<%= epicture %>")
+			span.username by <%= eusername %>
+
+	script(type="text/template", id="tmpl-legend")
+		ul.list
+			li <%= legend %>
+
+	script(type='text/template', id='data-valiflux') !{valiflux}
+	script(type='text/template', id='data-legend') !{legend}
