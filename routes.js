@@ -156,7 +156,7 @@ exports = module.exports = function(app, passport) {
 
 	//admin > reports
 	app.get('/admin/reports/', app.modules.report.ListReport);
-	app.get('/admin/reports/:id/', require('./views/admin/reports/details').read);
+	app.get('/admin/reports/:id', require('./views/admin/reports/details').read);
 	// app.post('/admin/reports/create/', app.modules.report.CreateReport);
 	// app.post('/admin/reports/lock-account/', app.modules.report.LockAccount);
 	// app.post('/admin/reports/unlock-account/', app.modules.report.UnlockAccount);

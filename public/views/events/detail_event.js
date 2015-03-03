@@ -301,6 +301,7 @@
     idAttribute: '_id',
     url: '/reports/create',
     defaults: {
+    	to: '',
       category: '',
       comments: ''
     },
@@ -334,21 +335,14 @@
       }
       else {
         this.model.save({
+					to: location.href.substr(location.href.lastIndexOf('/') + 1),        	
           category: this.$el.find('[name="category"]').val(),
           type: 'event',          
           comments: this.$el.find('[name="comments"]').val()
         },{
           success: function(model, response) {
-            console.log("Pas d'erreur ?");
-            if (response.success) {
-              // console.log("respo " + JSON.stringify(response));
-              // model.id = response.report._id;
-              //location.href = model.url();
-              console.log("report-> SUCCESS");
-            }
-            else {
+            if (!(response.success)) {
               alert(response.errors.join('\n'));
-              console.log("report-> FAIL!");
             }
           }
         });
