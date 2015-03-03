@@ -253,7 +253,7 @@ exports = module.exports = function(app, passport) {
 	});
 
 	app.get('/event/:id/validation', require('./views/events/validations/index').init);
-	app.get('/event/:id/validation/visualizer', require('./views/events/validations/visualizer').init);
+	app.get('/event/:id/validation/:id/visualizer', require('./views/events/validations/visualizer').init);
 
 	app.put('/event/ownerActions/:id/join', require('./views/events/account/join').init);
 	app.delete('/event/ownerActions/:id/delete', require('./views/events/account/delete').init);

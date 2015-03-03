@@ -9,16 +9,15 @@ block feet
 block body
 	div.app-content
 		div.page-container
-			#valiflux
 			#legend
-			#actions
-				button#btn-valid Valider
-				button#btn-refuse Refuser
+			#valiflux
+			#prop
+			button.propose Proposez la votre !
 
 	script(type="text/template", id="tmpl-valiflux")
 		.item
-			span.picture <%= epicture %>
-			span.username <%= eusername %>
+			img.picture(src!="<%= epicture %>")
+			span.username by <%= eusername %>
 
 	script(type="text/template", id="tmpl-legend")
 		ul.list

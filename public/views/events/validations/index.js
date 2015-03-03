@@ -18,15 +18,6 @@
   	}
   });
 
-  app.CommentModel = Backbone.Model.extend({
-    idAttribute: '_id',
-  	defaults: {
-  		cpicture: '',
-  		cusername: '',
-  		comment: ''
-  	}
-  });
-
   app.FluxValidationView = Backbone.View.extend({
   	el: '#valiflux',
     template: _.template( $('#tmpl-valiflux').html() ),
@@ -40,7 +31,6 @@
   		this.render();
   	},
   	visualizer: function(e) {
-  		console.log("visualizer ok");
   	},
   	render: function() {
       this.$el.html(this.template( this.model.attributes ));
@@ -63,25 +53,18 @@
   	}
   });
 
-  app.CommentView = Backbone.View.extend({
-  	el: '#comment',
-    template: _.template( $('#tmpl-comment').html() ),
-  	initialize: function(item) {
-  		this.model = new app.CommentModel();
-      this.model.set(item);
-  		console.log("comment ok");
-  		this.render();
+  app.ProposeView = Backbone.View.extend({
+  	el: '#prop',
+  	events: {
+  		'click .propose': 'propose'
   	},
-  	render: function() {
-      this.$el.html(this.template( this.model.attributes ));
-  		console.log("comment render ok");
+  	propose: function() {
   	}
   });
 
   $(document).ready(function(){
   	app.FluxValidation = new app.FluxValidationView(JSON.parse( unescape($('#data-valiflux').html()) ));
   	app.Legend = new app.LegendView(JSON.parse( unescape($('#data-legend').html()) ));
-  	app.Comment = new app.CommentView(JSON.parse( unescape($('#data-comment').html()) ));
   });
 
 }());

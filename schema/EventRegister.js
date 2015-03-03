@@ -9,3 +9,4 @@ exports = module.exports = function(app, mongoose) {
   EventRegisterSchema.set('autoIndex', (app.get('env') === 'development'));
   app.db.model('EventRegister', EventRegisterSchema);
 };
+ 
