@@ -90,11 +90,6 @@ var getLatestNotification = function(socket, app, account) {
 				link += "event/" + currentNotification.event.activity.id;
 				typeEvent = 1;
 			}
-			else if (currentNotification.event.exchange !== undefined) {
-				title = " propose " + currentNotification.event.exchange.title;
-				link += "exchange/" + currentNotification.event.exchange.id;
-				typeEvent = 2;
-			}
 
       listNotification.push({'user':currentNotification.from.account.name.full, 'title':title,
 			 'date':require('moment')(currentNotification.date).lang('fr').fromNow().toString(), 'link':link});

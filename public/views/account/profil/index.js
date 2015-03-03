@@ -462,6 +462,5 @@
 
     var nb_b = $('#badge .badges > .badge_a').length;
     $('#t_badge span').html(nb_b);
-
   });
 }());
