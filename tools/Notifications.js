@@ -20,8 +20,8 @@ exports.init = function(req, res, next) {
 	find['to.'+req.session.accType] = req.user.roles[req.session.accType]._id;
 	if (req.params.id)
 		find['_id'] = { '$gt': req.params.id };
-	req.app.db.models.Notifications.find(find).sort({date: 'desc'}).limit(20).populate('from.account').populate('from.pro').populate('event.activity').populate('event.exchange').populate('event.opportunity').exec(function(err, notifs) {
-		console.log("[FIND NOTIFICATIONS] => " + notifs);
+	req.app.db.models.Notifications.find(find).sort({date: 'desc'}).limit(20).populate('from.account').populate('event.activity').exec(function(err, notifs) {
+		console.log("[FIND NOTIFICATIONS] => " + JSON.stringify(notifs));
 		if (err)
 			return workflow.emit('exception', err);
 		require('async').eachSeries(notifs, function(notif, done) {
@@ -31,29 +31,21 @@ exports.init = function(req, res, next) {
 				data: '',
 				link: ''
 			};
+			console.log(JSON.stringify(notif));
 			if (notif.type <= 1) {
 				if (notif.from.account && notif.to.account) {
 					push.data = '<b>' + notif.from.account.name.full + '</b> ' + req.i18n.t(notifMsgs[notif.type][0]);
 					push.link = '/user/' + notif.from.account.user.id;
 					notifsOutcome.push(push);
-				} else if (notif.from.account && notif.to.pro) {
-					push.data = '<b>' + notif.from.account.name.full + '</b> ' + req.i18n.t(notifMsgs[notif.type][1]);
-					push.link = '/user/' + notif.from.account.user.id;
-					notifsOutcome.push(push);
-				} else if (notif.from.pro) {
-					push.data = '<b>' + notif.from.pro.name + '</b> ' + req.i18n.t(notifMsgs[notif.type][1]);
-					push.link = '/pro/' + notif.from.pro.user.id;
-					notifsOutcome.push(push);
 				}
-			} else if (notif.event.activity || notif.event.exchange || notif.event.opportunity) {
-				if (notif.from.account || notif.from.pro) {
+			} else if (notif.type == 2) {
+				console.log("notif 2");
+			}else if (notif.event.activity) {
+				if (notif.from.account) {
 					push.data = '<b>'+(notif.from.account ? notif.from.account.name.full : notif.from.pro.name)+'</b> ' + req.i18n.t(notifMsgs[notif.type]);
-					if (notif.event.activity)
+					if (notif.event.activity) {
 						push.link = '/event/activity/' + notif.event.activity._id;
-					else if (notif.event.exchange)
-						push.link = '/event/exchange/' + notif.event.exchange._id;
-					else
-						push.link = '/event/opportunity/' + notif.event.opportunity._id;
+					}
 					notifsOutcome.push(push);
 				}
 			}

@@ -4,21 +4,6 @@
 
 'use strict';
 
-function ensureAuthenticated(req, res, next) {
-	if (req.isAuthenticated()) {
-		return next();
-	}
-	res.set('X-Auth-Required', 'true');
-	res.redirect('/login/?returnUrl='+ encodeURIComponent(req.originalUrl));
-}
-
-function ensureAdmin(req, res, next) {
-	if (req.user.canPlayRoleOf('admin')) {
-		return next();
-	}
-	res.redirect('/');
-}
-
 function isBanned(req, res, next) {
 	if (!(req.user.banned)) {
 		return next();
@@ -27,38 +12,13 @@ function isBanned(req, res, next) {
 	res.redirect('/');
 }
 
-function ensureAccount(req, res, next) {
-	if (req.user.canPlayRoleOf('account') && req.session.accType == 'account') {
-		if (req.app.get('require-account-verification')) {
-			if (req.user.roles.account.isVerified !== 'yes' && !/^\/account\/verification\//.test(req.url)) {
-				return res.redirect('/account/verification/');
-			}
-		}
-		return next();
-	}
-	res.redirect('/');
-}
-
-function checkIfConnected(req, res, next) {
-	if (req.isAuthenticated()) {
-		if (req.session.accType == 'account') {
-			if (req.user.canPlayRoleOf('account'))
-				return res.redirect('/account/');
-		} else if (req.user.canPlayRoleOf('admin')) {
-			return res.redirect('/admin/');
-		}
-		return res.redirect('/logout/');
-	}
-	return next();
-}
-
 exports = module.exports = function(app, passport) {
 	//front end
 	String.prototype.capitalize = function() {
 		return this.charAt(0).toUpperCase() + this.slice(1);
 	}
 
-	app.all('/', checkIfConnected);
+	app.all('/', app.modules.ensure.Connected);
 	app.post('/feedback', require('./views/feedback/index').sendFeedback);
 	app.get('/', require('./views/index').init);
 	app.post('/contact', require('./views/contact/index').sendMessage);
@@ -93,8 +53,8 @@ exports = module.exports = function(app, passport) {
 	app.post('/adok-adm/', require('./views/adok-adm/index').login);
 
 	//admin
-	app.all('/admin*', ensureAuthenticated);
-	app.all('/admin*', ensureAdmin);
+	app.all('/admin*', app.modules.ensure.Authentification);
+	app.all('/admin*', app.modules.ensure.Admin);
 	app.get('/admin/', require('./views/admin/index').init);
 
 	//admin > users
@@ -176,7 +136,6 @@ exports = module.exports = function(app, passport) {
 	app.all('/account*', app.modules.ensure.Authentification);
 	app.all('/account*', app.modules.ensure.Account);
 	app.all('/account*', isBanned);
-	app.all('/account*', app.modules.ensure.Alpha);
 	//app.all('/account*', getContactList);
 	app.get('/account/', require('./views/account/index').init);
 
@@ -202,7 +161,7 @@ exports = module.exports = function(app, passport) {
 	app.post('/propose', app.modules.propose.Propose);
 
 	//account > zone
-	app.all('/user*', ensureAuthenticated);
+	app.all('/user*', app.modules.ensure.Authentification);
 	app.all('/user*', isBanned);		
 	app.get('/user/', function(req, res, next) {
 		require('./views/'+req.session.accType+'/profil/index').init(req, res, next);
@@ -217,7 +176,7 @@ exports = module.exports = function(app, passport) {
 	app.post('/upload/image/:type', require('./tools/image_upload').init); // check HERE !
 
 	//follow
-	app.all('/follow*', ensureAuthenticated);
+	app.all('/follow*', app.modules.ensure.Authentification);
 	app.post('/follow', require('./tools/follow').AddCancelAndDeny);
 
 	//notifications
