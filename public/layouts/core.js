@@ -111,25 +111,33 @@ var refresh;
 	    $.post('/usersearch', {
 	      query: $("#asearchbar").val()
 	    }).done(function(data) {
-	    	console.log("data =>", data);
+	    	console.log("[SEARCHBAR] data result =>", JSON.stringify(data));
 	    	var i = 0;
 	    	var ite = new Array();
-	    	while (data[i])
-	    	{
-	    		ite.push({label: data[i].name, url: data[i].link});
+	    	while (data[i]) {
+	    		if (data[i].picture) {
+	    			ite.push({label: data[i].name, url: data[i].link, icon: data[i].picture});
+	    		} else {
+	    			ite.push({label: data[i].name, url: data[i].link});
+	    		}
 	    		++i;
 	    	}
 	      res(ite);
 	    }).fail(function() {
-	      console.log('[ERROR] -> adok-searchbar ->');
-	      console.log($("#asearchbar").val());
+	      console.log('[SEARCHBAR][ERROR] -> ' + $("#asearchbar").val());
 	    });
 	  },
-	  minLength: 4,
+	  minLength: 3,
 	  select: function(e, ui) {
 	  	location.href = ui.item.url;
+	  	return false;
 	  }
-	});
+	})._renderItem = function (ul, item) {
+    return $("<li>")
+        .append("<a href='"+item.link+"'><img src='" + item.icon + "' />" + item.name + "</a>")
+        .appendTo(ul);
+	};
+  // });
 
 	/*-----  Feedback  ------*/
 

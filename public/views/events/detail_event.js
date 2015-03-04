@@ -270,6 +270,8 @@
 				desc: this.$el.find('[name="desc"]').val(),
 				hashtag: this.$el.find('[name="hashtag"]').val(),
 				place: this.$el.find('[name="place"]').val(),
+				place_Lat: this.$el.find("[name='place_Lat']").val(),
+				place_Lng: this.$el.find("[name='place_Lng']").val()
 			}, {
 				success: function(model, response) {
 					if (response.success) {
@@ -279,15 +281,11 @@
 						$("body").addClass("modal-open");
 						$('#editd_prop').hide().velocity('transition.slideUpBigIn', { duration: 300 }).addClass('is-open');
 					} else {
-							alert("Une erreur est survenue.");
-							console.log(model);
-							console.log(response);
+						console.log("#0 Une erreur est survenue. -> " + JSON.stringify(model) + " | " + response);
 					}
 				},
 				error: function(model, response) {
-					console.log("Une erreur est survenue.");
-					console.log(model);
-					console.log(response);
+					console.log("#1 Une erreur est survenue. -> " + JSON.stringify(model) + " | " + response);
 				}
 			});
 		}
@@ -404,7 +402,9 @@
 		refresh_data: function() {
 			$('input[name="title"]').val(this.model.attributes.title);
 			$('textarea[name="desc"]').val(this.model.attributes.desc);
-			$('input[name="place"]').val(this.model.attributes.place);
+			$('input[name="place_value"]').val(this.model.attributes.place);
+			$('input[name="place_Lat"]').val(this.model.attributes.place);
+			$('input[name="place_Lng"]').val(this.model.attributes.place);
 			$('input[name="hashtag"]').val(this.model.attributes.hashtag);
 		},
 		close_edit: function(e) {
@@ -476,23 +476,24 @@
 		new app.ReportModalView();
 		new app.ReportView();
 
-    var map = L.mapbox.map('map-event', 'lucterracherwizzem.kp9oc66l', {
-    	minZoom: 5, maxZoom: 19,
-    	accessToken: 'pk.eyJ1IjoicG9seW1vcnBobCIsImEiOiJaTWFpLWI4In0.cPiDB1qRwLUFGWmBRhZinA', //public token for v2.x
-    	infoControl: false
-    });
+		if ($('#map-event').length > 0) {
+	    var map = L.mapbox.map('map-event', 'lucterracherwizzem.kp9oc66l', {
+	    	minZoom: 5, maxZoom: 19,
+	    	accessToken: 'pk.eyJ1IjoicG9seW1vcnBobCIsImEiOiJaTWFpLWI4In0.cPiDB1qRwLUFGWmBRhZinA', //public token for v2.x
+	    	infoControl: false
+	    });
 
-    map.zoomControl.setPosition('topright');
-    var e_lat = $('.elat').val();
-    var e_lng = $('.elng').val();
-    var homeIcon = L.icon({
-			iconUrl: "/medias/map-marker/mrk.png",
-			iconSize: [80, 80]
-		});
-    var marker = new L.Marker([e_lat, e_lng]);
-		marker.setIcon(homeIcon);
-		marker.addTo(map);
-    map.setView([e_lat, e_lng], 14);
-
+	    map.zoomControl.setPosition('topright');
+	    var e_lat = $('.elat').val();
+	    var e_lng = $('.elng').val();
+	    var homeIcon = L.icon({
+				iconUrl: "/medias/map-marker/mrk.png",
+				iconSize: [80, 80]
+			});
+	    var marker = new L.Marker([e_lat, e_lng]);
+			marker.setIcon(homeIcon);
+			marker.addTo(map);
+	    map.setView([e_lat, e_lng], 14);
+		}
   });
 }());

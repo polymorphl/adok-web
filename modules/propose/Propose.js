@@ -20,10 +20,6 @@ exports = module.exports = function(req, res) {
 			workflow.outcome.errfor.hashtag = req.i18n.t('errors.required');
 		}
 
-		if (!req.body.place || !req.body.place_value || !req.body.place_Lng || !req.body.place_Lat) {
-			workflow.outcome.errfor.place = req.i18n.t('errors.required');
-		}
-
 		if (workflow.hasErrors()) {
 			return workflow.emit('response');
 		}
@@ -78,12 +74,6 @@ var Activity = function(req, res){
 			workflow.outcome.errfor.hashtag = req.i18n.t('errors.required');
 		}
 
-		if (!req.body.place) {
-			workflow.outcome.errfor.place = req.i18n.t('errors.required');
-		} else if (!req.body.place_value || !req.body.place_Lng || !req.body.place_Lat) {
-			workflow.outcome.errfor.place = req.i18n.t('errors.place');
-		}
-
 		if (workflow.hasErrors()) {
 			return workflow.emit('response');
 		}
@@ -112,10 +102,6 @@ var Activity = function(req, res){
 		});
 	});
 
-	// workflow.on('uploadImage', function() {
-	//   var ext = (/([^.;+_]+)$/).exec(req.files.file.originalFilename);
-	//   require('../../../tools/image_upload').uploadEvent(req, res, 'aevent', workflow.event._id, ext[1]);
-	// });
 	workflow.emit('validate');
 };
 

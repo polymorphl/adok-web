@@ -1,101 +1,107 @@
 extends ../../../../layouts/account
 
 block head
-  title #{title}
-  link(href='/adok_components/mapbox/mapbox.css', rel='stylesheet')
+	title #{title}
+	link(href='/adok_components/mapbox/mapbox.css', rel='stylesheet')
 
 block feet
-  script(src='/adok_components/mapbox/mapbox.js')
-  script(src='/adok_components/mapbox/locate.js')
-  script(src='/adok_components/mapbox/fullscreen.js')
-  script(src='/views/min/events/index.min.js')
-  script(src='/views/events/detail_event.js')
+	script(src='/adok_components/mapbox/mapbox.js')
+	script(src='/adok_components/mapbox/locate.js')
+	script(src='/adok_components/mapbox/fullscreen.js')
+	script(src='/views/min/events/index.min.js')
+	script(src='/views/events/detail_event.js')
 
 block body
-  div.app-content
-    div.page-container
-      include ../../../../layouts/details_event
-      #proposal
-        div.left
-        div.right
+	div.app-content
+		div.page-container
+			include ../../../../layouts/details_event
+			#proposal
+				div.left
+				div.right
 
-  script(type='text/template', id="tmpl-left")
-    div.share
-      div.title= t('event.shrtitle')
-      a.fb(href='#', target='_blank')
-        div.fb
-          img(src="/medias/socials/fb.svg")
-      a.g(href='#', onclick='javascript:window.open(this.href,\'\', \'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600\');return false;')
-        div.g
-          img(src='/medias/socials/g.svg')
-    div.pictures
-      <% if (photos) { %>
-      img(src!="<%= photos %>")
-      <%} else {%>
-      div._blank(id="#addPicture")
-        div.txt Ajouter une image
-        span.icon: i.fa.fa-picture-o
-      <%}%>
+	script(type='text/template', id="tmpl-left")
+		div.share
+			div.title= t('event.shrtitle')
+			a.fb(href='#', target='_blank')
+				div.fb
+					img(src="/medias/socials/fb.svg")
+			a.g(href='#', onclick='javascript:window.open(this.href,\'\', \'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600\');return false;')
+				div.g
+					img(src='/medias/socials/g.svg')
+		div.pictures
+			<% if (photos) { %>
+			img(src!="<%= photos %>")
+			<%} else {%>
+			div._blank(id="#addPicture")
+				div.txt Ajouter une image
+				span.icon: i.fa.fa-picture-o
+			<%}%>
 
-  script(type='text/template', id="tmpl-right")
-    input.elat(type="hidden", id="lat", value!="<%= latLng[1] %>")
-    input.elng(type="hidden", id="lng", value!="<%= latLng[0] %>")
-    div(id="map-event")
-    div.title
-      <%= title %>
-    <% if (accType == 'account') { %>
-    a(href!='/user/<%= acc._id %>', class="prop_by")
-      span= t("event.ppby")
-      div.author
-        span.fullname
-          <%= acc.roles.account.name.full %>
-        <% if (acc.roles.account.picture) { %>
-        img(src!='<%= acc.roles.account.picture %>')
-        <% } %>
-    <% } %>
-    div.desc
-      <%= desc %>
-    div.hashtag
-      <%= hashtag %>
-    div.place
-      span Adresse :
-      span
-        <%= place %>
-    if (!isUserAccount)
-      div.join_proposal
-        button.btn.btn-join(id="t_prop_join") Participer
-      div.left_proposal
-        button.btn.btn-left(id="t_prop_left") Se désinscrire
-      div.validate_proposal
-        button.btn.btn-wait(id="t_prop_valid") Valider !
-      div.report-challenge
-        a(id="t_report_c") Signaler l'évenement
-    if (isUserAccount)
-      div.edit_proposal
-        button.btn.btn-edit(id="t_prop_edit") Editer
-      div.delete_proposal
-        button.btn.btn-delete(id="t_delete_prop") Supprimer
-    div.comments
-      input(id='commentTextaera' type='text', name='comment', value!='', placeholder='Poster un commentaire')
-      button.btn.btn-validate(id='buttonAddComment') Publier
-      ul(id='listComment')
+	script(type='text/template', id="tmpl-right")
+		input.elat(type="hidden", id="lat", value!="<%= latLng[1] %>")
+		input.elng(type="hidden", id="lng", value!="<%= latLng[0] %>")
+		<% if (latLng[0]) { %>
+		div(id="map-event")
+		<% } %>
+		div.title
+			<%= title %>
+		<% if (accType == 'account') { %>
+		a(href!='/user/<%= acc._id %>', class="prop_by")
+			span= t("event.ppby")
+			div.author
+				span.fullname
+					<%= acc.roles.account.name.full %>
+				<% if (acc.roles.account.picture) { %>
+				img(src!='<%= acc.roles.account.picture %>')
+				<% } %>
+		<% } %>
+		<% if (desc) { %>
+		div.desc
+			<%= desc %>
+		<% } %>
+		div.hashtag
+			<%= hashtag %>
+		div.place
+			<% if (latLng[0]) { %>
+			span Adresse :
+			span
+			<%= place %>
+			<% } %>
+		if (!isUserAccount)
+			div.join_proposal
+				button.btn.btn-join(id="t_prop_join") Participer
+			div.left_proposal
+				button.btn.btn-left(id="t_prop_left") Se désinscrire
+			div.validate_proposal
+				button.btn.btn-wait(id="t_prop_valid") Valider !
+			div.report-challenge
+				a(id="t_report_c") Signaler l'évenement
+		if (isUserAccount)
+			div.edit_proposal
+				button.btn.btn-edit(id="t_prop_edit") Editer
+			div.delete_proposal
+				button.btn.btn-delete(id="t_delete_prop") Supprimer
+		div.comments
+			input(id='commentTextaera' type='text', name='comment', value!='', placeholder='Poster un commentaire')
+			button.btn.btn-validate(id='buttonAddComment') Publier
+			ul(id='listComment')
 
-  script(type='text/template', id='tmpl-createReport')
-    div.wrap-report
-      label Votre signalement concerne
-      select.category(id="category", name="category")
-        option(value='hrai') Haine, racisme ou insultes
-        option(value='porn') Pornographie
-        option(value='void') Usurpation d'identité
-        option(value='vopi') Vol de photos
-        option(value='othe') Autre(s)
-      div
-        label(for="comments") Commentaires
-        textarea.comments(id="comments", name="comments")
-      div.validation
-        button.btn.btn-create_report Envoyer
+	script(type='text/template', id='tmpl-createReport')
+		div.wrap-report
+			label Votre signalement concerne
+			select.category(id="category", name="category")
+				option(value='hrai') Haine, racisme ou insultes
+				option(value='porn') Pornographie
+				option(value='void') Usurpation d'identité
+				option(value='vopi') Vol de photos
+				option(value='othe') Autre(s)
+			div
+				label(for="comments") Commentaires
+				textarea.comments(id="comments", name="comments")
+			div.validation
+				button.btn.btn-create_report Envoyer
 
 
-  script(type='text/template', id='event-results') !{event}
-  script(type='text/template', id='event-reg') !{isRegistered}
-  script(type='text/template', id='event-participant') !{participants}
+	script(type='text/template', id='event-results') !{event}
+	script(type='text/template', id='event-reg') !{isRegistered}
+	script(type='text/template', id='event-participant') !{participants}

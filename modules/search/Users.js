@@ -46,7 +46,7 @@ exports = module.exports = function(req, res, next){
 
 		var i = 0;
 		while (outcome.account && outcome.account[i]) {
-			ret.push({ name: outcome.account[i].name.full, link: '/user/'+outcome.account[i].user.id });
+			ret.push({ name: outcome.account[i].name.full, link: '/user/'+outcome.account[i].user.id, picture: outcome.account[i].picture });
 			++i;
 		}
 		while (outcome.events && outcome.events[i] ) {
