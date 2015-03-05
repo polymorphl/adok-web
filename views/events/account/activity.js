@@ -3,51 +3,36 @@ var mongoose = require('mongoose');
 
 exports.init = function(req, res) {
 	var id = req.params.id;
-	var registered;
+	var registered = 0;
+	var registeredCount = 0;
+	var participants = [];
 	var find = {};
 	find['event.activity'] = id;
 
 	req.app.db.models.Event.findOne({_id: mongoose.Types.ObjectId(id)}, 'acc accType title photos desc place latLng hashtag').populate('acc').exec(function(err, event) {
 		if (err || !event)
 			return require('../../http/index').http404(req, res);
-		res.locals.id = req.user._id;
-		res.locals.accType = req.session.accType;
-		req.app.db.models[event.accType.capitalize()].populate(event, {path: 'acc.roles.'+event.accType}, function(err, event) {
-			req.app.db.models.EventRegister.findOne({event: mongoose.Types.ObjectId(id)}).populate('account._id').exec(function(err, ereg) {
-				if (err || !event)
-					return require('../../http/index').http404(req, res);
-				var i = 0;
-				while (ereg && ereg[req.session.accType][i]) {
-					if ([ereg[req.session.accType][i]._id].indexOf(req.user.roles[req.session.accType]._id)) {
-						if (ereg[req.session.accType][i].conf == 1)
-							registered = true;
-						else if (ereg[req.session.accType][i].conf == 2)
-							registered = "refused";
-						else
-							registered = "pending";
-						break;
-					} else
-						i++;
-				}
-				registered = (registered === undefined ? false : registered);
-				var participants = (ereg ? ereg['account'].concat(ereg['pro']) : []);
-				var registeredCount = 0;
-				i = 0;
-				while (participants && participants[i]) {
-					if (participants[i].conf == 1)
-						++registeredCount;
-					++i;
-				}
+		if (req.user) {	
+			console.log("CONNEDTED");
+			res.locals.id = req.user._id;
+			res.locals.accType = req.session.accType;
+			req.app.db.models[event.accType.capitalize()].populate(event, {path: 'acc.roles.'+event.accType}, function(err, event) {
+				req.app.db.models.EventRegister.findOne({eid: mongoose.Types.ObjectId(id)}).exec(function(err, ereg) {
+					if (err || !event)
+						return require('../../http/index').http404(req, res);
+					var i = 0;
 
-				// console.log(registered);
-				console.log("event => ", event);
-				console.log("part".green, participants);
-				if (ereg)
-					res.render('events/account/activity/index', {event: escape(JSON.stringify(event)), title: event.title, hashtag: event.hashtag, isRegistered: registered, participants: participants, registeredCount: registeredCount, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
-				else
-					res.render('events/account/activity/index', {event: escape(JSON.stringify(event)), title: event.title,hashtag: event.hashtag, isRegistered: registered, participants: [], registeredCount: 0, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
+					console.log("ereg : " + ereg);
+					if (ereg)
+						res.render('events/account/activity/index', {event: escape(JSON.stringify(event)), title: event.title, hashtag: event.hashtag, isRegistered: "true", participants: [], registeredCount: 0, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
+					else
+						res.render('events/account/activity/index', {event: escape(JSON.stringify(event)), title: event.title, hashtag: event.hashtag, isRegistered: "false", participants: [], registeredCount: 0, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
+				});
 			});
-		});
+		} else {
+			console.log("NOT CONNECTED");
+			res.render('events/account/activity/index');
+		}
 	});
 }
 
@@ -67,19 +52,15 @@ exports.edit = function(req, res) {
 			workflow.outcome.errfor.title = req.i18n.t('errors.userformat');
 		}
 
-		if (!req.body.desc) {
-			workflow.outcome.errfor.desc = req.i18n.t('errors.required');
-		}
-
 		if (!req.body.hashtag) {
 			workflow.outcome.errfor.hashtag = req.i18n.t('errors.required');
 		}
 
-		if (!req.body.place) {
-			workflow.outcome.errfor.place = req.i18n.t('errors.required');
-		} else if (!req.body.place) {
-			workflow.outcome.errfor.place = req.i18n.t('errors.place');
-		}
+		// if (!req.body.place) {
+		// 	workflow.outcome.errfor.place = req.i18n.t('errors.required');
+		// } else if (!req.body.place) {
+		// 	workflow.outcome.errfor.place = req.i18n.t('errors.place');
+		// }
 
 		if (workflow.hasErrors()) {
 			return workflow.emit('response');
@@ -88,12 +69,11 @@ exports.edit = function(req, res) {
 		workflow.emit('insertEvent');
 	});
 	workflow.on('insertEvent', function() {
-		console.log(moment(req.body.day+'/'+req.body.month+'/'+req.body.year));
-		console.log(moment(req.body.day1+'/'+req.body.month1+'/'+req.body.year1));
 		var fieldsToSet = {
 			title: req.body.title,
 			hashtag: req.body.hashtag,
 			place: req.body.place,
+			latLng: [req.body.place_Lng, req.body.place_Lat],
 			desc: req.body.desc
 		};
 		req.app.db.models.Event.findByIdAndUpdate(req.body.id, { $set: fieldsToSet }, function(err, event) {

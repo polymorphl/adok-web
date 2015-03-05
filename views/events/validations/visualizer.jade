@@ -1,0 +1,16 @@
+extends ../../../layouts/account
+
+block head
+	title #{title}
+
+block feet
+	script(src='/views/events/validations/visualizer.js')
+
+block body
+	div.app-content
+		div.page-container
+			#details
+			#actions
+				button#btn-valid Valider
+				button#btn-refuse Refuser
+

@@ -21,4 +21,5 @@ exports = module.exports = function(app, mongoose) {
   require('./schema/Badge')(app, mongoose);
   require('./schema/Report')(app, mongoose);  
   require('./schema/Comment')(app, mongoose);
+  require('./schema/Validations')(app, mongoose);
 };

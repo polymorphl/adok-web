@@ -125,6 +125,7 @@ module.exports = function(grunt) {
 						'public/adok_components/FormFF/FormFF.js',
 						'public/components/iscroll/build/iscroll.js',
 						'public/tools/CalcDistLatLong.js',
+						'public/components/noty/js/noty/packaged/jquery.noty.packaged.min.js',
 						'public/layouts/core.js'
 					],
 					'public/layouts/ie-sucks.min.js': [
