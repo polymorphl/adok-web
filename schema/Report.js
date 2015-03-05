@@ -5,7 +5,9 @@ exports = module.exports = function (app, mongoose) {
 		reportId: {type: Number},
     from: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     to: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-		desc: {type: String, default: ''},
+    category: { type: String, default: '' },
+    type: { type: String, default: '' },    
+		comments: { type: String, default: '' }
 	});
 	reportSchema.index({reportId: 1 });
 	reportSchema.plugin(require('./plugins/pagedFind'));

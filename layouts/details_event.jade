@@ -27,26 +27,28 @@ div.m_report_c(id="report_c")
 			span.close
 				= t('cl')
 		div.modal__content
-			div.wrap-report
-				label Votre signalement concerne
-				select.choices
-					option(value='pdat') Diffusion d'informations personnelles
-					option(value='hrai') Haine, racisme ou insultes
-					option(value='porn') Pornographie
-					option(value='suic') Suicide ou mise en danger d'autrui
-					option(value='void') Usurpation d'identité
-					option(value='vopi') Vol de photos
-					option(value='spam') Commentaires ou messages indésirables
-					option(value='othe') Autre(s)
-				div
-					label(for="comments") Commentaires
-					textarea(id="comments")
-				div.validation
-					button.btn Envoyer
-
+			#createReport
 		div.modal__footer
 
 div.sidebar-prop.sb.is-close(id="prop_edit")
+
+script(type='text/template', id='tmpl-createReport')
+	div.wrap-report
+		label Votre signalement concerne
+		select.category(id="category", name="category")
+			option(value='pdat') Diffusion d'informations personnelles
+			option(value='hrai') Haine, racisme ou insultes
+			option(value='porn') Pornographie
+			option(value='suic') Suicide ou mise en danger d'autrui
+			option(value='void') Usurpation d'identité
+			option(value='vopi') Vol de photos
+			option(value='spam') Commentaires ou messages indésirables
+			option(value='othe') Autre(s)
+		div
+			label(for="comments") Commentaires
+			textarea.comments(id="comments", name="comments")
+		div.validation
+			button.btn.btn-create_report Envoyer	
 
 script(type="text/template", id="tmpl-edit-event")
 	div.content
@@ -56,12 +58,12 @@ script(type="text/template", id="tmpl-edit-event")
 		#title
 			label(for="title") Titre
 			input(name="title" type="text" value="")
-		#desc
-			label(for="desc") Description
-			textarea(name="desc" type="text" value="")
 		#hashtag
 			label(for="hashtag") Mots-clés
 			input(name="hashtag" type="text" value="")
+		#desc
+			label(for="desc") Description
+			textarea(name="desc" type="text" value="")
 		#place
 			label(for="place") Adresse
 			input(name="place" type="text" value="")

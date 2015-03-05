@@ -15,11 +15,15 @@ var idLastNotif = '000000000000000000000000';
 	'use strict';
 
 	$(document).ready(function() {
+		console.log("[READY LISTEN NOTIFICATION]");
 		var socket = io.connect('http://localhost/notification', {secure: true});
 		socket.on("connection", function(socket) {
 			console.log("Connection socket notification");
 		});
 		socket.on("notification", function(alert) {
+			console.log("receive notification " + alert.notificationContent.content);
+			console.log("receive to : " + alert.notificationContent.to);
+			console.log("alert type : " + alert.type);
 			//humane.log("Welcome Back");
 			if (alert.type == 0) {
 				var n = noty({
@@ -99,8 +103,7 @@ var idLastNotif = '000000000000000000000000';
 					}
 				}]
 			});
-		}
-		else {
+		} else {
 			var n = noty({
 				text        : alert.notificationContent.content.nameUser  + alert.msg + alert.title,
 				type        : 'alert',
@@ -109,19 +112,14 @@ var idLastNotif = '000000000000000000000000';
 				theme       : 'defaultTheme'});
 			}
 		}
-// toastr.options.showMethod = 'slideDown';
-			// toastr.options.hideMethod = 'slideUp';
-			// toastr.options.timeOut = 6000;
-			// toastr.options.progressBar = true;
-			// toastr.options.closeButton = true;
-			// toastr.success(alert.title);
-			//toastr.info(notification);
 		});
 
 		socket.on('displaynotification', function(notifs) {
+			console.log("Notifs -> " + JSON.stringify(notifs));
+
 			var bodyNotificationContent = "";
 			notifs.forEach(function(currentNotification, index, array) {
-
+				console.log("CURRENT NOTIF : " + currentNotification.type);
 				bodyNotificationContent += "<div class='event'><a href=" + currentNotification.link + "><div class='who'><p><span class='name'>" + currentNotification.user;
 				bodyNotificationContent += "</span></p></div><div class='what'>" + currentNotification.title + "</div></a>";
 				bodyNotificationContent += "<div class='action'><span class='accpet'><div class='acc'><i class='fa fa-check'/><i class='fa fa-times'/></div></span>" + "</div>";
@@ -158,6 +156,7 @@ var idLastNotif = '000000000000000000000000';
 
 	//Get list of notifications at loading
 	var getNotifs = function() {
+		console.log("[getNotifs]");
 		$.get('/feed', function(res) {
 			if (res.success) {
 				if (res.notifs[0])
@@ -169,6 +168,8 @@ var idLastNotif = '000000000000000000000000';
 
 	//Function to update notifications feed
 	var updateNotifs = function() {
+		console.log("[update notification]");
+
 		$.get('/feed/'+idLastNotif, function(res) {
 			if (res.success) {
     		if (res.notifs[0]) {

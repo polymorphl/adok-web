@@ -49,6 +49,10 @@ html
               li#t_propose: a.propose
                 i.fa.fa-plus
                 span.helper= t('account.propose')
+              li#t_notif: a.notif
+                img(src="/medias/notif/notif.svg")
+                span.count
+                span.helper= t('nav.notif')
               li: a.profil(href='/user/#{id}')
                 img#profilavatar(src='#{req.user.roles.account.picture}')
                 span.helper= req.user.roles.account.name.first

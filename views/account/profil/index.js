@@ -82,8 +82,8 @@ var renderZone = function(req, res, next, oauthMessage) {
           parsedList.push(toAdd);
         }
         my_badges = parsedList;
+        return callback(null, 'done');     
       });
-      return callback(null, 'done');     
     });
   };
 

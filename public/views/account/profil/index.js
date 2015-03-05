@@ -265,22 +265,19 @@
   app.WrapHistoryView = Backbone.View.extend({
     el: '#wrap-history',
     initialize: function(item) {
-      console.log("test");
-      var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
-      var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
-      $("#wrap-history").css("height", (h - $(".m-zone").height() - (h/12)) + "px");
-      $(".scroll").css("height", (item.length * 207) + "px");
-      var history_scroll = new IScroll('#wrap-history', {
-        mouseWheel: true,
-        scrollbars: true
-      });
-
-      var i = 0;
-      console.log(item.length)
-      while (i < item.length)
-      {
-        new app.HistoryView(item[i]);
-        ++i;
+      var i = -1;
+      if (item.length > 0) {
+        var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+        var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+        $("#wrap-history").css("height", (h - $(".m-zone").height() - (h/12)) + "px");
+        $(".scroll").css("height", (item.length * 207) + "px");
+        var history_scroll = new IScroll('#wrap-history', {
+          mouseWheel: true, scrollbars: true
+        });
+        while (i < item.length) {
+          new app.HistoryView(item[i]);
+          ++i;
+        }
       }
     }
   });
@@ -379,6 +376,65 @@
     }
   });
 
+  app.ReportModel = Backbone.Model.extend({
+    idAttribute: '_id',
+    url: '/reports/create',
+    defaults: {
+      category: '',
+      comments: ''
+    },
+  });
+
+  app.ReportView = Backbone.View.extend({
+    el: '#createReport',
+    template: _.template( $('#tmpl-createReport').html() ),
+    events: {
+      'click .btn.btn-create_report': 'addNew'
+    },
+    initialize: function() {
+      this.model = new app.ReportModel();
+      this.listenTo(this.model, 'sync', this.render);
+      this.render();
+    },
+    render: function() {
+      this.$el.html(this.template( this.model.attributes ));
+    },
+    addNewOnEnter: function(event) {
+      if (event.keyCode !== 13) { return; }
+      event.preventDefault();
+      event.stopPropagation();
+      this.addNew();
+    },
+    addNew: function(e) {
+      if (this.$el.find('[name="value"]').val() === '') {
+        alert('Please enter a category.');
+      } else if (this.$el.find('[name="comments"]').val() === '') {
+        alert('Please enter a description.');
+      }
+      else {
+        this.model.save({
+          category: this.$el.find('[name="category"]').val(),
+          type: 'user',          
+          comments: this.$el.find('[name="comments"]').val()
+        },{
+          success: function(model, response) {
+            console.log("Pas d'erreur ?");
+            if (response.success) {
+              // console.log("respo " + JSON.stringify(response));
+              // model.id = response.report._id;
+              //location.href = model.url();
+              console.log("report-> SUCCESS");
+            }
+            else {
+              alert(response.errors.join('\n'));
+              console.log("report-> FAIL!");
+            }
+          }
+        });
+      }
+    }
+  });
+
   app.MainView = Backbone.View.extend({
     el: '.app-content .page-container',
     initialize: function() {
@@ -395,7 +451,8 @@
       app.NetworkModal = new app.NetworkModalView();
       app.BadgeModal = new app.BadgeModalView();
       app.ReportModal = new app.ReportModalView();
-      app.WrapHistory = new app.WrapHistoryView(JSON.parse( unescape($('#data-history-event').html()) ));
+      app.reportView = new app.ReportView();
+      //app.WrapHistory = new app.WrapHistoryView(JSON.parse( unescape($('#data-history-event').html()) ));
     }
   });
 
@@ -408,5 +465,8 @@
         console.log("a click");
         $('#avatarUpload')[0].click();
     });
+
+    var nb_b = $('#badge .badges > .badge_a').length;
+    $('#t_badge span').html(nb_b);
   });
 }());

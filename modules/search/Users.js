@@ -32,7 +32,7 @@ exports = module.exports = function(req, res, next){
 	}
 
 	var searchEvents = function(done) {
-		req.app.db.models.Event.find({"title": req.body.query}, ' title').limit(10).lean().exec(function(err, res) {
+		req.app.db.models.Event.find({"title": req.body.query}, ' title acc').populate('acc').limit(10).lean().exec(function(err, res) {
 			if (err)
 				return done(err, null);
 			outcome.events = res;
@@ -46,11 +46,13 @@ exports = module.exports = function(req, res, next){
 
 		var i = 0;
 		while (outcome.account && outcome.account[i]) {
-			ret.push({ name: outcome.account[i].name.full, link: '/user/'+outcome.account[i].user.id });
+			ret.push({ name: outcome.account[i].name.full, link: '/user/'+outcome.account[i].user.id, picture: outcome.account[i].picture });
 			++i;
 		}
-		while (outcome.events && outcome.events[i]) {
-			ret.push({ name: outcome.events[i].title, link: '/event/'+outcome.events[i]._id });
+		while (outcome.events && outcome.events[i] ) {
+			if (outcome.events[i].acc != null) {
+				ret.push({ name: outcome.events[i].title, link: '/event/'+outcome.events[i]._id });
+			}
 			++i;
 		}
 		return res.jsonp(ret);

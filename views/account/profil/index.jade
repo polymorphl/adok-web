@@ -51,19 +51,7 @@ block body
 							span.close
 								= t('cl')
 						div.modal__content
-							div.wrap-report
-								label Votre signalement concerne
-								select.choices
-									option(value='hrai') Haine, racisme ou insultes
-									option(value='porn') Pornographie
-									option(value='void') Usurpation d'identité
-									option(value='vopi') Vol de photos
-									option(value='othe') Autre(s)
-								div
-									label(for="comments") Commentaires
-									textarea(id="comments")
-								div.validation
-									button.btn Envoyer
+							#createReport
 						div.modal__footer
 
 				div#picture
@@ -72,9 +60,24 @@ block body
 				div.third-part
 					if isUserAccount
 						button.btn(id="t_network") Mon réseau
-						button.btn(id="t_badge") Mes badges
+						button.btn(id="t_badge")
+							span -
+							|  badge(s)
 					if !isUserAccount
-						button.btn(id="t_badge") Nb de badges + modal pour voir
+						button.btn(id="t_badge")
+							span  -
+							|  badge(s)
+					div.social_link
+					if !isUserAccount
+						if isLinked == true
+							button#link.btn.btn-primary(type='button')= t('zone.remme')
+						else if isLinked == false
+							button#link.btn.btn-primary(type='button')= t('zone.addme')
+						else if isLinked == 'waiting'
+							button#link.btn.btn-primary(type='button')= t('zone.cancel')
+						else if isLinked == 'pending'
+							button#link-accept.btn.btn-primary(type='button')= t('zone.accept')
+							button#link-deny.btn.btn-primary(type='button')= t('zone.deny')
 						div: a(id="t_report_u") Signaler l'utilisateur
 				div.fourth
 					if (isLinked == true || isUserAccount)
@@ -97,12 +100,28 @@ block body
 					<%= title %>
 				div.desc
 					<%= desc %>
+					
+		script(type='text/template', id='tmpl-createReport')
+			div.wrap-report
+				label Votre signalement concerne
+				select.category(id="category", name="category")
+					option(value='hrai') Haine, racisme ou insultes
+					option(value='porn') Pornographie
+					option(value='void') Usurpation d'identité
+					option(value='vopi') Vol de photos
+					option(value='othe') Autre(s)
+				div
+					label(for="comments") Commentaires
+					textarea.comments(id="comments", name="comments")
+				div.validation
+					button.btn.btn-create_report Envoyer
 
 		script(type='text/template', id='tmpl-picture')
 			if avatar
 				img.self-avatar(src='#{avatar}')
 			form#formAvatar
 				input#avatarUpload(type='file', name='files', data-url='/upload/image/avatar')
+			if isUserAccount
 				btn.btn-edit#avatarLabel Editer
 
 		script(type='text/template', id='tmpl-details')

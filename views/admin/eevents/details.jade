@@ -31,8 +31,8 @@ block body
         button.close(type='button', data-dismiss='alert') &times;
         | Les changements ont été sauvegardés.
       |<% } %>
-    - var nclass = ["title", "desc", "photos", "place", "timeCreated", "numOfPtc", "price", "lng", "lat", "date", "category"]
-    - var npublic = ["Titre", "Description", "Photo", "Lieu", "Date de création", "Nombre de participant", "Prix", "Longitude", "Latitude", "Date", "Catégorie"]
+    - var nclass = ["title", "desc", "photos", "place", "timeCreated", "lng", "lat", "start"]
+    - var npublic = ["Titre", "Description", "Photo", "Lieu", "Date de création", "Longitude", "Latitude", "Début date"]
     - var n = 0
     - nclass.forEach(function(item) {
       div.control-group(class!='<%= errfor.' + item + ' ? "has-error" : "" %>')

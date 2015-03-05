@@ -1,0 +1,45 @@
+#notifications.m-notif {
+  position: absolute; top: 40px; right: 330px;
+  background-color: rgba(255, 255, 255, .8);
+  width: 250px; height: 225px;
+  display: none; z-index: 1000;
+  overflow-y: auto;
+
+  div.event {
+  height: 80px; width: 100%;
+  border-bottom: 1px solid $grey;
+  background-color: rgba(255, 255, 255, .5);
+    a {
+      font-size: 14px; display: block;
+
+      &:hover {
+        background-color: white; color: black;
+        text-decoration: none;
+      }
+
+      .who {
+        .name { font-weight: bold; cursor: pointer; }
+        img {
+          float: left; cursor: pointer;
+          width: 50px; height: 50px;
+          @include border-radius(50em);
+         }
+      }
+      .what {
+        width: 100%;
+      }
+      .actions {
+        width: 100%;
+        & > span {
+          display: inline-block;
+          padding: 0 20px; cursor: pointer;
+          & > span.acc i:hover { color: $green; }
+          & > span.den i:hover { color: $red; }
+        }
+      }
+      .bottom {
+
+      }
+    }
+  }
+}

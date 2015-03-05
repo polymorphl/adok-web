@@ -121,6 +121,9 @@
 						height: 0!important;
 					}
 				}
+				&:hover span {
+					display: inline-block!important;
+				}
 			}
 		}
 
@@ -131,6 +134,7 @@
 
 			li { color:white!important; }
 
+			&.default { top: 5px; left: 10px; bottom: 0px; }
 			.navbar-h {
 				margin: 0 12px 0 0!important;
 			}

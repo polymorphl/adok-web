@@ -23,8 +23,8 @@ ul.ui-autocomplete.ui-front.ui-menu.ui-widget.ui-widget-content {
 .fs-form-wrap {
 	position: relative;
 	width: 100%; height: 100%;
-	color: $purple_b;
-	background-color: $txt;
+	color: black;
+	background-color: $blue_a;
 
 	&.overview {
 		height: auto;
@@ -144,10 +144,10 @@ ol.fs-fields {
 	font-size: 21px;
 
 	textarea {
-		padding: 0; color: $blue_c;
-		width: 90%; height: 150px;
+		padding: 0; color: white;
+		width: 90%; height: 100px;
 		border: 1px solid rgba(0,0,0,0.2);
-		background-color: transparent;
+		background-color: $blue_c;
 		font-weight: 700; resize: none;
 		font-size: 1em; 
 	}
@@ -230,8 +230,8 @@ ol.fs-fields {
 	padding: 0; border-radius: 0;
 	width: 65%; border: none;
 	border-bottom: 1px solid rgba(0,0,0,0.2);
-	background-color: transparent;
-	color: $blue_c; text-overflow: ellipsis;
+	background-color: $blue_c;
+	color: white; text-overflow: ellipsis;
 	font-weight: bold; font-size: 1.2em;
 }
 
@@ -247,15 +247,15 @@ ol.fs-fields {
 	background-position: top right;
 	background-size: 18px;
 	background-repeat: no-repeat;
-	outline: none; border-bottom: 1px solid $purple_b;
+	outline: none; border-bottom: 1px solid $purple_c;
 }
 
 .fs-fields input:focus, .fs-fields textarea:focus  {
-	background-color: lightgrey; /* Fixes chrome bug with placeholder */
+	background-color: $blue_c; /* Fixes chrome bug with placeholder */
 }
 
 .fs-form-overview .fs-fields input:focus {
-	background-color: $blue_a; /* Fixes chrome bug with placeholder */
+	background-color: $purple_c; /* Fixes chrome bug with placeholder */
 }
 
 .fs-form-overview .fs-fields input {
@@ -356,7 +356,7 @@ label{
 
 .fs-fiedls {
 
-	input[type="radio"]:checked + label { color: $blue_a; }
+	input[type="radio"]:checked + label { color: white; }
 }
 
 .fs-form-overview .fs-fields .fs-radio-custom input[type="radio"]:checked + label {
@@ -375,11 +375,11 @@ label{
 
 .fs-form-overview .fs-fields textarea {
 	padding: 0;
-	border-color: transparent;
+	border-color: $blue_c;
 }
 
 .fs-form-overview .fs-fields textarea:focus {
-	background: $blue_c;
+	background: $purple_c;
 }
 
 .fs-form div.cs-select.cs-skin-boxes {
@@ -472,13 +472,13 @@ label{
 
 .fs-nav-dots button:hover::before,
 .fs-nav-dots button.fs-dot-current::before {
-	background: $blue_a;
+	background: $purple_c;
 }
 
 /* Progress bar */
 .fs-progress {
 	position: absolute; top: 0; width: 0%;
-	height: 0.5em; background: $blue_a;
+	height: 0.5em; background: $purple_c;
 	-webkit-transition: width 0.3s ease-in-out;
 	transition: width 0.3s ease-in-out;
 }
@@ -486,7 +486,7 @@ label{
 /* Number indicator */
 .fs-numbers {
 	position: absolute; top: 0; right: 0;
-	overflow: hidden; color: lighten($blue_a, 10%);
+	overflow: hidden; color: white;
 	margin: 40px; width: 2em;
 	font-weight: 700; font-size: 2em;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -578,7 +578,7 @@ label{
 button.fs-submit,
 button.fs-continue {
 	padding: 0.6em 1.5em;
-	border: 3px solid $purple_b;
+	border: 3px solid $blue_c;
 	border-radius: 40px;
 	font-weight: 700;
 	color: rgba(124, 77, 255, .4);

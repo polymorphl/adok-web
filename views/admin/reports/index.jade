@@ -18,9 +18,11 @@ block body
 					thead
 						tr
 							th
-							th(style='background-color:blue; text-align:center')
-								| User Id
-							th(style='background-color:white; text-align:center')
+							th(style='text-align:center')
+								| Type
+							th(style='text-align:center')
+								| Category
+							th(style='text-align:center')
 								| Description					
 					tbody#results-rows(style='border: 5px')
 
@@ -28,9 +30,11 @@ block body
 			td
 				input.btn.btn-default.btn-sm.btn-details(type='button', value='Edit')
 			td(style='text-align:center')
-				span.badge-clear <%= reportId %>
+				span.badge-clear <%= type %>
 			td(style='text-align:center')
-				span.badge-clear <%= desc %>
+				span.badge-clear <%= category %>
+			td(style='text-align:center')
+				span.badge-clear <%= comments %>
 
 		script(type='text/template', id='tmpl-results-empty-row')
 			tr

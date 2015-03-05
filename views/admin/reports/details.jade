@@ -1,0 +1,58 @@
+extends ../../../layouts/admin
+
+block head
+	title Signalements/ Details
+
+block feet
+	script(src='/views/min/admin/reports/details.min.js')
+
+lock body
+	div.app-content
+		div.page-container
+			div#header
+			div#details
+			div#delete
+
+	script(type='text/template', id='tmpl-header')
+		div.page-header
+			h1
+				a(href='/admin/reports/') Reports
+				|  / <%- category %>
+
+	script(type='text/template', id='tmpl-details')
+		fieldset
+			legend Report Info
+			div.control-group
+				label.control-label Type:
+				input.form-control(type='text', name='type', value!='<%- type %>')
+			div.control-group
+				label.control-label Depuis (Emeteur):
+				input.form-control(type='text', name='from', value!='<%- from %>')
+			div.control-group
+				label.control-label Vers (Cible):
+				input.form-control(type='text', name='to', value!='<%- to %>')
+			div.control-group
+				label.control-label Categorie:
+				input.form-control(type='text', name='category', value!='<%- category %>')
+			div.control-group
+				label.control-label Commentaires:
+				input.form-control(type='text', name='comments', value!='<%- comments %>')
+			
+
+	script(type='text/template', id='tmpl-delete')
+		fieldset
+			legend Danger Zone
+			div.alerts
+				|<% _.each(errors, function(err) { %>
+				div.alert.alert-danger.alert-dismissable
+					button.close(type='button', data-dismiss='alert') &times;
+					|<%= err %>
+				|<% }); %>
+			div.control-group
+				span.help-block
+					span.label.label-danger Action irréversible
+					|&nbsp;
+			div.control-group
+				button.btn.btn-danger.btn-delete(type='button') Supprimer
+
+	script(type='text/template', id='data-results') !{data}
