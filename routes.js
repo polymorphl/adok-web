@@ -215,7 +215,7 @@ exports = module.exports = function(app, passport) {
 	});
 
 	app.get('/event/:id/validation', require('./views/events/validations/index').init);
-	app.get('/event/:id/validation/:id', require('./views/events/validations/visualizer').init);
+	app.get('/event/:id/validation/:vid', require('./views/events/validations/visualizer').init);
 	app.get('/event/:id/validation/:vid/validate', require('./views/events/validations/validations').validate);
 	app.get('/event/:id/validation/:vid/refuse', require('./views/events/validations/validations').refuse);
 

@@ -17,11 +17,9 @@ block body
 			button.propose Proposez la votre !
 
 	script(type="text/template", id="tmpl-valiflux")
-		a(href!="/event/<%= e %>/validation/<%= _id %>")
+		a(href!="/event/<%= eid %>/validation/<%= _id %>")
 			.item
-				img.picture(src!="<%= picture %>")
-				br
-				span.username by <%= acc %>
+				span.username by <%= uid %>
 				br
 				span.isvalidate <%= isValidate %>
 

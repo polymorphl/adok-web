@@ -3,8 +3,8 @@
 var mongoose = require('mongoose');
 
 exports.init = function(req, res, next) {
-	req.app.db.models.Validations.find({e: req.params.id}, function(err, row) {
-		if (!err && row)
+	req.app.db.models.Validation.find({eid: req.params.id}).exec(function(err, row) {
+		if (!err)
 			res.render('events/validations/index',{valiflux: escape(JSON.stringify(row)), legend: escape(JSON.stringify(row))});
 	});
 }

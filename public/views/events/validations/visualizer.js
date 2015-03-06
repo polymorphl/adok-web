@@ -7,9 +7,9 @@
     idAttribute: '_id',
     defaults: {
       _id: '',
-      e: '',
-      picture: '',
-      acc: ''
+      eid: '',
+      uid: '',
+      isValidate: false
     }
   });
 
@@ -79,6 +79,7 @@
 
   	var val = JSON.parse( unescape($('#data-row').html()) );
 
+    console.log(val);
     app.Item = new app.ItemView(val);
     app.Actions = new app.ActionsView();
   });

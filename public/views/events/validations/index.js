@@ -7,9 +7,8 @@
     idAttribute: '_id',
   	defaults: {
   		_id: '',
-  		e: '',
-  		picture: '',
-  		acc: '',
+  		eid: '',
+  		uid: '',
   		isValidate: false
   	}
   });
@@ -30,10 +29,8 @@
   	initialize: function(item) {
   		this.model = new app.FluxValidationModel();
       var i = 0;
-      console.log(item);
       while (i < item.length) {
 	      this.model.set(item[i]);
-	      console.log(this.model.attributes);
 	  		this.render();
       	++i;
       }
@@ -71,7 +68,9 @@
   	var val = JSON.parse( unescape($('#data-valiflux').html()) );
   	var i = 0;
 
-  	app.FlucValidation = new app.FluxValidationView(val);
+    console.log("val", val);
+
+  	app.FluxValidation = new app.FluxValidationView(val);
   	app.Legend = new app.LegendView(val);
 
 
