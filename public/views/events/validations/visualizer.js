@@ -26,11 +26,61 @@
     }
   });
 
+  app.ActionsView = Backbone.View.extend({
+    el: "#actions",
+    events: {
+      'click #btn-valid': 'validate',
+      'click #btn-refuse': 'refuse'
+    },
+    validate: function() {
+      $.ajax({
+        url: document.URL + '/validate',
+        type: 'GET',
+        cache: false,
+        contentType: false,
+        processData: false,
+        async: true,
+        success: function(res) {
+          if (res.success) {
+            alert("Vous validez cette proposition.");
+          } else {
+            alert("Vous avez déjà validé cette proposition.");
+          }
+        },
+        error: function(err) {
+          alert("ERROR");
+        }
+      });
+    },
+    refuse: function() {
+      $.ajax({
+        url: document.URL + '/refuse',
+        type: 'GET',
+        cache: false,
+        contentType: false,
+        processData: false,
+        async: true,
+        success: function(res) {
+          if (res.success) {
+            alert("Vous refusez cette proposition.");
+          } else {
+            alert("Vous avez déjà refusé cette proposition.");
+          }
+        },
+        error: function(err) {
+          alert("ERROR");
+        }
+      });
+    }
+  });
+
+
   $(document).ready(function(){
 
   	var val = JSON.parse( unescape($('#data-row').html()) );
+
     app.Item = new app.ItemView(val);
-    console.log(val);
+    app.Actions = new app.ActionsView();
   });
 
 }());
