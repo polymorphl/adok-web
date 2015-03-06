@@ -73,7 +73,7 @@ exports = module.exports = function(app, passport) {
 	app.get('/admin/eevents/', require('./views/admin/eevents/index').init);
 	app.get('/admin/eevents/:id/', require('./views/admin/eevents/index').read);
 	app.put('/admin/eevents/:id/', require('./views/admin/eevents/index').update);
-
+	app.get('/admin/eevents/:id/list-validation/', require('./views/admin/eevents/index').listDetails);
 
 	//admin > administrators
 	app.get('/admin/administrators/', require('./views/admin/administrators/index').find);

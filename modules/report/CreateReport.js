@@ -16,7 +16,7 @@ exports = module.exports = function (req, res, next) {
 		var newReport = {
 			from: req.user._id,
 			to: req.body.to,
-			category: req.body.category,
+		 	category: req.body.category,
 			type: req.body.type,
 			comments: req.body.comments
 		};

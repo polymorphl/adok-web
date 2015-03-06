@@ -13,4 +13,3 @@ exports = module.exports = function(app, mongoose) {
   validationsSchema.set('autoIndex', (app.get('env') === 'development'));
   app.db.model('Validations', validationsSchema);
 };
-

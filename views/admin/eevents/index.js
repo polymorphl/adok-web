@@ -48,6 +48,9 @@ exports.init = function(req, res, next){
 };
 
 exports.read = function(req, res, next){
+	var my_list = {};
+	var my_user = {};
+
 	req.app.db.models.Event.findById(req.params.id).populate('acc').populate('acc.roles.account acc.roles.pro').exec(function(err, user) {
 		if (err) {
 			return next(err);
@@ -55,10 +58,23 @@ exports.read = function(req, res, next){
 		if (req.xhr) {
 			res.send(user);
 		}
-		else {
-			res.render('admin/eevents/details', { data: { record: escape(JSON.stringify(user)) } });
-		}
+		req.app.db.models.Validations.find({ e: req.params.id }).populate('acc').exec(function(err, list) {
+			if (err) {
+				return next(err);
+			}
+			if (req.xhr) {
+				res.send(list);
+			}
+			else {
+				console.log(list);
+				res.render('admin/eevents/details', { data: { record: escape(JSON.stringify(user)) , validation: escape(JSON.stringify(list))} });
+			}
+		});
 	});
+};
+
+exports.listDetails = function(req, res, next){
+	console.log("woler");
 };
 
 exports.update = function(req, res, next){
