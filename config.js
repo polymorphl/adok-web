@@ -8,6 +8,7 @@ exports.companyName = 'adok';
 exports.projectName = 'adok';
 exports.systemEmail = 'contact@adok.fr';
 exports.cryptoKey = 'k3yfOoR/@Ad/0K+';
+exports.mediaserverUrl = 'http://127.0.0.1:8080/media/';
 exports.requireAccountVerification = true;
 
 //Default Port
@@ -16,6 +17,13 @@ exports.port = process.env.PORT || 80;
 //Settings for Database
 exports.mongodb = {
   uri: process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || process.env.MONGO_URL || 'localhost/adok?safe=true'
+};
+
+//Settings for multer
+exports.multer = {
+  dest: './uploads/',
+  fileSize: 16777216, // 16 MB
+  files: 1
 };
 
 //Settings for SMTP
@@ -43,3 +51,5 @@ exports.oauth = {
     secret: process.env.GOOGLE_OAUTH_SECRET || 'kEA42ScZtcXMANPW1kM0wKoj'
   }
 };
+
+exports.gzip = true;

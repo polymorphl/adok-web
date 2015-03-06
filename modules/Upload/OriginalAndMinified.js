@@ -66,11 +66,11 @@ exports = module.exports = function(req, res, next, options, done) {
   });
 
   workflow.on('minify', function(id) {
-    workflow.imgNameMin = workflow.imgName + '.min' + workflow.imgExt;
+    workflow.imgNameMin = workflow.imgName + '.min.' + workflow.imgExt;
 
     im.resize({
         srcPath: options.filepath
-      , dstPath: req.app.Config.multer.dest + workflow.imgNameMin
+      , dstPath: req.app.config.multer.dest + workflow.imgNameMin
       , quality: 0.7
       , width: 500
       , height: 500
@@ -95,10 +95,10 @@ exports = module.exports = function(req, res, next, options, done) {
       req.app.ms.getFileWriteStream(toCreate, 'min.' + workflow.imgExt, function(err, writeStream) {
         if (err) { return workflow.emit('response', err); }
 
-        fs.createReadStream(req.app.Config.multer.dest + workflow.imgNameMin).pipe(writeStream);
+        fs.createReadStream(req.app.config.multer.dest + workflow.imgNameMin).pipe(writeStream);
 
         writeStream.on('close', function(file) {
-          fs.unlink(req.app.Config.multer.dest + workflow.imgNameMin);
+          fs.unlink(req.app.config.multer.dest + workflow.imgNameMin);
 
           workflow.outcome.minified = options.root + '/' + file.filename;
 
