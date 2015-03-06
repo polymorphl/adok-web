@@ -172,8 +172,8 @@ exports = module.exports = function(app, passport) {
 	});
 
 	//upload
-	app.all('/upload*', app.modules.ensure.Authentification);
-	app.post('/upload/image/:type', require('./tools/image_upload').init); // check HERE !
+	// app.all('/media/upload', app.modules.ensure.Authentification);
+	// app.post('/upload/image/:type', require('./tools/image_upload').init); // check HERE !
 
 	//follow
 	app.all('/follow*', app.modules.ensure.Authentification);

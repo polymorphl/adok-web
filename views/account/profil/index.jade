@@ -120,7 +120,8 @@ block body
 			if avatar
 				img.self-avatar(src='#{avatar}')
 			form#formAvatar
-				input#avatarUpload(type='file', name='files', data-url='/upload/image/avatar')
+				input#avatarUpload(type='file', name='file', data-url='/media/upload')
+				input._type(type="hidden" value="avatars")  
 			if isUserAccount
 				btn.btn-edit#avatarLabel Editer
 

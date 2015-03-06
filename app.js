@@ -22,7 +22,7 @@ var config = require('./config'),
     sslKey = require('fs').readFileSync('ssl/localhost.key', 'utf8'),
     sslCertificate = require('fs').readFileSync('ssl/localhost.crt', 'utf8'),
     mongoose = require('mongoose'),
-    Grid = require('gridfs-stream');
+    mediaserver = require('media-server');
 
 //init & debug i18next
 i18n.init({
@@ -49,14 +49,23 @@ var io = require('socket.io').listen(app.server);
 app.io = io;
 
 //setup mongoose
+app.config = config;
 app.db = mongoose.createConnection(config.mongodb.uri);
 app.db.safe = { w: 1 };
 app.db.on('error', console.error.bind(console, 'mongoose connection error: '));
 app.db.once('open', function () {
-  return app.gfs = Grid(app.db, mongoose.mongo);
-});
+  app.ms = mediaserver(app);
+  app.ms.initialize();
+  app.ms.db.once("open", function() {
+    app.ms.events = app.ms.Grid.collection('events');
+    app.ms.events_min = app.ms.Grid.collection('events.min');
+    app.ms.avatars = app.ms.Grid.collection('avatars');
+    app.ms.avatars_min = app.ms.Grid.collection('avatars.min');
 
-require('./models')(app, mongoose);
+    require('./models')(app, mongoose);
+    console.log("Connected to mongodb " + config.mongodb.uri);
+  });
+});
 
 //setup the session store THEN initialize Socket.io to avoid error accessing sessionStore
 app.sessionStore = new mongoStore({ url: config.mongodb.uri }, function(e) {
@@ -126,7 +135,7 @@ app.sessionStore = new mongoStore({ url: config.mongodb.uri }, function(e) {
   //New middleware stack for bodyParser(); (composite middleware)
   app.use(bodyparser.json());
   app.use(bodyparser.urlencoded({extended: true}));
-  app.use(multer({ dest: './uploads' }));
+  app.use(require('./multer'));
 
   app.use(require('method-override')());
   app.use(require('cookie-parser')());
@@ -197,6 +206,10 @@ global.getLinkStatus = function(tab, uid) {
 
 // loading tools
 app.modules = require('./modules');
+
+/* Mount /media router */
+app.use('/media', require('./mediaserver')(app, passport));
+app.all('/media/upload', app.modules.ensure.Authentification);
 
 //route requests
 require('./routes')(app, passport);

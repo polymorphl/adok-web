@@ -21,7 +21,7 @@
       success: false,
       picture: ''
     },
-    url: '/upload/image/avatar',
+    url: '/media/upload',
     parse: function(response) {
       if (response.user) {
         app.mainView.user.set(response.user);
@@ -166,17 +166,21 @@
       $("#avatarUpload").fileupload({
         dataType: 'json',
         add: function(e, data) {
-          if (data.files[0].size < 12582912)
-            data.submit();
-          else
-            alert("Taille maximale du fichier: 12 Mo");
+          //console.log(data);
+          data.formData = {
+            type: $('#formAvatar ._type').val()
+          };
+          data.submit();
+          //return false;
         },
         done: function(e, data) {
-          if (data.result.success) {
-            $('.self-avatar').attr('src', data.result.picture+'?'+count);
-          } else {
-            alert(data.result.errors[0]);
-          }
+          console.log(data);
+          // if (data.result.success) {
+
+          //   //$('.self-avatar').attr('src', data.result.picture+'?'+count);
+          // } else {
+          //   alert(data.result.errors[0]);
+          // }
         }
       });
     }
