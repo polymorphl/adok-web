@@ -10,14 +10,20 @@ block body
 	div.app-content
 		div.page-container
 			#legend
+			#no_result
+				span Aucune validations proposées pour le moment.
 			#valiflux
 			#prop
 			button.propose Proposez la votre !
 
 	script(type="text/template", id="tmpl-valiflux")
-		.item
-			img.picture(src!="<%= epicture %>")
-			span.username by <%= eusername %>
+		a(href!="/event/<%= e %>/validation/<%= _id %>")
+			.item
+				img.picture(src!="<%= picture %>")
+				br
+				span.username by <%= acc %>
+				br
+				span.isvalidate <%= isValidate %>
 
 	script(type="text/template", id="tmpl-legend")
 		ul.list

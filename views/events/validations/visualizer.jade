@@ -14,3 +14,10 @@ block body
 				button#btn-valid Valider
 				button#btn-refuse Refuser
 
+	script(type="text/template", id="tmpl-details")
+		.item
+			img.picture(src!="<%= picture %>")
+			br
+			span.username by <%= acc %>
+
+	script(type="text/template", id="data-row") !{row}
