@@ -29,7 +29,6 @@
 						query: that.$el.find('[name="place"]').val()
 					}).done(function(data) {
 						res($.map(data, function(item) {
-							console.log(item);
 							return {
 								label: item.addr,
 								value: item.addr,
@@ -97,7 +96,6 @@
 			item.uid = item.acc._id;
 			this.model = new app.RightDataModel();
 			this.model.set(item);
-			console.log("item", item);
 			// this.bar_edit({preventDefault: function(){return 0;}});
 			this.render();
 		},
@@ -362,7 +360,6 @@
       $('.box-overlay').addClass("is-active");
       $("body").addClass("modal-open");
       $('#report_c').hide().velocity('transition.slideUpBigIn', { duration: 300 }).addClass('is-open');
-      console.log("report backbone - display");
     },
     render: function() {
       return this;
@@ -416,7 +413,6 @@
 	});
 
 	var sendNewComment = function() {
-		console.log("add new comment 0");
 		if (socket === null) { return; }
 		var contentCommentValue = document.getElementById('commentTextaera').value;
 		if (contentCommentValue.length > 0) {
@@ -426,7 +422,6 @@
 				'comment': contentCommentValue
 			});
 		}
-		console.log("add new comment 1 -- need clean");
 		document.getElementById('commentTextaera').value = "";
 	};
 
@@ -453,7 +448,6 @@
 		});
 
     var eventData = JSON.parse(unescape( $("#event-results").html() ));
-    console.log(eventData);
     eventData.isRegistered = $("#event-reg").html() + "";
     new app.LeftDataView(eventData);
 		new app.RightDataView(eventData);
