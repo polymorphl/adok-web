@@ -6,7 +6,7 @@
 
 exports.companyName = 'adok';
 exports.projectName = 'adok';
-exports.systemEmail = 'contact@adok.fr';
+exports.systemEmail = 'contact@adok-app.fr';
 exports.cryptoKey = 'k3yfOoR/@Ad/0K+';
 exports.mediaserverUrl = 'http://127.0.0.1:8080/media/';
 exports.requireAccountVerification = true;
@@ -30,11 +30,11 @@ exports.multer = {
 exports.smtp = {
   from: {
     name: process.env.SMTP_FROM_NAME || exports.projectName,
-    address: process.env.SMTP_FROM_ADDRESS || 'contact@adok.fr'
+    address: process.env.SMTP_FROM_ADDRESS || 'contact@adok-app.fr'
   },
   credentials: {
-    user: process.env.SMTP_USERNAME || 'contact@adok.fr',
-    password: process.env.SMTP_PASSWORD || 'c0nt/4ct-/AOoK',
+    user: process.env.SMTP_USERNAME || 'contact@adok-app.fr',
+    password: process.env.SMTP_PASSWORD || '5L,091CF4]xG',
     host: process.env.SMTP_HOST || 'mail.gandi.net',
     ssl: true
   }

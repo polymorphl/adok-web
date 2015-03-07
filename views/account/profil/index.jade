@@ -24,7 +24,7 @@ block body
 							div.friends
 								for account in friends.accounts
 									a(href='/user/'+account.id+''): span.item
-										img.pic(src=''+account.pic+'')
+										img.pic(src='/media'+account.pic+'')
 										span.full= account.name
 						div.modal__footer
 				div.m-badge(id="badge")
@@ -118,7 +118,7 @@ block body
 
 		script(type='text/template', id='tmpl-picture')
 			if avatar
-				img.self-avatar(src='#{avatar}')
+				img.self-avatar(src='/media/#{avatar}')
 			form#formAvatar
 				input#avatarUpload(type='file', name='file', data-url='/media/upload')
 				input._type(type="hidden" value="avatars")  

@@ -3,7 +3,7 @@ script(type='text/template', id='tmpl-evenTile')
 		.left-part
 			a.proprio(href!='/user/<%= uid %>')
 				span <%= uname.split(" ")[0] %>
-				img.acc(src!='<%= upic %>')
+				img.acc(src!='/media/<%= upic %>')
 		a.event_link(href!='/event/<%= eid %>')
 			div.middle-part
 				div.title <%= etitle %>

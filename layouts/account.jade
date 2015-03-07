@@ -54,7 +54,7 @@ html
                 span.count
                 span.helper= t('nav.notif')
               li: a.profil(href='/user/#{id}')
-                img#profilavatar(src='#{req.user.roles.account.picture}')
+                img#profilavatar(src='/media/#{req.user.roles.account.picture}')
                 span.helper= req.user.roles.account.name.first
         include notifications
 
