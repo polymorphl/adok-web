@@ -16,8 +16,6 @@ block body
 
 	script(type="text/template", id="tmpl-details")
 		.item
-			img.picture(src="")
-			br
-			span.username by <%= uid %>
+			a.username(href!="/user/<%= uid._id %>") by <%= name %>
 
 	script(type="text/template", id="data-row") !{row}

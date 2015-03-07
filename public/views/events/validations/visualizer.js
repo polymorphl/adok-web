@@ -9,7 +9,8 @@
       _id: '',
       eid: '',
       uid: '',
-      isValidate: false
+      isValidate: false,
+      name: ''
     }
   });
 
@@ -19,6 +20,10 @@
     initialize: function(item) {
       this.model = new app.ItemModel();
       this.model.set(item);
+      if (item.uid.facebook != undefined)
+        this.model.attributes.name = item.uid.facebook.name;
+      else
+        this.model.attributes.name = item.uid.username;
       this.render();
     },
     render: function() {
