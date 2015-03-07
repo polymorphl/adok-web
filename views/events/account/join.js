@@ -30,6 +30,7 @@ exports.init = function(req, res, next) {
 			eid: o.e._id,
 			uid: o.u._id
 		};
+		console.log(fieldSet);
 		if (!err && row[0]) {
 			req.app.db.models.EventRegister.remove(fieldSet, function(err, row) {
 				if (!err) {

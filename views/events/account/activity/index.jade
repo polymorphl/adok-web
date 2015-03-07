@@ -68,12 +68,12 @@ block body
 			<%= place %>
 			<% } %>
 		if (!isUserAccount)
-			div.join_proposal
-				button.btn.btn-join(id="t_prop_join") Participer
-			div.left_proposal
-				button.btn.btn-left(id="t_prop_left") Se désinscrire
-			div.validate_proposal
-				button.btn.btn-wait(id="t_prop_valid") Valider !
+			if (canRegister == true)
+				div.join_proposal
+					button.btn.btn-join(id="t_prop_join") Participer
+			else 
+				div.validate_proposal
+					button.btn.btn-wait(id="t_prop_valid") Valider !
 			div.report-challenge
 				a(id="t_report_c") Signaler l'évenement
 		if (isUserAccount)

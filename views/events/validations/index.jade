@@ -19,7 +19,7 @@ block body
 	script(type="text/template", id="tmpl-valiflux")
 		a(href!="/event/<%= eid %>/validation/<%= _id %>")
 			.item
-				span.username by <%= uid %>
+				span.username by <%= uid.roles.account %>
 				br
 				span.isvalidate <%= isValidate %>
 

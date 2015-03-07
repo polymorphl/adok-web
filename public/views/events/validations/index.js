@@ -8,7 +8,11 @@
   	defaults: {
   		_id: '',
   		eid: '',
-  		uid: '',
+  		uid: {
+        roles : {
+          account: ''
+        }
+      },
   		isValidate: false
   	}
   });

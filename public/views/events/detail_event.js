@@ -97,6 +97,7 @@
 			item.uid = item.acc._id;
 			this.model = new app.RightDataModel();
 			this.model.set(item);
+			console.log("item", item);
 			// this.bar_edit({preventDefault: function(){return 0;}});
 			this.render();
 		},
@@ -182,19 +183,16 @@
 	});
 
 	app.JoinEventView = Backbone.View.extend({
-		el: '.join_proposal, .left_proposal',
+		el: '.join_proposal',
 		events: {
-			'click #t_prop_join': 'join_event',
-			'click #t_prop_left': 'join_event'
+			'click #t_prop_join': 'join_event'
 		},
 		initialize: function(item) {
 			if (item.isRegistered == "true") {
 				$(".join_proposal").hide();
-				$(".left_proposal").show();
 				$(".validate_proposal").show();
 			} else if (item.isRegistered == "false") {
 				$(".join_proposal").show();
-				$(".left_proposal").hide();
 				$(".validate_proposal").hide();
 			}
 			item.eid = item._id;
@@ -210,9 +208,6 @@
           if (response.success) {
           	if ($(".join_proposal").is(":visible")) {
 	          	alert("Vous avez rejoins l'évênement.");
-          	}
-          	else if ($(".left_proposal").is(":visible")) {
-	          	alert("Vous ne faites plus parti de cette évênement.");
           	}
 	          else {
 	          	alert("Une erreur est survenue.");

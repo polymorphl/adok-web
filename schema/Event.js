@@ -1,21 +1,22 @@
 'use strict';
 
+var moment = require('moment');
+
 exports = module.exports = function(app, mongoose) {
   var EventSchema = new mongoose.Schema({
-    title: { type: String, trim: true, default: '' },
+    title: { type: String, trim: true, required: true },
     desc: { type: String, default: '' },
-    hashtag: { type: Array },
+    picture: { type: String, default: '' },
+    hashtag: { type: Array, required: true },
     place: { type: String },
     latLng: [ Number ],
-    photos: { type: String, default: '' },
     start: { type: Date, default: Date.now },
-    end: { type: Date},
-    acc: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    accType: { type: String },
+    end: { type: Date, default: moment().add(moment.duration(3, 'days')).toDate() },
+    acc: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    accType: { type: String, required: true },
     toNotif: { type: Array },
     datas: { type: Object }
   }, {safe: true});
-  EventSchema.plugin(require('./plugins/pagedFind'));
   EventSchema.set('autoIndex', (app.get('env') === 'development'));
   app.db.model('Event', EventSchema);
 };
