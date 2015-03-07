@@ -29,7 +29,6 @@
       var i = 0;
       while (i < item.length) {
 	      this.model.set(item[i]);
-        console.log(item[i].uid.facebook);
         if (item[i].uid.facebook != undefined)
           this.model.attributes.name = item[i].uid.facebook.name;
         else
