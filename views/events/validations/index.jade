@@ -13,13 +13,11 @@ block body
 			#no_result
 				span Aucune validations proposées pour le moment.
 			#valiflux
-			#prop
-			button.propose Proposez la votre !
 
 	script(type="text/template", id="tmpl-valiflux")
 		a(href!="/event/<%= eid %>/validation/<%= _id %>")
 			.item
-				span.username by <%= uid.roles.account %>
+				span.username par <%= uid.roles.account %>
 				br
 				span.isvalidate <%= isValidate %>
 

@@ -58,27 +58,15 @@
   	}
   });
 
-  app.ProposeView = Backbone.View.extend({
-  	el: '#prop',
-  	events: {
-  		'click .propose': 'propose'
-  	},
-  	propose: function() {
-  	}
-  });
-
   $(document).ready(function(){
 
   	var val = JSON.parse( unescape($('#data-valiflux').html()) );
   	var i = 0;
 
-    console.log("val", val);
-
   	app.FluxValidation = new app.FluxValidationView(val);
   	app.Legend = new app.LegendView(val);
 
-
-		if ($(".picture").attr("src") != "")
+		if ($(".item").length > 0) 
 			$("#no_result").hide();
 		else
 			$(".item").hide();
