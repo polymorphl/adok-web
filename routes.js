@@ -73,7 +73,7 @@ exports = module.exports = function(app, passport) {
 	app.get('/admin/eevents/', require('./views/admin/eevents/index').init);
 	app.get('/admin/eevents/:id/', require('./views/admin/eevents/index').read);
 	app.put('/admin/eevents/:id/', require('./views/admin/eevents/index').update);
-
+	app.get('/admin/eevents/:id/list-validation/', require('./views/admin/eevents/index').listDetails);
 
 	//admin > administrators
 	app.get('/admin/administrators/', require('./views/admin/administrators/index').find);
@@ -116,7 +116,7 @@ exports = module.exports = function(app, passport) {
 
 	//admin > reports
 	app.get('/admin/reports/', app.modules.report.ListReport);
-	app.get('/admin/reports/:id/', require('./views/admin/reports/details').read);
+	app.get('/admin/reports/:id', require('./views/admin/reports/details').read);
 	// app.post('/admin/reports/create/', app.modules.report.CreateReport);
 	// app.post('/admin/reports/lock-account/', app.modules.report.LockAccount);
 	// app.post('/admin/reports/unlock-account/', app.modules.report.UnlockAccount);
@@ -215,7 +215,9 @@ exports = module.exports = function(app, passport) {
 	});
 
 	app.get('/event/:id/validation', require('./views/events/validations/index').init);
-	app.get('/event/:id/validation/:id/visualizer', require('./views/events/validations/visualizer').init);
+	app.get('/event/:id/validation/:vid', require('./views/events/validations/visualizer').init);
+	app.get('/event/:id/validation/:vid/validate', require('./views/events/validations/validations').validate);
+	app.get('/event/:id/validation/:vid/refuse', require('./views/events/validations/validations').refuse);
 
 	app.put('/event/ownerActions/:id/join', require('./views/events/account/join').init);
 	app.delete('/event/ownerActions/:id/delete', require('./views/events/account/delete').init);

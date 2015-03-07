@@ -50,26 +50,6 @@
 		});
 	}
 
-	app.LeftDataModel = Backbone.Model.extend({
-		idAttribute: '_id',
-		defaults: {
-			photos: ''
-		}
-	});
-
-	app.LeftDataView = Backbone.View.extend({
-		el: ".left",
-		template: _.template( $('#tmpl-left').html()),
-		initialize: function(item) {
-			this.model = new app.LeftDataModel();
-			this.model.set(item);
-			this.render();
-		},
-		render: function() {
-			this.$el.html(this.template( this.model.attributes ));
-		}
-	});
-
 	app.RightDataModel = Backbone.Model.extend({
 		idAttribute: '_id',
 		defaults: {
@@ -95,7 +75,6 @@
 			item.uid = item.acc._id;
 			this.model = new app.RightDataModel();
 			this.model.set(item);
-			// this.bar_edit({preventDefault: function(){return 0;}});
 			this.render();
 		},
 		bar_edit: function(e) {
@@ -180,19 +159,16 @@
 	});
 
 	app.JoinEventView = Backbone.View.extend({
-		el: '.join_proposal, .left_proposal',
+		el: '.join_proposal',
 		events: {
-			'click #t_prop_join': 'join_event',
-			'click #t_prop_left': 'join_event'
+			'click #t_prop_join': 'join_event'
 		},
 		initialize: function(item) {
 			if (item.isRegistered == "true") {
 				$(".join_proposal").hide();
-				$(".left_proposal").show();
 				$(".validate_proposal").show();
 			} else if (item.isRegistered == "false") {
 				$(".join_proposal").show();
-				$(".left_proposal").hide();
 				$(".validate_proposal").hide();
 			}
 			item.eid = item._id;
@@ -208,9 +184,6 @@
           if (response.success) {
           	if ($(".join_proposal").is(":visible")) {
 	          	alert("Vous avez rejoins l'évênement.");
-          	}
-          	else if ($(".left_proposal").is(":visible")) {
-	          	alert("Vous ne faites plus parti de cette évênement.");
           	}
 	          else {
 	          	alert("Une erreur est survenue.");
@@ -293,6 +266,7 @@
     idAttribute: '_id',
     url: '/reports/create',
     defaults: {
+    	to: '',
       category: '',
       comments: ''
     },
@@ -326,21 +300,14 @@
       }
       else {
         this.model.save({
+					to: location.href.substr(location.href.lastIndexOf('/') + 1),        	
           category: this.$el.find('[name="category"]').val(),
           type: 'event',          
           comments: this.$el.find('[name="comments"]').val()
         },{
           success: function(model, response) {
-            console.log("Pas d'erreur ?");
-            if (response.success) {
-              // console.log("respo " + JSON.stringify(response));
-              // model.id = response.report._id;
-              //location.href = model.url();
-              console.log("report-> SUCCESS");
-            }
-            else {
+            if (!(response.success)) {
               alert(response.errors.join('\n'));
-              console.log("report-> FAIL!");
             }
           }
         });
@@ -430,9 +397,7 @@
     	app.mainView = this;
 		 	this.eventData = JSON.parse(unescape( $("#event-results").html() ) );
 
-	    console.log("EVENT: " + JSON.stringify(this.eventData));
 	    this.eventData.isRegistered = $("#event-reg").html() + "";
-	    app.leftData = new app.LeftDataView(this.eventData);
 			app.rightdata = new app.RightDataView(this.eventData);
 			app.editdata = new app.EditDataView(this.eventData);
 			app.joinevent = new app.JoinEventView(this.eventData);
@@ -449,7 +414,6 @@
   	app.mainView = new app.MainView();
 
   	var sendNewComment = function() {
-			console.log("add new comment 0");
 			if (socket === null) { return; }
 			var contentCommentValue = document.getElementById('commentTextaera').value;
 			if (contentCommentValue.length > 0) {
@@ -459,7 +423,6 @@
 					'comment': contentCommentValue
 				});
 			}
-			console.log("add new comment 1 -- need clean");
 			document.getElementById('commentTextaera').value = "";
 		};
 
@@ -473,7 +436,7 @@
         var bodyContentComment = "";
         comments.forEach(function(currentComment, index, array) {
           bodyContentComment += "<li><div class='username'>" + currentComment.user + "  " + currentComment.time;
-          bodyContentComment += "<img src='"+ currentComment.picture +"'/></div><div class='comment'>" + currentComment.comment + "</div></li>";
+          bodyContentComment += "<img src='/media/"+ currentComment.picture +"'/></div><div class='comment'>" + currentComment.comment + "</div></li>";
         });
         $('#listComment').html(bodyContentComment);
 

@@ -166,21 +166,16 @@
       $("#avatarUpload").fileupload({
         dataType: 'json',
         add: function(e, data) {
-          //console.log(data);
+         $("#picture, #profilavatar").css("opacity", "0");
           data.formData = {
             type: $('#formAvatar ._type').val()
           };
           data.submit();
-          //return false;
         },
         done: function(e, data) {
-          console.log(data);
-          // if (data.result.success) {
-
-          //   //$('.self-avatar').attr('src', data.result.picture+'?'+count);
-          // } else {
-          //   alert(data.result.errors[0]);
-          // }
+          $("#picture img, #profilavatar").attr(
+            "src", data._response.result.user.roles.account.picture);
+          $("#picture, #profilavatar").css("opacity", "1");
         }
       });
     }
@@ -224,21 +219,18 @@
     detailEditable: function() {
       $("#up, #place").hide();
       $(".btn-update-valid, #place-edit").show();
-      $('.mobile i, .place i').hide()
       $("#first").replaceWith("<input placeholder='Prénom' class='.form-control' type='text' name='first' value='"+$("#first").html()+"'/>");
       $("#last").replaceWith("<input placeholder='Nom' class='.form-control' type='text' name='last' value='"+$("#last").html()+"'/>");
     },
     update: function(){
-      $("#place").show();
       $("#first").replaceWith("<p id='first'>"+this.$el.find('[name="first"]').val()+"</p>");
       $("#last").replaceWith("<p id='last'>"+this.$el.find('[name="last"]').val()+"</p>");
-      $("#place-edit").css("display", "none");
+      $(".btn-update").show();
+      $("#de").hide();
       this.model.save({
         first: this.$el.find('[name="first"]').val(),
         last: this.$el.find('[name="last"]').val()
       });
-      $(".btn-update").show();
-      $(".btn-update-valid").hide();
     }
   });
 
@@ -384,6 +376,7 @@
     idAttribute: '_id',
     url: '/reports/create',
     defaults: {
+      to: '',
       category: '',
       comments: ''
     },
@@ -417,21 +410,14 @@
       }
       else {
         this.model.save({
+          to: location.href.substr(location.href.lastIndexOf('/') + 1),
           category: this.$el.find('[name="category"]').val(),
           type: 'user',          
           comments: this.$el.find('[name="comments"]').val()
         },{
           success: function(model, response) {
-            console.log("Pas d'erreur ?");
-            if (response.success) {
-              // console.log("respo " + JSON.stringify(response));
-              // model.id = response.report._id;
-              //location.href = model.url();
-              console.log("report-> SUCCESS");
-            }
-            else {
+            if (!(response.success)) {
               alert(response.errors.join('\n'));
-              console.log("report-> FAIL!");
             }
           }
         });
@@ -445,7 +431,7 @@
       app.mainView = this;
       this.account = new app.Account( JSON.parse( unescape($('#data-account').html()) ) );
       this.user = new app.User( JSON.parse( unescape($('#data-user').html()) ) );
-      console.log("acc: " + JSON.stringify(this.account));
+
       app.pictureView = new app.PictureView();
       app.detailsView = new app.DetailsView();
       app.Links = new app.LinksView();
@@ -466,7 +452,6 @@
 
     $('#avatarLabel').on('click', function(e){
         e.preventDefault();
-        console.log("a click");
         $('#avatarUpload')[0].click();
     });
 

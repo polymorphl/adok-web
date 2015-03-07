@@ -33,7 +33,6 @@
     idAttribute: '_id',
     defaults: {
       success: false,
-      reportId: '',
       from: '',
       to: '',
       type: '',
@@ -65,7 +64,6 @@
     syncUp: function() {
       this.model.set({
         _id: app.mainView.model.id,
-        reportId: app.mainView.model.get('reportId'),
         from: app.mainView.model.get('from'),
         to: app.mainView.model.get('to'),
         type: app.mainView.model.get('type'),
@@ -124,7 +122,6 @@
     el: '.page-container',
     initialize: function() {
       app.mainView = this;
-      console.log("ID: " + this.id);
       this.model = new app.Report( JSON.parse( unescape($('#data-results').html()) ) );
       app.headerView = new app.HeaderView();
       app.detailsView = new app.DetailsView();

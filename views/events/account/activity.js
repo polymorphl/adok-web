@@ -9,7 +9,7 @@ exports.init = function(req, res) {
 	var find = {};
 	find['event.activity'] = id;
 
-	req.app.db.models.Event.findOne({_id: mongoose.Types.ObjectId(id)}, 'acc accType title photos desc place latLng hashtag').populate('acc').exec(function(err, event) {
+	req.app.db.models.Event.findOne({_id: mongoose.Types.ObjectId(id)}, 'acc accType title photos desc place latLng hashtag start end').populate('acc').exec(function(err, event) {
 		if (err || !event)
 			return require('../../http/index').http404(req, res);
 		if (req.user) {	
@@ -22,11 +22,23 @@ exports.init = function(req, res) {
 						return require('../../http/index').http404(req, res);
 					var i = 0;
 
-					console.log("ereg : " + ereg);
+					var canValidate = false;
+					var canRegister = false;
+
+					var s = moment(event.start);
+					var e = moment(event.end);
+					var diff = s.diff(e, 'hours');
+
+					if (diff <= 72 && !ereg) {
+						canRegister = true;
+					} else if (diff > 72 && diff <= 144 && ereg) {
+						canValidate = true;
+					}
+
 					if (ereg)
-						res.render('events/account/activity/index', {event: escape(JSON.stringify(event)), title: event.title, hashtag: event.hashtag, isRegistered: "true", participants: [], registeredCount: 0, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
+						res.render('events/account/activity/index', {canValidate: canValidate, canRegister: canRegister, event: escape(JSON.stringify(event)), title: event.title, hashtag: event.hashtag, isRegistered: "true", participants: [], registeredCount: 0, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
 					else
-						res.render('events/account/activity/index', {event: escape(JSON.stringify(event)), title: event.title, hashtag: event.hashtag, isRegistered: "false", participants: [], registeredCount: 0, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
+						res.render('events/account/activity/index', {canValidate: canValidate, canRegister: canRegister, event: escape(JSON.stringify(event)), title: event.title, hashtag: event.hashtag, isRegistered: "false", participants: [], registeredCount: 0, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
 				});
 			});
 		} else {

@@ -26,19 +26,6 @@
 	.m-tool {
 		cursor: auto; background-color: $tool-bg-color;
 
-		.my-network {
-			margin-bottom: 2px;
-			.wrap {
-				text-align: center;
-				background-color: darken($tool-bg-wrap-color, 16);
-
-				.label {
-					font-weight: bold; cursor: pointer;
-					font-size: 14px;
-				}
-			}
-		}
-
 		center {
 
 

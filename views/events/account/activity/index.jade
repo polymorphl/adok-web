@@ -16,23 +16,7 @@ block body
 		div.page-container
 			include ../../../../layouts/details_event
 			#proposal
-				div.left
 				div.right
-
-	script(type='text/template', id="tmpl-left")
-		div.share
-			div.title= t('event.shrtitle')
-			a.fb(href='#', target='_blank')
-				div.fb
-					img(src="/medias/socials/fb.svg")
-			a.g(href='#', onclick='javascript:window.open(this.href,\'\', \'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600\');return false;')
-				div.g
-					img(src='/medias/socials/g.svg')
-		div.pictures
-			<% if (photos) { %>
-			img(src!="<%= photos %>")
-			<% } %>
-
 
 	script(type='text/template', id="tmpl-right")
 		input.elat(type="hidden", id="lat", value!="<%= latLng[1] %>")
@@ -42,27 +26,27 @@ block body
 		<% } %>
 		div.title
 			<%= title %>
+		div.hashtag
+			label Mots clés 
+			span <%= hashtag %>
 		<% if (accType == 'account') { %>
-		a(href!='/user/<%= acc._id %>', class="prop_by")
+		a.prop_by(href!='/user/<%= acc._id %>')
 			span= t("event.ppby")
 			div.author
 				span.fullname
-					<%= acc.roles.account.name.full %>
+					<%= acc.roles.account.name.first %>
 				<% if (acc.roles.account.picture) { %>
-				img(src!='<%= acc.roles.account.picture %>')
+				img(src!='/media/<%= acc.roles.account.picture %>')
 				<% } %>
 		<% } %>
 		<% if (desc) { %>
 		div.desc
 			<%= desc %>
 		<% } %>
-		div.hashtag
-			<%= hashtag %>
 		div.place
 			<% if (latLng[0]) { %>
 			span Adresse :
-			span
-			<%= place %>
+			span <%= place %>
 			<% } %>
 		if (!isUserAccount)
 			div.join_proposal
@@ -73,11 +57,6 @@ block body
 				button.btn.btn-wait(id="t_prop_valid") Valider !
 			div.report-challenge
 				a(id="t_report_c") Signaler l'évenement
-		if (isUserAccount)
-			div.edit_proposal
-				button.btn.btn-edit(id="t_prop_edit") Editer
-			div.delete_proposal
-				button.btn.btn-delete(id="t_delete_prop") Supprimer
 		div.comments
 			input(id='commentTextaera' type='text', name='comment', value!='', placeholder='Poster un commentaire')
 			button.btn.btn-validate(id='buttonAddComment') Publier

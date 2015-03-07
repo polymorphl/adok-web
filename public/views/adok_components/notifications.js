@@ -15,16 +15,11 @@ var idLastNotif = '000000000000000000000000';
 	'use strict';
 
 	$(document).ready(function() {
-		console.log("[READY LISTEN NOTIFICATION]");
 		var socket = io.connect('http://localhost/notification', {secure: true});
 		socket.on("connection", function(socket) {
 			console.log("Connection socket notification");
 		});
 		socket.on("notification", function(alert) {
-			console.log("receive notification " + alert.notificationContent.content);
-			console.log("receive to : " + alert.notificationContent.to);
-			console.log("alert type : " + alert.type);
-			//humane.log("Welcome Back");
 			if (alert.type == 0) {
 				var n = noty({
 					text        : alert.notificationContent.content.nameUser  + alert.msg + alert.title,
@@ -115,11 +110,9 @@ var idLastNotif = '000000000000000000000000';
 		});
 
 		socket.on('displaynotification', function(notifs) {
-			console.log("Notifs -> " + JSON.stringify(notifs));
 
 			var bodyNotificationContent = "";
 			notifs.forEach(function(currentNotification, index, array) {
-				console.log("CURRENT NOTIF : " + currentNotification.type);
 				bodyNotificationContent += "<div class='event'><a href=" + currentNotification.link + "><div class='who'><p><span class='name'>" + currentNotification.user;
 				bodyNotificationContent += "</span></p></div><div class='what'>" + currentNotification.title + "</div></a>";
 				bodyNotificationContent += "<div class='action'><span class='accpet'><div class='acc'><i class='fa fa-check'/><i class='fa fa-times'/></div></span>" + "</div>";
@@ -138,16 +131,13 @@ var idLastNotif = '000000000000000000000000';
 		var m_notif = $('#notifications');
 
 		t_notif.on('click', function(e){
-			console.log("CLICK NOTIFICATION client clicked");
 			e.preventDefault();
 			e.stopPropagation();
 			$('body').removeClass('with--sidebar');
 			if (m_notif.hasClass('is-open')) {
-				console.log("change -> isOpen");
 				m_notif.velocity('transition.bounceDownOut').removeClass('is-open');
 			} else {
 				socket.emit('getnotification', "notification");
-				console.log("change -> Pas isOpen");
 				m_notif.velocity('transition.bounceDownIn').addClass('is-open');
 			}
 		});
@@ -156,7 +146,6 @@ var idLastNotif = '000000000000000000000000';
 
 	//Get list of notifications at loading
 	var getNotifs = function() {
-		console.log("[getNotifs]");
 		$.get('/feed', function(res) {
 			if (res.success) {
 				if (res.notifs[0])
@@ -168,7 +157,6 @@ var idLastNotif = '000000000000000000000000';
 
 	//Function to update notifications feed
 	var updateNotifs = function() {
-		console.log("[update notification]");
 
 		$.get('/feed/'+idLastNotif, function(res) {
 			if (res.success) {
@@ -181,13 +169,4 @@ var idLastNotif = '000000000000000000000000';
     		console.log(res.errors[0]);
     });
 	};
-
-	//Get Notifs
-	//getNotifs();
-	//Set update notifications fedd interval
-	//setInterval(updateNotifs, 30000);
-
-	/*-----  Velocity:Notifications  ------*/
-
-
 }());

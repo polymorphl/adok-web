@@ -6,8 +6,14 @@
   app.FluxValidationModel = Backbone.Model.extend({
     idAttribute: '_id',
   	defaults: {
-  		epicture: '',
-  		eusername: ''
+  		_id: '',
+  		eid: '',
+  		uid: {
+        roles : {
+          account: ''
+        }
+      },
+  		isValidate: false
   	}
   });
 
@@ -26,15 +32,17 @@
   	},
   	initialize: function(item) {
   		this.model = new app.FluxValidationModel();
-      this.model.set(item);
-  		console.log("flux validation ok");
-  		this.render();
+      var i = 0;
+      while (i < item.length) {
+	      this.model.set(item[i]);
+	  		this.render();
+      	++i;
+      }
   	},
   	visualizer: function(e) {
   	},
   	render: function() {
-      this.$el.html(this.template( this.model.attributes ));
-      console.log("valiflu render ok");
+      this.$el.html(this.$el.html() + this.template( this.model.attributes ));
   	}
   });
 
@@ -43,28 +51,26 @@
     template: _.template( $('#tmpl-legend').html() ),
   	initialize: function(item) {
   		this.model = new app.LegendModel();
-      this.model.set(item);
-  		console.log("legend ok");
   		this.render();
   	},
   	render: function() {
-      this.$el.html(this.template( this.model.attributes ));
-  		console.log("legend render ok");
-  	}
-  });
-
-  app.ProposeView = Backbone.View.extend({
-  	el: '#prop',
-  	events: {
-  		'click .propose': 'propose'
-  	},
-  	propose: function() {
+      // this.$el.html(this.template( this.model.attributes ));
   	}
   });
 
   $(document).ready(function(){
-  	app.FluxValidation = new app.FluxValidationView(JSON.parse( unescape($('#data-valiflux').html()) ));
-  	app.Legend = new app.LegendView(JSON.parse( unescape($('#data-legend').html()) ));
+
+  	var val = JSON.parse( unescape($('#data-valiflux').html()) );
+  	var i = 0;
+
+  	app.FluxValidation = new app.FluxValidationView(val);
+  	app.Legend = new app.LegendView(val);
+
+		if ($(".item").length > 0) 
+			$("#no_result").hide();
+		else
+			$(".item").hide();
+
   });
 
 }());

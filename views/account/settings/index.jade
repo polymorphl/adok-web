@@ -40,8 +40,6 @@ block body
 
   script(type='text/template', id='tmpl-delete')
     div.col-sm-12
-      fieldset
-        legend= t('settings.deltitle')
         div.alerts
           |<% _.each(errors, function(err) { %>
           div.alert.alert-danger.alert-dismissable

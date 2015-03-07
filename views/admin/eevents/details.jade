@@ -11,6 +11,7 @@ block body
     div.page-container
       div#header
       div#content
+      div#results-table
       div#delete
 
   script(type='text/template', id='tmpl-header')
@@ -45,6 +46,26 @@ block body
     div.control-group
       button.btn.btn-primary.btn-update(type='button') Mettre à jour
 
+  script(type='text/template', id='tmpl-results-table')
+    table.table.table-striped
+      thead
+        tr
+          th
+          th(style='text-align:center')
+            | User
+      tbody#results-rows(style='border: 3px solid red')
+
+  script(type='text/template', id='tmpl-results-row')
+    td
+      input.btn.btn-default.btn-sm.btn-details(type='button', value='Edit')
+    td(style='text-align:center')
+      span.validation-clear <%= e %>
+
+
+  script(type='text/template', id='tmpl-results-empty-row')
+    tr
+      td(colspan='4') Any document finded      
+
   script(type='text/template', id='tmpl-delete')
     div.alerts
       |<% _.each(errors, function(err) { %>
@@ -60,3 +81,4 @@ block body
       button.btn.btn-danger.btn-delete(type='button') Supprimer
 
   script(type='text/template', id='data-record') !{data.record}
+  script(type='text/template', id='data-validation') !{data.validation}

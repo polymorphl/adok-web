@@ -5,6 +5,25 @@
 
   app = app || {};
 
+  app.List = Backbone.Model.extend({
+    idAttribute: '_id',
+    defaults: {
+      e: '',
+      acc: ''
+    },
+    url : function () {
+      return '/admin/eevents/'+ this.id +'/list-validation/';
+    }
+  });
+
+  app.RecordCollection = Backbone.Collection.extend({
+    model: app.List,
+    url: '/admin/eevents/',
+    parse: function(results) {
+      return results.data.validation;
+    }
+  });
+
   app.Event = Backbone.Model.extend({
     idAttribute: '_id',
     url: function() {
@@ -120,6 +139,54 @@
     }
   });
 
+ app.ResultsView = Backbone.View.extend({
+    el: '#results-table',
+    template: _.template( $('#tmpl-results-table').html() ),
+    initialize: function() {
+      this.collection = new app.RecordCollection( app.mainView.results );
+      this.listenTo(this.collection, 'reset', this.render);
+      this.render();
+    },
+    render: function() {
+      this.$el.html( this.template() );
+
+      var frag = document.createDocumentFragment();
+      this.collection.each(function(record) {
+        var view = new app.ResultsRowView({ model: record });
+        frag.appendChild(view.render().el);
+      }, this);
+      $('#results-rows').append(frag);
+
+      if (this.collection.length === 0) {
+        $('#results-rows').append( $('#tmpl-results-empty-row').html() );
+      }
+    }
+  });
+
+  app.ResultsRowView = Backbone.View.extend({
+    tagName: 'tr',
+    template: _.template( $('#tmpl-results-row').html() ),
+    events: {
+      'click .btn-details': 'viewDetails'
+    },
+    viewDetails: function() {
+      location.href = this.model.url();
+    },
+    render: function() {
+      this.$el.html(this.template( this.model.attributes ));
+      this.$el.find('.timeago').each(function(index, indexValue) {
+        if (indexValue.innerText) {
+          var myMoment = moment(indexValue.innerText);
+          indexValue.innerText = myMoment.from();
+          if (indexValue.getAttribute('data-age')) {
+            indexValue.innerText = indexValue.innerText.replace('ago', 'old');
+          }
+        }
+      });
+      return this;
+    }
+  });
+
   app.DeleteView = Backbone.View.extend({
     el: '#delete',
     template: _.template( $('#tmpl-delete').html() ),
@@ -155,9 +222,12 @@
     initialize: function() {
       app.mainView = this;
       this.model = new app.Event( JSON.parse( unescape($('#data-record').html())) );
+      console.log(JSON.parse( unescape($('#data-validation').html())));
+      this.results = JSON.parse( unescape($('#data-validation').html()));
 
       app.headerView = new app.HeaderView();
       app.contentView = new app.ContentView();
+      app.listView = new app.ResultsView();
       app.deleteView = new app.DeleteView();
     }
   });
