@@ -445,7 +445,7 @@
       app.mainView = this;
       this.account = new app.Account( JSON.parse( unescape($('#data-account').html()) ) );
       this.user = new app.User( JSON.parse( unescape($('#data-user').html()) ) );
-
+      console.log("acc: " + JSON.stringify(this.account));
       app.pictureView = new app.PictureView();
       app.detailsView = new app.DetailsView();
       app.Links = new app.LinksView();

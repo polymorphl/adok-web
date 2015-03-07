@@ -38,7 +38,15 @@ exports.Router = function(app, passport) {
 
   router.post('/upload',
      function(req, res, next) {
-        req.app.modules.Upload.OriginalAndMinified(req, res, next, { root: req.body.type, filepath: './' + req.files.file.path.split('\\').join('/') });
+        req.app.modules.Upload.OriginalAndMinified(req, res, next, { root: req.body.type, filepath: './' + req.files.file.path.split('\\').join('/')}, function(UploadObject) {
+            //console.log("img_type : " + req.body.type); //ITS OK
+            if (req.body.type == "avatars") {
+              console.log(UploadObject);
+              
+            } else if (req.body.type == "events") {
+              console.log("EVENT UPLOAD");
+            }
+        });
     }
   );
 
