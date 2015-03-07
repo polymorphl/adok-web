@@ -110,7 +110,6 @@ exports = module.exports = function(req, res, next, options, done) {
 
   workflow.on('response', function(err) {
     if (err) { return next(err); }
-    console.log(workflow.outcome);
     if (done)
       return done(workflow.outcome);
     return res.json(workflow.outcome);

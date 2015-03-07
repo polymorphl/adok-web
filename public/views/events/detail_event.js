@@ -81,8 +81,6 @@
 		}
 	});
 
-
-
 	app.RightDataView = Backbone.View.extend({
 		el: ".right",
 		template: _.template( $('#tmpl-right').html()),
@@ -420,22 +418,45 @@
 		}
 	});
 
-	var sendNewComment = function() {
-		console.log("add new comment 0");
-		if (socket === null) { return; }
-		var contentCommentValue = document.getElementById('commentTextaera').value;
-		if (contentCommentValue.length > 0) {
-			socket.emit("addComment", {
-				'eventid': idEvent,
-				'typeevent': type,
-				'comment': contentCommentValue
-			});
+	 app.MainView = Backbone.View.extend({
+	 	el: '.app-content .page-container',
+    initialize: function() {
+    	app.mainView = this;
+		 	this.eventData = JSON.parse(unescape( $("#event-results").html() ) );
+
+	    console.log("EVENT: " + JSON.stringify(this.eventData));
+	    this.eventData.isRegistered = $("#event-reg").html() + "";
+	    app.leftData = new app.LeftDataView(this.eventData);
+			app.rightdata = new app.RightDataView(this.eventData);
+			app.editdata = new app.EditDataView(this.eventData);
+			app.joinevent = new app.JoinEventView(this.eventData);
+			app.deleteevent = new app.DeleteEventView(this.eventData);
+			app.validedevent = new app.ValidEditView(this.eventData);
+			app.validevevent = new app.ValidateEventView(this.eventData);
+			app.reportmodal = new app.ReportModalView();
+			app.report = new app.ReportView();
 		}
-		console.log("add new comment 1 -- need clean");
-		document.getElementById('commentTextaera').value = "";
-	};
+	 });
 
   $(document).ready(function() {
+
+  	app.mainView = new app.MainView();
+
+  	var sendNewComment = function() {
+			console.log("add new comment 0");
+			if (socket === null) { return; }
+			var contentCommentValue = document.getElementById('commentTextaera').value;
+			if (contentCommentValue.length > 0) {
+				socket.emit("addComment", {
+					'eventid': idEvent,
+					'typeevent': type,
+					'comment': contentCommentValue
+				});
+			}
+			console.log("add new comment 1 -- need clean");
+			document.getElementById('commentTextaera').value = "";
+		};
+
     app.Actions = new app.ownerActions();
     socket = io.connect("http://localhost:8080/comment", {'secure': true});
 
@@ -456,19 +477,6 @@
 		$(document).on("click", "#buttonAddComment", function () {
 			sendNewComment();
 		});
-
-    var eventData = JSON.parse(unescape( $("#event-results").html() ));
-    console.log(eventData);
-    eventData.isRegistered = $("#event-reg").html() + "";
-    new app.LeftDataView(eventData);
-		new app.RightDataView(eventData);
-		new app.EditDataView(eventData);
-		new app.JoinEventView(eventData);
-		new app.DeleteEventView(eventData);
-		new app.ValidEditView(eventData);
-		new app.ValidateEventView(eventData);
-		new app.ReportModalView();
-		new app.ReportView();
 
 		if ($('#map-event').length > 0) {
 	    var map = L.mapbox.map('map-event', 'lucterracherwizzem.kp9oc66l', {

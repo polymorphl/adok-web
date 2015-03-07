@@ -31,11 +31,8 @@ block body
 		div.pictures
 			<% if (photos) { %>
 			img(src!="<%= photos %>")
-			<%} else {%>
-			div._blank(id="#addPicture")
-				div.txt Ajouter une image
-				span.icon: i.fa.fa-picture-o
-			<%}%>
+			<% } %>
+
 
 	script(type='text/template', id="tmpl-right")
 		input.elat(type="hidden", id="lat", value!="<%= latLng[1] %>")
@@ -100,7 +97,6 @@ block body
 				textarea.comments(id="comments", name="comments")
 			div.validation
 				button.btn.btn-create_report Envoyer
-
 
 	script(type='text/template', id='event-results') !{event}
 	script(type='text/template', id='event-reg') !{isRegistered}
