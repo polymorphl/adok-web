@@ -45,7 +45,7 @@
 		"inv": "inventory"
 	},
 	"homepage": {
-		
+		"coming": "Coming soon"
 	},
 	"contact": {
 		"title": "Send a message",
@@ -84,7 +84,7 @@
 		"my": "My account",
 		"preference": "Preferences",
 		"logout": "Logout",
-		"propose": "Offer",
+		"propose": "Propose",
 		"network": "Network",
 		"verification": "Verification",
 		"part": "Private persons",
@@ -150,12 +150,37 @@
 		"numof": "Participants",
 		"refused": "Refused",
 		"edit": "Edit",
-		"delete": "Delete"
+		"delete": "Delete",
+		"publish": "Publish"
 	},
+	"detail-event": {
+		"confirmed-update": "Event edited !",
+		"delete": "Delete propose ?",
+		"confirm": "Confirm edition",
+		"report": "Report challenge",
+		"modal-title": "I want to report :",
+		"modal-pdat" : "Diffusing personnal information",
+		"modal-hrai" : "Heating, racism or injury",
+		"modal-porn" : "Pornography",
+		"modal-suic" : "Suicid or integrity of others",
+		"modal-void" : "Identity theft",
+		"modal-vopi" : "Pictures theft",
+		"modal-spam" : "Unwanted comments or messages",
+		"modal-other" : "Other(s)",
+		"modal-comments": "Comments",
+		"modal-send":	"Send",
+		"modal-input-comment": "Leave a commment"
+		},
 	"msg": {
 			"title": "messages",
 			"s-title": "contact list"
 	},
+  "validate": "Validate",	
+	"participate": "Join",
+	"un-participate": "Leave",			
+	"sure": "Are you sure ?",
+	"yes": "Yes",
+	"no": "No",
 	"and": "and",
 	"from": "From",
 	"found": "Created the ",
@@ -168,6 +193,7 @@
 	"where": "Location :",
 	"cl": "Close",
 	"validate": "validate",
+	"refresh": "Refresh",
 	"welc": "Welcome on adok",
 	"welc2": "Your login information:",
 	"measure": "Km",
@@ -199,11 +225,18 @@
     "free": "Free",
     "place": "Address",
     "date": "Date",
-    "hashtags": "Key-words"
+    "hashtags": "Key-words",
+    "notify-friend": "Notify friends"
   },
   "userhome": {
     "network": "My network only",
+    "up-list":  "Your list is up to date",
+    "count-challenge": " challenge pending",
     "no-res": "No challenge(s) available."
    },
-   "validate": "Validate"
+	"account-profil": {
+ 		"network": "My network",
+ 		"badge": "My badge(s)",
+ 		"report": "Report user"
+   	}
 }

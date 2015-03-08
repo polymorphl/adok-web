@@ -46,7 +46,7 @@
 		"notifications": "nav.notifications"
 	},
 	"homepage": {
-
+		"coming": "Disponible prochainement"
 	},
 	"contact": {
 		"title": "Envoyer un message",
@@ -152,12 +152,37 @@
 		"numof": "Participants",
 		"refused": "Refusé",
 		"edit": "Editer",
-		"delete": "Supprimer"
+		"delete": "Supprimer",
+		"publish": "Publier"
 	},
+	"detail-event": {
+		"confirmed-update": "Événement édité !",
+		"delete": "Supprimer la proposition ?",
+		"confirm": "Confirmation de l'édition",
+		"report": "Signaler un défi",
+		"modal-title": "Votre signalement concerne :",
+		"modal-pdat" : "Diffusion d'informations personnelles",
+		"modal-hrai" : "Haine, racisme ou insultes",
+		"modal-porn" : "Pornographie",
+		"modal-suic" : "Suicide ou mise en danger d'autrui",
+		"modal-void" : "Usurpation d'identité",
+		"modal-vopi" : "Vol de photos",
+		"modal-spam" : "Commentaires ou messages indésirables",
+		"modal-other" : "Autre(s)",
+		"modal-comments": "Commentaires",
+		"modal-send":	"Envoyer",
+		"modal-input-comment": "Poster un commmentaire"
+		},	
 	"msg": {
 		"title": "messages",
 		"s-title": "liste de contact"
 	},
+	"validate": "Valider",
+	"participate": "Participer",
+	"un-participate": "Se désinscrire",
+	"sure": "Êtes-vous sûr ?",
+	"yes": "Oui",
+	"no": "Non",	
 	"and": "et",
 	"from": "Du",
 	"found": "Crée le ",
@@ -199,11 +224,18 @@
     "free": "Gratuit",
     "place": "Adresse",
     "date": "Date",
-  	"hashtags": "Mots-clés"
+  	"hashtags": "Mots-clés",
+  	"notify-friend": "Notifier des amis"
   },
   "userhome": {
 		"network": "Mon réseau seulement",
+    "up-list":  "Votre liste est à jour",
+    "count-challenge": " défi(s) en attente",
 		"no-res": "Aucun défi(s) disponible."
 	},
-	"validate": "Valider"
+	"account-profil": {
+ 		"network": "Mon réseau",
+ 		"badge": "Mes badge(s)",
+ 		"report": "Signaler un utilisateur"
+ 	}
 }

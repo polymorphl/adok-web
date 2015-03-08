@@ -13,11 +13,11 @@ block body
         div.m-tool(id="tool-home")
           center
             div.waiting-tiles
-              span.uptodate Votre liste est à jour.
+              span.uptodate= t("userhome.up-list")
               div.area-waiting
                 span.waiting-counter 0
-                span.only &nbsp;défi(s) en attente.
-                span.multi &nbsp;défi(s) en attente.
+                span.only= t("userhome.count-challenge")
+                span.multi= t("userhome.count-challenge")
           div.count-results
             span.res
             span.label= t('res')

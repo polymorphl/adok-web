@@ -49,26 +49,6 @@
 		});
 	}
 
-	app.LeftDataModel = Backbone.Model.extend({
-		idAttribute: '_id',
-		defaults: {
-			photos: ''
-		}
-	});
-
-	app.LeftDataView = Backbone.View.extend({
-		el: ".left",
-		template: _.template( $('#tmpl-left').html()),
-		initialize: function(item) {
-			this.model = new app.LeftDataModel();
-			this.model.set(item);
-			this.render();
-		},
-		render: function() {
-			this.$el.html(this.template( this.model.attributes ));
-		}
-	});
-
 	app.RightDataModel = Backbone.Model.extend({
 		idAttribute: '_id',
 		defaults: {
@@ -79,8 +59,6 @@
 			return ("/event/ownerActions/"+this.id+"/delete");
 		}
 	});
-
-
 
 	app.RightDataView = Backbone.View.extend({
 		el: ".right",
@@ -96,7 +74,6 @@
 			item.uid = item.acc._id;
 			this.model = new app.RightDataModel();
 			this.model.set(item);
-			// this.bar_edit({preventDefault: function(){return 0;}});
 			this.render();
 		},
 		bar_edit: function(e) {
@@ -412,20 +389,41 @@
 		}
 	});
 
-	var sendNewComment = function() {
-		if (socket === null) { return; }
-		var contentCommentValue = document.getElementById('commentTextaera').value;
-		if (contentCommentValue.length > 0) {
-			socket.emit("addComment", {
-				'eventid': idEvent,
-				'typeevent': type,
-				'comment': contentCommentValue
-			});
+	 app.MainView = Backbone.View.extend({
+	 	el: '.app-content .page-container',
+    initialize: function() {
+    	app.mainView = this;
+		 	this.eventData = JSON.parse(unescape( $("#event-results").html() ) );
+
+	    this.eventData.isRegistered = $("#event-reg").html() + "";
+			app.rightdata = new app.RightDataView(this.eventData);
+			app.editdata = new app.EditDataView(this.eventData);
+			app.joinevent = new app.JoinEventView(this.eventData);
+			app.deleteevent = new app.DeleteEventView(this.eventData);
+			app.validedevent = new app.ValidEditView(this.eventData);
+			app.validevevent = new app.ValidateEventView(this.eventData);
+			app.reportmodal = new app.ReportModalView();
+			app.report = new app.ReportView();
 		}
-		document.getElementById('commentTextaera').value = "";
-	};
+	 });
 
   $(document).ready(function() {
+
+  	app.mainView = new app.MainView();
+
+  	var sendNewComment = function() {
+			if (socket === null) { return; }
+			var contentCommentValue = document.getElementById('commentTextaera').value;
+			if (contentCommentValue.length > 0) {
+				socket.emit("addComment", {
+					'eventid': idEvent,
+					'typeevent': type,
+					'comment': contentCommentValue
+				});
+			}
+			document.getElementById('commentTextaera').value = "";
+		};
+
     app.Actions = new app.ownerActions();
     socket = io.connect("http://localhost:8080/comment", {'secure': true});
 
@@ -436,7 +434,7 @@
         var bodyContentComment = "";
         comments.forEach(function(currentComment, index, array) {
           bodyContentComment += "<li><div class='username'>" + currentComment.user + "  " + currentComment.time;
-          bodyContentComment += "<img src='"+ currentComment.picture +"'/></div><div class='comment'>" + currentComment.comment + "</div></li>";
+          bodyContentComment += "<img src='/media/"+ currentComment.picture +"'/></div><div class='comment'>" + currentComment.comment + "</div></li>";
         });
         $('#listComment').html(bodyContentComment);
 
@@ -446,18 +444,6 @@
 		$(document).on("click", "#buttonAddComment", function () {
 			sendNewComment();
 		});
-
-    var eventData = JSON.parse(unescape( $("#event-results").html() ));
-    eventData.isRegistered = $("#event-reg").html() + "";
-    new app.LeftDataView(eventData);
-		new app.RightDataView(eventData);
-		new app.EditDataView(eventData);
-		new app.JoinEventView(eventData);
-		new app.DeleteEventView(eventData);
-		new app.ValidEditView(eventData);
-		new app.ValidateEventView(eventData);
-		new app.ReportModalView();
-		new app.ReportView();
 
 		if ($('#map-event').length > 0) {
 	    var map = L.mapbox.map('map-event', 'lucterracherwizzem.kp9oc66l', {

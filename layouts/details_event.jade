@@ -1,29 +1,29 @@
 div.m-delete_prop(id="delete_prop")
 	div.m-modal
 		div.modal__header
-			span.title Supprimer la proposition ?
+			span.title= t("detail-event.delete")
 			span.close
 				= t('cl')
 		div.modal__content
-			h2 Êtes-vous sûr ?
-			button.btn.btn-no Non
-			button.btn.btn-yes Oui
+			h2= t("sure")
+			button.btn.btn-no= t("yes")
+			button.btn.btn-yes= t("no")
 		div.modal__footer
 
 div.m-editd_prop(id="editd_prop")
 	div.m-modal
 		div.modal__header
-			span.title Confirmation de l'édition
+			span.title= t("detail-event.confirm")
 			span.close
 				= t('cl')
 		div.modal__content
-			h2 Événement edité !
+			h2= t("detail-event.confirmed-update")
 		div.modal__footer
 
 div.m_report_c(id="report_c")
 	div.m-modal
 		div.modal__header
-			span.title Signaler un challenge
+			span.title= t("detail-event.report")
 			span.close
 				= t('cl')
 		div.modal__content
@@ -34,21 +34,21 @@ div.sidebar-prop.sb.is-close(id="prop_edit")
 
 script(type='text/template', id='tmpl-createReport')
 	div.wrap-report
-		label Votre signalement concerne
+		label= t("detail-event.modal-title")
 		select.category(id="category", name="category")
-			option(value='pdat') Diffusion d'informations personnelles
-			option(value='hrai') Haine, racisme ou insultes
-			option(value='porn') Pornographie
-			option(value='suic') Suicide ou mise en danger d'autrui
-			option(value='void') Usurpation d'identité
-			option(value='vopi') Vol de photos
-			option(value='spam') Commentaires ou messages indésirables
-			option(value='othe') Autre(s)
+			option(value='pdat')= t("detail-event.modal-pdat")
+			option(value='hrai')= t("detail-event.modal-hrai")
+			option(value='porn')= t("detail-event.modal-porn")
+			option(value='suic')= t("detail-event.modal-suic")
+			option(value='void')= t("detail-event.modal-void")
+			option(value='vopi')= t("detail-event.modal-vopi")
+			option(value='spam')= t("detail-event.modal-spam")
+			option(value='othe')= t("detail-event.modal-other")
 		div
-			label(for="comments") Commentaires
+			label(for="comments")= t("detail-event.modal-comments")
 			textarea.comments(id="comments", name="comments")
 		div.validation
-			button.btn.btn-create_report Envoyer	
+			button.btn.btn-create_report= t("detail-event.modal-send")
 
 script(type="text/template", id="tmpl-edit-event")
 	div.content
@@ -56,20 +56,20 @@ script(type="text/template", id="tmpl-edit-event")
 		input.fs-anim-lower(type='hidden', name='place_Lat', value!='<%= latLng[1] %>', required)
 		input.fs-anim-lower(type='hidden', name='place_Lng', value!='<%= latLng[0] %>', required)
 		#title
-			label(for="title") Titre
+			label(for="title")= t("challenge.title")
 			input(name="title" type="text" value="")
 		#hashtag
-			label(for="hashtag") Mots-clés
+			label(for="hashtag")= t("challenge.hashtags")
 			input(name="hashtag" type="text" value="")
 		#desc
-			label(for="desc") Description
+			label(for="desc")= t("challenge.desc")
 			textarea(name="desc" type="text" value="")
 		#place
-			label(for="place") Adresse
+			label(for="place")= t("challenge.place")
 			input(name="place" type="text" value="")
 		div.actions
-			button.btn.btn-validate(id="t_editd_prop") Valider
+			button.btn.btn-validate(id="t_editd_prop")= t('validate')
 			div.refresh
-				button.btn Rafraichir
+				button.btn= t('refresh')
 			div.cl
-				button.btn(id="t_prop_close") Fermer
+				button.btn(id="t_prop_close")= t('cl')
