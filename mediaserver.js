@@ -56,6 +56,7 @@ exports.Router = function(app, passport) {
               });
             } else if (req.body.type == "badges") {
               console.log("Badges it's ok !");
+              console.log(file);
             }
         });
     }

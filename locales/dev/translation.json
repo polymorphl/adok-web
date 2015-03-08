@@ -46,7 +46,7 @@
         "notifications": "nav.notifications"
     },
     "homepage": {
-        "coming": "Disponible prochainement"
+        "coming": "Android"
     },
     "contact": {
         "title": "Envoyer un message",
@@ -200,7 +200,7 @@
         "place": "Adresse",
         "date": "Date",
         "hashtags": "Mots-clés",
-        "notify-friend": "Notifier des amis"        
+        "notify-friend": "Notifier des amis"
     },
     "userhome": {
         "network": "Mon réseau seulement",
@@ -209,9 +209,9 @@
         "up-list":  "Your list is up to date"        
     },
    "account-profil": {
-        "network": "My network",
-        "badge": "My badge(s)",
-        "report": "Report user"
+        "network": "Mon réseau",
+        "badge": "Mes badge(s)",
+        "report": "Signaler utilisateur"
     },    
     "validate": "Valider"
 }

@@ -41,7 +41,6 @@ exports = module.exports = function(app, mongoose) {
         return false;
       }
       fs.unlink('.'+this.picture, function(err) {});
-      app.db.models.Aevent.remove({accType: 'account', acc: account._id});
       if (!account.roles.pro)
         account.remove();
     });

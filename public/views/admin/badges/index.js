@@ -67,6 +67,7 @@
 				alert('Please enter a title.');
 			}
 			else {
+				console.log(this.$el);
 				this.model.save({
 					name: this.$el.find('[name="name"]').val(),
 					desc: this.$el.find('[name="desc"]').val(),
@@ -76,7 +77,7 @@
 					success: function(model, response) {
 						if (response.success) {
 							model.id = response.badge._id;
-							location.href = model.url();
+							//location.href = model.url();
 						}
 						else {
 							alert(response.errors.join('\n'));

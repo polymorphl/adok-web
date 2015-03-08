@@ -349,14 +349,26 @@ exports.delete = function(req, res, next) {
   var workflow = req.app.utility.workflow(req, res);
 
   workflow.on('deleteAccount', function(err) {
-    req.app.db.models.Account.findById(req.user.roles.account._id, function(err, account) {
+    req.app.db.models.User.findById(req.user.id, function(err, user) {
+      console.log(user);
       if (err) {
         return workflow.emit('exception', err);
-      } else if (!account) {
-        return workflow.emit('exception', 'Can\'t find your account.');
+      } else if (!user) {
+        return workflow.emit('exception', 'Can\'t find your user.');
       }
-      workflow.outcome.account = account;
-      account.remove();
+      req.app.db.models.Event.remove({acc: user._id}, function(err, ev) {
+        console.log(err, ev);
+        if (err) {
+          return workflow.emit('exception', err);
+        }
+      });
+      req.app.db.models.Account.remove({_id: user.roles.account}, function(err, acc) {
+        console.log(err, acc);
+        if (err) {
+          return workflow.emit('exception', err);
+        }
+      });
+      user.remove();
       workflow.emit('response');
     });
   });
