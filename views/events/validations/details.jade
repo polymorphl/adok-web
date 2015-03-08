@@ -10,12 +10,18 @@ block body
 	div.app-content
 		div.page-container
 			#details
-			#actions
-				button#btn-valid Valider
-				button#btn-refuse Refuser
+			if (!isMine)
+				#actions
+					button#btn-valid Valider
+					button#btn-refuse Refuser
 
 	script(type="text/template", id="tmpl-details")
 		.item
-			a.username(href!="/user/<%= uid._id %>") by <%= name %>
+			a.username(href!="/user/<%= uid._id %>") par <%= name %>
+			br
+			span.isvalidate <%= status %>
+			br
+			span.nbpositif  <%= nbVote.positive %>
+			span.nbnegatif &nbsp/&nbsp<%= nbVote.negative %>
 
 	script(type="text/template", id="data-row") !{row}

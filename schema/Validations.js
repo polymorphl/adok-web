@@ -7,7 +7,7 @@ exports = module.exports = function(app, mongoose) {
     eid: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
 		uid: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 		erid: { type: mongoose.Schema.Types.ObjectId, ref: 'EventRegister' },
-		isValidate: { type: Boolean }
+		isValidate: { type: Boolean, default: false  }
   });
   validationsSchema.plugin(require('./plugins/pagedFind'));
   validationsSchema.set('autoIndex', (app.get('env') === 'development'));

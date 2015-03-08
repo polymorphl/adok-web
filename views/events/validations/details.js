@@ -3,9 +3,12 @@
 var mongoose = require('mongoose');
 
 exports.init = function(req, res, next) {
-	req.app.db.models.Validation.findById(req.params.vid).populate("eid uid erid").exec(function(err, row) {
+	req.app.db.models.EventRegister.findById(req.params.erid).populate("eid uid").exec(function(err, row) {
 		if (!err) {
-			res.render('events/validations/details', {row: escape(JSON.stringify(row))});
+			var mine = false;
+			if (req.user._id + "" == row.uid._id + "")
+				mine = true;
+			res.render('events/validations/details', {row: escape(JSON.stringify(row)), isMine: mine});
 		}
 	});
 }

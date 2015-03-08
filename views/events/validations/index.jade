@@ -4,7 +4,7 @@ block head
 	title #{title}
 
 block feet
-	script(src='/views/events/validations/index.js')
+	script(src='/views/min/events/validations/index.min.js')
 
 block body
 	div.app-content
@@ -15,11 +15,14 @@ block body
 			#valiflux
 
 	script(type="text/template", id="tmpl-valiflux")
-		a(href!="/event/<%= eid %>/validation/<%= _id %>")
+		a(href!="/event/<%= eid._id %>/validation/<%= _id %>")
 			.item
 				span.username par <%= name %>
 				br
-				span.isvalidate <%= isValidate %>
+				span.isvalidate <%= status %>
+				br
+				span.nbpositif  <%= nbVote.positive %>
+				span.nbnegatif &nbsp/&nbsp<%= nbVote.negative %>
 
 	script(type="text/template", id="tmpl-legend")
 		ul.list

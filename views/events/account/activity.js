@@ -17,7 +17,7 @@ exports.init = function(req, res) {
 			res.locals.id = req.user._id;
 			res.locals.accType = req.session.accType;
 			req.app.db.models[event.accType.capitalize()].populate(event, {path: 'acc.roles.'+event.accType}, function(err, event) {
-				req.app.db.models.EventRegister.findOne({eid: mongoose.Types.ObjectId(id)}).exec(function(err, ereg) {
+				req.app.db.models.EventRegister.find({eid: mongoose.Types.ObjectId(id), uid: req.user._id}, function(err, ereg) {
 					if (err || !event)
 						return require('../../http/index').http404(req, res);
 					var i = 0;
@@ -29,13 +29,15 @@ exports.init = function(req, res) {
 					var e = moment(event.end);
 					var diff = s.diff(e, 'hours');
 
-					if (diff <= 72 && !ereg) {
+					if (diff <= 72) {
+						console.log("on peux encore s'inscrire !");
 						canRegister = true;
-					} else if (diff > 72 && diff <= 144 && ereg) {
+					} else if (diff > 72 && diff <= 144) {
+						console.log("on peux plus s'inscrire mais on peux valider !");
 						canValidate = true;
 					}
 
-					if (ereg)
+					if (ereg[0])
 						res.render('events/account/activity/index', {canValidate: canValidate, canRegister: canRegister, event: escape(JSON.stringify(event)), title: event.title, hashtag: event.hashtag, isRegistered: "true", participants: [], registeredCount: 0, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
 					else
 						res.render('events/account/activity/index', {canValidate: canValidate, canRegister: canRegister, event: escape(JSON.stringify(event)), title: event.title, hashtag: event.hashtag, isRegistered: "false", participants: [], registeredCount: 0, isUserAccount: req.user._id + "" == event.acc._id + "" ? true : false});
