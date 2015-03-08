@@ -18,5 +18,6 @@ exports = module.exports = function(app, mongoose) {
     datas: { type: Object }
   }, {safe: true});
   EventSchema.set('autoIndex', (app.get('env') === 'development'));
+  EventSchema.plugin(require('./plugins/pagedFind'));
   app.db.model('Event', EventSchema);
 };

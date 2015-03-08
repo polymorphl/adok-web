@@ -17,7 +17,8 @@ exports.add = function(req, res, callback){
 	var newBadge = {
 		name: req.body.name,
 		desc: req.body.desc,
-		title: req.body.title
+		title: req.body.title,
+		picture: req.body.file
 	};
 
 	req.app.db.models.Badge.create(newBadge, function(err, badge){

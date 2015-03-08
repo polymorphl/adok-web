@@ -20,8 +20,6 @@ block body
 				|  / <%- title %>
 
 	script(type='text/template', id='tmpl-details')
-		fieldset
-			legend Badge Info
 			div.alerts
 				|<% _.each(errors, function(err) { %>
 				div.alert.alert-danger.alert-dismissable
@@ -32,16 +30,20 @@ block body
 					button.close(type='button', data-dismiss='alert') &times;
 					| Changement(s) sauvé(s).
 				|<% } %>
+				div.control-group(class!='<%= errfor.picture ? "has-error" : "" %>')
+				label.control-label Image :
+				input.form-control(type='text', name='file', value!='<%- file %>')
+				span.help-block <%= errfor['name'] %>
 			div.control-group(class!='<%= errfor.name ? "has-error" : "" %>')
-				label.control-label Name:
+				label.control-label Nom :
 				input.form-control(type='text', name='name', value!='<%- name %>')
 				span.help-block <%= errfor['name'] %>
 			div.control-group(class!='<%= errfor.desc ? "has-error" : "" %>')
-				label.control-label Description:
+				label.control-label Description :
 				input.form-control(type='text', name='desc', value!='<%- desc %>')
 				span.help-block <%= errfor['desc'] %>
 			div.control-group(class!='<%= errfor.title ? "has-error" : "" %>')
-				label.control-label Title:
+				label.control-label Titre :
 				input.form-control(type='text', name='title', value!='<%- title %>')
 				span.help-block <%= errfor['title'] %>
 			div.control-group

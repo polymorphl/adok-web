@@ -10,7 +10,7 @@ exports.init = function(req, res, next){
 
 	req.app.db.models.Event.pagedFind({
 		filters: filters,
-		keys: 'lat lng date title start',
+		keys: 'lat lng title start',
 		limit: req.query.limit,
 		page: req.query.page,
 		sort: req.query.sort

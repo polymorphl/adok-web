@@ -142,7 +142,6 @@ var renderZone = function(req, res, next, oauthMessage) {
         pros: []
       };
       require('async').eachSeries(results, function(row, done) {
-        console.log("[DEBUG] => fill view user");
         var friend_toPush = {};
         if (row.folwd.account && row.folwd.account && row.folwd.account.id._id) {
           if (row.folwr.account._id.toString() == req.user.roles.account._id.toString())

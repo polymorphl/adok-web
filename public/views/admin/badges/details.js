@@ -8,7 +8,8 @@
 		defaults: {
 			name: '',
 			desc: '',
-			title: ''
+			title: '',
+      picture: ''
 		},
 		url: function() {
 			return '/admin/badges/'+ (this.isNew() ? '' : this.id +'/');
@@ -35,7 +36,8 @@
       errfor: {},
       name: '',
       desc: '',
-      title: ''
+      title: '',
+      picture: ''
     },
     url: function() {
       return '/admin/badges/'+ app.mainView.model.id +'/';
@@ -80,7 +82,8 @@
         _id: app.mainView.model.id,
         name: app.mainView.model.get('name'),
         desc: app.mainView.model.get('desc'),
-        title: app.mainView.model.get('title')
+        title: app.mainView.model.get('title'),
+        picture: app.mainView.model.get('picture')
       });
     },
     render: function() {
@@ -90,7 +93,8 @@
       this.model.save({
         name: this.$el.find('[name="name"]').val(),
         desc: this.$el.find('[name="desc"]').val(),
-        title: this.$el.find('[name="title"]').val()
+        title: this.$el.find('[name="title"]').val(),
+        picture: this.$em.find('[name="picture"]').val()
       });
      }
   });
