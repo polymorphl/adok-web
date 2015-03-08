@@ -262,6 +262,24 @@
 
 	.wrap-sections {
 		section {
+			&.text {
+				.mainSen {
+					margin-top: 40px!important;
+				}
+				.how {
+
+				}
+				.wrap-how {
+					-webkit-column-count: 4;
+    			-moz-column-count: 4;
+    			column-count: 4;
+				}
+			}
+			&.mobile {
+				position: fixed!important;
+				right: 20px!important;
+				bottom: 20px!important;
+			}
 			btn.btn-contact {
 				right: 120px!important;
 				top: 15px!important;

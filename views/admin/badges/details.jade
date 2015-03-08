@@ -4,6 +4,9 @@ block head
 	title Badges / Details
 
 block feet
+	script(src='/components/jquery-file-upload/js/vendor/jquery.ui.widget.js')
+	script(src='/components/jquery-file-upload/js/jquery.iframe-transport.js')
+	script(src='/components/jquery-file-upload/js/jquery.fileupload.js')
 	script(src='/views/min/admin/badges/details.min.js')
 
 block body
@@ -20,8 +23,6 @@ block body
 				|  / <%- title %>
 
 	script(type='text/template', id='tmpl-details')
-		fieldset
-			legend Badge Info
 			div.alerts
 				|<% _.each(errors, function(err) { %>
 				div.alert.alert-danger.alert-dismissable
@@ -32,16 +33,22 @@ block body
 					button.close(type='button', data-dismiss='alert') &times;
 					| Changement(s) sauvé(s).
 				|<% } %>
+				div.control-group(class!='<%= errfor.picture ? "has-error" : "" %>')
+				label.control-label Image : <img class="badge-pic" src='http://localhost:8080/media/<%= picture %>', style="max-width: 50px; max-height: 50px;" />
+				input#avatarUpload(type='file', name='file', data-url='/media/upload')
+				input._type(type="hidden" value="badges")
+				input(type="hidden", name="picture", value!='<%- picture %>')
+				span.help-block <%= errfor['name'] %>
 			div.control-group(class!='<%= errfor.name ? "has-error" : "" %>')
-				label.control-label Name:
+				label.control-label Nom :
 				input.form-control(type='text', name='name', value!='<%- name %>')
 				span.help-block <%= errfor['name'] %>
 			div.control-group(class!='<%= errfor.desc ? "has-error" : "" %>')
-				label.control-label Description:
+				label.control-label Description :
 				input.form-control(type='text', name='desc', value!='<%- desc %>')
 				span.help-block <%= errfor['desc'] %>
 			div.control-group(class!='<%= errfor.title ? "has-error" : "" %>')
-				label.control-label Title:
+				label.control-label Titre :
 				input.form-control(type='text', name='title', value!='<%- title %>')
 				span.help-block <%= errfor['title'] %>
 			div.control-group

@@ -9,7 +9,8 @@
 			_id: undefined,
 			name: '',
 			desc: '',
-			title: ''
+			title: '',
+			picture: ''
 		},
 		url: function() {
 			return '/admin/badges/'+ (this.isNew() ? '' : this.id +'/');
@@ -39,6 +40,21 @@
 		},
 		render: function() {
 			this.$el.html(this.template( this.model.attributes ));
+			$("#avatarUpload").fileupload({
+        dataType: 'json',
+        add: function(e, data) {
+          data.formData = {
+            type: $('#create-form ._type').val(),
+						min: false
+          };
+          data.submit();
+        },
+        done: function(e, data) {
+					$('#create-form input[name="picture"]').val(data._response.result.image);
+					$('.badge-pic').prop('src', 'http://localhost:8080/media/' + data._response.result.image + '?0');
+					$('.badge-pic').css('display', 'block');
+        }
+      });
 		},
 		addNewOnEnter: function(event) {
 			if (event.keyCode !== 13) { return; }
@@ -54,15 +70,17 @@
 				alert('Please enter a title.');
 			}
 			else {
+				console.log(this.$el);
 				this.model.save({
 					name: this.$el.find('[name="name"]').val(),
 					desc: this.$el.find('[name="desc"]').val(),
-					title: this.$el.find('[name="title"]').val()
+					title: this.$el.find('[name="title"]').val(),
+					picture: this.$el.find('[name="picture"]').val()
 				},{
 					success: function(model, response) {
 						if (response.success) {
 							model.id = response.badge._id;
-							location.href = model.url();
+							//location.href = model.url();
 						}
 						else {
 							alert(response.errors.join('\n'));
@@ -78,7 +96,6 @@
     template: _.template( $('#tmpl-results-table').html() ),
     initialize: function() {
       this.collection = new app.RecordCollection( app.mainView.results );
-      console.log(app.mainView.results);
       this.listenTo(this.collection, 'reset', this.render);
       this.render();
     },
@@ -87,7 +104,6 @@
 
       var frag = document.createDocumentFragment();
       this.collection.each(function(record) {
-      	console.log(record);
         var view = new app.ResultsRowView({ model: record });
         frag.appendChild(view.render().el);
       }, this);

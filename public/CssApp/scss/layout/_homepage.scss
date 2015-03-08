@@ -2,7 +2,23 @@ section {
 	width: 100%;
 
   &.text {
-
+    .mainSen {
+      font-size: 24px; font-weight: bold; margin-top: 30px;
+      text-align: center; background-color: rgba(33,150,243, .4);
+      width: 300px; margin: 0 auto; @include border-radius(8px);
+      color: white;
+    }
+    .how {
+      text-align: center; width: 350px; margin: 0 auto;
+      border-bottom: 2px double $purple_b; padding: 10px 0;
+      background-color: rgba(255,255,255, .4); margin: 15px auto;
+      font-size: 18px; font-style: italic;
+    }
+    .wrap-how {
+      -webkit-column-count: 4;
+      -moz-column-count: 4;
+      column-count: 4;
+    }
   }
   &.button {
     .btn-contact {
@@ -17,14 +33,14 @@ section {
     }
   }
   &.mobile {
-    text-align: center;
+    text-align: right; position: absolute;
+    right: 25px; bottom: 25px;
     a {
       cursor: pointer;
 
       i {
         font-size: 84px; padding: 10px;
         &.fa-android:hover { color: #a4c639; }
-        &.fa-apple:hover { color: #d7d9d8; }
       }
     }
   }
@@ -32,10 +48,11 @@ section {
 
 .bg {
     background: linear-gradient(
-      rgba(0, 0, 0, 0.3),
-      rgba(255, 255, 255, 0.2)
+      -90deg,
+      rgba(35, 76, 255, 0.3),
+      rgba(248, 206, 239, 0.2)
     ),
-    url('/medias/others/1.jpg') no-repeat
+    url('/medias/others/1.jpeg') no-repeat
     top center fixed;
   @include background-size(cover);
   position: fixed; z-index: -1;

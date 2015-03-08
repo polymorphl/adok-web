@@ -46,7 +46,7 @@
         "notifications": "nav.notifications"
     },
     "homepage": {
-        "coming": "Disponible prochainement"
+        "coming": "Android"
     },
     "contact": {
         "title": "Envoyer un message",
@@ -206,13 +206,12 @@
         "network": "Mon réseau seulement",
         "no-res": "Aucun défi(s) disponible.",
         "count-challenge": " challenge pending",
-        "up-list": "Your list is up to date"
+        "up-list":  "Your list is up to date"        
     },
-    "account-profil": {
-        "network": "My network",
-        "badge": "My badge(s)",
-        "report": "Report user"
-    },
-    "validate": "Valider",
-    "refresh": "refresh"
+   "account-profil": {
+        "network": "Mon réseau",
+        "badge": "Mes badge(s)",
+        "report": "Signaler utilisateur"
+    },    
+    "validate": "Valider"
 }

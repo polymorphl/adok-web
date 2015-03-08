@@ -4,6 +4,9 @@ block head
 	title Badge-Factory
 
 block feet
+	script(src='/components/jquery-file-upload/js/vendor/jquery.ui.widget.js')
+	script(src='/components/jquery-file-upload/js/jquery.iframe-transport.js')
+	script(src='/components/jquery-file-upload/js/jquery.fileupload.js')
 	script(src='/views/min/admin/badges/index.min.js')
 
 block body
@@ -14,18 +17,23 @@ block body
 
 		script(type='text/template', id='tmpl-addBadge')
 			hr
-			h1(label style='font-size:20-large; font-family:georgia;')  Create a new badge:
+			h1(label style='font-size:20-large; font-family:georgia;')  Créer un nouveau badge:
 			hr
 			form(id='create-form', method='POST', action='/adok-adm/' novalidate)
 				.form-group
-					label(for='name') Badge name
+					label(for='title') Titre
+					input.form-control(name='title', type='text', placeholder='Entrer a title', value='')
+				.form-group
+					label(for='picture') Image <img class="badge-pic" src="" style="max-width: 50px; max-height: 50px; display: none;"/>
+					input#avatarUpload(type='file', name='file', data-url='/media/upload')
+					input._type(type="hidden" value="badges")
+					input(type="hidden", name="picture", value='')
+				.form-group
+					label(for='name') Nom
 					input.form-control(name='name', type='text', placeholder='Enter a badge name', value='')
 				.form-group
 					label(for='desc') Description
 					input.form-control(name='desc', type='text', placeholder='Enter a description', value='')
-				.form-group
-					label(for='title') Title
-					input.form-control(name='title', type='text', placeholder='Entrer a title', value='')
 				.form-group
 					button.btn.btn-primary.btn-add(type='button') Créer
 
@@ -35,16 +43,20 @@ block body
 					tr
 						th
 						th(style='text-align:center')
-							| Name
+							| Image
+						th(style='text-align:center')
+							| Nom
 						th(style='text-align:center')
 							| Description
 						th(style='text-align:center')
-							| Title							
+							| Titre							
 				tbody#results-rows(style='border: 3px solid red')
 
 		script(type='text/template', id='tmpl-results-row')
 			td
 				input.btn.btn-default.btn-sm.btn-details(type='button', value='Edit')
+			td(style='text-align:center')
+				img(src!="http://localhost:8080/media/<%= picture %>" style="max-width: 50px; max-height: 50px;")
 			td(style='text-align:center')
 				span.badge-clear <%= name %>
 			td(style='text-align:center')

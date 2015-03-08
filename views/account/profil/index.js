@@ -72,13 +72,14 @@ var renderZone = function(req, res, next, oauthMessage) {
       if (err){
         return callback(err, null);
       }
-      req.app.db.models.Account.findById(account.roles.account.id).populate('badges', 'name').exec(function (err, acc){
+      req.app.db.models.Account.findById(account.roles.account.id).populate('badges', 'name picture').exec(function (err, acc){
         if (err)
           return callback(err, null);
         for (var i = 0; i < acc.badges.length; i++) {
           var toAdd = {
               _id: acc.badges[i]._id
             , name: acc.badges[i].name
+            , pic: acc.badges[i].picture
           };
           parsedList.push(toAdd);
         }
@@ -142,7 +143,6 @@ var renderZone = function(req, res, next, oauthMessage) {
         pros: []
       };
       require('async').eachSeries(results, function(row, done) {
-        console.log("[DEBUG] => fill view user");
         var friend_toPush = {};
         if (row.folwd.account && row.folwd.account && row.folwd.account.id._id) {
           if (row.folwr.account._id.toString() == req.user.roles.account._id.toString())

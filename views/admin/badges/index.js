@@ -17,8 +17,11 @@ exports.add = function(req, res, callback){
 	var newBadge = {
 		name: req.body.name,
 		desc: req.body.desc,
-		title: req.body.title
+		title: req.body.title,
+		picture: req.body.picture
 	};
+
+	console.log(req.body);
 
 	req.app.db.models.Badge.create(newBadge, function(err, badge){
 		if (err){
@@ -28,4 +31,3 @@ exports.add = function(req, res, callback){
 		return workflow.emit('response');
 	});
 };
-

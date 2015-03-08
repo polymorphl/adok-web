@@ -4,6 +4,11 @@ exports.update = function(req, res, next){
   var workflow = req.app.utility.workflow(req, res);
 
   workflow.on('validate', function() {
+
+    if (!req.body.picture) {
+      workflow.outcome.errfor.picture = req.i18n.t('errors.required');
+    }
+
     if (!req.body.name) {
       workflow.outcome.errfor.name = req.i18n.t('errors.required');
     }
@@ -26,7 +31,8 @@ exports.update = function(req, res, next){
     var fieldsToSet = {
       name: req.body.name,
       desc: req.body.desc,
-      title: req.body.title
+      title: req.body.title,
+      picture: req.body.picture
     };
 
     req.app.db.models.Badge.findByIdAndUpdate(req.params.id, fieldsToSet, function(err, account) {
