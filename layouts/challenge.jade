@@ -34,7 +34,7 @@ script(type='text/template', id='tmpl-event')
     input.fs-anim-lower(type='hidden', name='place_Lng', value!='<%= place_Lng %>')
     div.privacy#privacy
       div.ptc
-        label.fs-field-label.fs-anim-upper Notifier des amis
+        label.fs-field-label.fs-anim-upper= t("challenge.notify-friend")
         br
         input(type="text", name="ptc_list")
         ul.container-ptc

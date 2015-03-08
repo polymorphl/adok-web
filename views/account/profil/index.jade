@@ -17,7 +17,7 @@ block body
 				div.m-network(id="network")
 					div.m-modal
 						div.modal__header
-							span.title Mon réseau
+							span.title= t("account-profil.network")
 							span.close
 								= t('cl')
 						div.modal__content
@@ -30,7 +30,7 @@ block body
 				div.m-badge(id="badge")
 					div.m-modal
 						div.modal__header
-							span.title Mes badges
+							span.title= t("account-profil.badge")
 							span.close
 								= t('cl')
 						div.modal__content
@@ -47,7 +47,7 @@ block body
 				div.m-report_u(id="report_u")
 					div.m-modal
 						div.modal__header
-							span.title Signaler un utilisateur
+							span.title= t("account-profil.report")
 							span.close
 								= t('cl')
 						div.modal__content
@@ -59,7 +59,7 @@ block body
 
 				div.third-part
 					if isUserAccount
-						button.btn(id="t_network") Mon réseau
+						button.btn(id="t_network")= t("account-profil.network")
 						button.btn(id="t_badge")
 							span -
 							|  badge(s)
@@ -78,7 +78,7 @@ block body
 						else if isLinked == 'pending'
 							button#link-accept.btn.btn-primary(type='button')= t('zone.accept')
 							button#link-deny.btn.btn-primary(type='button')= t('zone.deny')
-						div: a(id="t_report_u") Signaler l'utilisateur
+						div: a(id="t_report_u")= t("account-profil.report")
 				div.fourth
 					if (isLinked == true || isUserAccount)
 						div#wrap-history
@@ -105,16 +105,16 @@ block body
 			div.wrap-report
 				label Votre signalement concerne
 				select.category(id="category", name="category")
-					option(value='hrai') Haine, racisme ou insultes
-					option(value='porn') Pornographie
-					option(value='void') Usurpation d'identité
-					option(value='vopi') Vol de photos
-					option(value='othe') Autre(s)
+					option(value='hrai')= t("detail-event.modal-hrai")
+					option(value='porn')= t("detail-event.modal-porn")
+					option(value='void')= t("detail-event.modal-void")
+					option(value='vopi')= t("detail-event.modal-vopi")
+					option(value='othe')= t("detail-event.modal-other")
 				div
-					label(for="comments") Commentaires
+					label(for="comments")= t("detail-event.modal-comments")
 					textarea.comments(id="comments", name="comments")
 				div.validation
-					button.btn.btn-create_report Envoyer
+					button.btn.btn-create_report= t("detail-event.modal-send")
 
 		script(type='text/template', id='tmpl-picture')
 			if avatar
@@ -123,7 +123,7 @@ block body
 				input#avatarUpload(type='file', name='file', data-url='/media/upload')
 				input._type(type="hidden" value="avatars")  
 			if isUserAccount
-				btn.btn-edit#avatarLabel Editer
+				btn.btn-edit#avatarLabel= t("event.edit")
 
 		script(type='text/template', id='tmpl-details')
 			div.alerts

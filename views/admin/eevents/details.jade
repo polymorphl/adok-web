@@ -57,10 +57,9 @@ block body
 
   script(type='text/template', id='tmpl-results-row')
     td
-      input.btn.btn-default.btn-sm.btn-details(type='button', value='Edit')
-    td(style='text-align:center')
-      span.validation-clear <%= e %>
-
+      td(style='text-align:center')
+        span.validation-clear <%= uid.username %>
+  //-   input.btn.btn-default.btn-sm.btn-details(type='button', value='Edit')
 
   script(type='text/template', id='tmpl-results-empty-row')
     tr

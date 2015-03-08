@@ -66,37 +66,37 @@ block body
 			<% } %>
 		if (!isUserAccount)
 			div.join_proposal
-				button.btn.btn-join(id="t_prop_join") Participer
+				button.btn.btn-join(id="t_prop_join")= t("participate")
 			div.left_proposal
-				button.btn.btn-left(id="t_prop_left") Se désinscrire
+				button.btn.btn-left(id="t_prop_left")= t("un-participate")
 			div.validate_proposal
-				button.btn.btn-wait(id="t_prop_valid") Valider !
+				button.btn.btn-wait(id="t_prop_valid")= t("validate")
 			div.report-challenge
-				a(id="t_report_c") Signaler l'évenement
+				a(id="t_report_c")= t("detail-event.report")
 		if (isUserAccount)
 			div.edit_proposal
-				button.btn.btn-edit(id="t_prop_edit") Editer
+				button.btn.btn-edit(id="t_prop_edit")= t("event.edit")
 			div.delete_proposal
-				button.btn.btn-delete(id="t_delete_prop") Supprimer
+				button.btn.btn-delete(id="t_delete_prop")= t("event.delete")
 		div.comments
-			input(id='commentTextaera' type='text', name='comment', value!='', placeholder='Poster un commentaire')
-			button.btn.btn-validate(id='buttonAddComment') Publier
+			input(id='commentTextaera' type='text', name='comment', value!='', placeholder= t("detail-event.modal-input-comment"))
+			button.btn.btn-validate(id='buttonAddComment')= t("event.publish")
 			ul(id='listComment')
 
 	script(type='text/template', id='tmpl-createReport')
 		div.wrap-report
-			label Votre signalement concerne
+			label= t("detail-event.modal-title")
 			select.category(id="category", name="category")
-				option(value='hrai') Haine, racisme ou insultes
-				option(value='porn') Pornographie
-				option(value='void') Usurpation d'identité
-				option(value='vopi') Vol de photos
-				option(value='othe') Autre(s)
+				option(value='hrai')= t("detail-event.modal-hrai")
+				option(value='porn')= t("detail-event.modal-porn")
+				option(value='void')= t("detail-event.modal-void")
+				option(value='vopi')= t("detail-event.modal-vopi")
+				option(value='othe')= t("detail-event.modal-other")
 			div
-				label(for="comments") Commentaires
+				label(for="comments")= t("detail-event.modal-comments")
 				textarea.comments(id="comments", name="comments")
 			div.validation
-				button.btn.btn-create_report Envoyer
+				button.btn.btn-create_report= t("detail-event.modal-send")
 
 	script(type='text/template', id='event-results') !{event}
 	script(type='text/template', id='event-reg') !{isRegistered}

@@ -45,7 +45,9 @@
         "inv": "inventaire",
         "notifications": "nav.notifications"
     },
-    "homepage": {},
+    "homepage": {
+        "coming": "Disponible prochainement"
+    },
     "contact": {
         "title": "Envoyer un message",
         "name": "Votre nom",
@@ -197,11 +199,19 @@
         "free": "Gratuit",
         "place": "Adresse",
         "date": "Date",
-        "hashtags": "Mots-clés"
+        "hashtags": "Mots-clés",
+        "notify-friend": "Notifier des amis"        
     },
     "userhome": {
         "network": "Mon réseau seulement",
-        "no-res": "Aucun défi(s) disponible."
+        "no-res": "Aucun défi(s) disponible.",
+        "count-challenge": " challenge pending",
+        "up-list":  "Your list is up to date"        
     },
+   "account-profil": {
+        "network": "My network",
+        "badge": "My badge(s)",
+        "report": "Report user"
+    },    
     "validate": "Valider"
 }
