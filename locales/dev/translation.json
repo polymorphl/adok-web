@@ -200,18 +200,19 @@
         "place": "Adresse",
         "date": "Date",
         "hashtags": "Mots-clés",
-        "notify-friend": "Notifier des amis"        
+        "notify-friend": "Notifier des amis"
     },
     "userhome": {
         "network": "Mon réseau seulement",
         "no-res": "Aucun défi(s) disponible.",
         "count-challenge": " challenge pending",
-        "up-list":  "Your list is up to date"        
+        "up-list": "Your list is up to date"
     },
-   "account-profil": {
+    "account-profil": {
         "network": "My network",
         "badge": "My badge(s)",
         "report": "Report user"
-    },    
-    "validate": "Valider"
+    },
+    "validate": "Valider",
+    "refresh": "refresh"
 }
