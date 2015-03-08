@@ -24,46 +24,53 @@ block body
 		<% if (latLng[0]) { %>
 		div(id="map-event")
 		<% } %>
-		div.title
-			<%= title %>
-		div.hashtag
-			label Mots clés 
-			span <%= hashtag %>
-		<% if (accType == 'account') { %>
-		a.prop_by(href!='/user/<%= acc._id %>')
-			span= t("event.ppby")
-			div.author
-				span.fullname
-					<%= acc.roles.account.name.first %>
-				<% if (acc.roles.account.picture) { %>
-				img(src!='/media/<%= acc.roles.account.picture %>')
+		div.wrap-l-r
+			div.left
+				div.place
+					<% if (latLng[0]) { %>
+					label= t('challenge.place')
+					span <%= place %>
+					<% } %>
+				div.title
+					label= t('challenge.title')
+					<%= title %>
+				<% if (hashtag) { %>
+				div.hashtag
+					label= t('challenge.hashtags')  
+					span  <%= hashtag %>
 				<% } %>
-		<% } %>
-		<% if (desc) { %>
-		div.desc
-			<%= desc %>
-		<% } %>
-		div.place
-			<% if (latLng[0]) { %>
-			span Adresse :
-			span <%= place %>
-			<% } %>
-		if (!isUserAccount)
-			div.join_proposal
-				button.btn.btn-join(id="t_prop_join")= t("participate")
-			div.left_proposal
-				button.btn.btn-left(id="t_prop_left")= t("un-participate")
-			div.validate_proposal
-				button.btn.btn-wait(id="t_prop_valid")= t("validate")
-			div.report-challenge
-				a(id="t_report_c")= t("detail-event.report")
-		if (isUserAccount)
-			div.delete_proposal
-				button.btn.btn-delete(id="t_delete_prop")= t("event.delete")
-		div.comments
-			input(id='commentTextaera' type='text', name='comment', value!='', placeholder= t("detail-event.modal-input-comment"))
-			button.btn.btn-validate(id='buttonAddComment')= t("event.publish")
-			ul(id='listComment')
+				<% if (accType == 'account') { %>
+				a.prop_by(href!='/user/<%= acc._id %>')
+					span= t("event.ppby")
+					div.author
+						span.fullname
+							<%= acc.roles.account.name.first %>
+						<% if (acc.roles.account.picture) { %>
+						img(src!='/media/<%= acc.roles.account.picture %>')
+						<% } %>
+				<% } %>
+				<% if (desc) { %>
+				div.desc
+					label= t('challenge.desc')
+					<%= desc %>
+				<% } %>
+				if (!isUserAccount)
+					div.join_proposal
+						button.btn.btn-join(id="t_prop_join")= t("participate")
+					div.left_proposal
+						button.btn.btn-left(id="t_prop_left")= t("un-participate")
+					div.validate_proposal
+						button.btn.btn-wait(id="t_prop_valid")= t("validate")
+					div.report-challenge
+						a(id="t_report_c")= t("detail-event.report")
+				if (isUserAccount)
+					div.delete_proposal
+						a.red(id="t_delete_prop")= t("event.delete")
+			div.right
+				div.comments
+					input(id='commentTextaera' type='text', name='comment', value!='', placeholder= t("detail-event.modal-input-comment"))
+					button.btn.btn-validate(id='buttonAddComment')= t("event.publish")
+					ul(id='listComment')
 
 	script(type='text/template', id='tmpl-createReport')
 		div.wrap-report

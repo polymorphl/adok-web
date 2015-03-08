@@ -88,17 +88,6 @@
   if ($('#members').length > 0) {
     $('#members li img').tooltip();
   }
-  $('a.fb').attr('href', "https://www.facebook.com/sharer/sharer.php?u=" + document.URL);
-  $('a.g').attr('href', "https://plus.google.com/share?url=" + document.URL)
-  $('#e_picture').click(function(){
-    if ($(this).hasClass('view')) {
-      $(this).removeClass('view');
-      $(this).children('img').removeClass('view');
-    } else {
-      $(this).addClass('view');
-      $(this).children('img').addClass('view');
-    }
-  });
   $('#register').click(function(){
     if ($(this).hasClass("unsuscribe")) {
       $(this).removeClass("unsuscribe");

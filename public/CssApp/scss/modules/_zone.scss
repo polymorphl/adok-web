@@ -61,6 +61,7 @@
 		margin: 15px 75px 10px 125px;
 
 		&:hover {
+			margin: 15px 75px -18px 125px;
 			#avatarLabel { display: block; }
 			img {
 				@include grayscale(100%);
