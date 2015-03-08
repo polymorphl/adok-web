@@ -9,7 +9,6 @@ exports.init = function(req, res, next) {
 
 	req.app.db.models.Event.findById(eid, function(err, row) {
 		if (!err && row) {
-			console.log("event=>", row[0]);
 			o.e = row;
 		} else {
 			return workflow.emit('exception', err);
@@ -18,7 +17,6 @@ exports.init = function(req, res, next) {
 
 	req.app.db.models.User.findById(uid, function(err, row) {
 		if (!err && row) {
-			console.log("user=>", row[0]);
 			o.u = row;
 		} else {
 			return workflow.emit('exception', err);
@@ -30,24 +28,19 @@ exports.init = function(req, res, next) {
 			eid: o.e._id,
 			uid: o.u._id
 		};
-		console.log(fieldSet);
 		if (!err && row[0]) {
 			req.app.db.models.EventRegister.remove(fieldSet, function(err, row) {
 				if (!err) {
-					console.log("deleted!");
 					return workflow.emit('response');
 				} else {
-					console.log(err);
 					return workflow.emit('exception', err);
 				}
 			});
 		} else {
 			req.app.db.models.EventRegister.create(fieldSet, function(err, row) {
 				if (!err) {
-					console.log("created!");
 					return workflow.emit('response');
 				} else {
-					console.log(err);
 				return workflow.emit('exception', err);
 				}
 			});

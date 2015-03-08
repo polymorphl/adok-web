@@ -29,7 +29,6 @@
 						query: that.$el.find('[name="place"]').val()
 					}).done(function(data) {
 						res($.map(data, function(item) {
-							console.log(item);
 							return {
 								label: item.addr,
 								value: item.addr,
@@ -338,7 +337,6 @@
       $('.box-overlay').addClass("is-active");
       $("body").addClass("modal-open");
       $('#report_c').hide().velocity('transition.slideUpBigIn', { duration: 300 }).addClass('is-open');
-      console.log("report backbone - display");
     },
     render: function() {
       return this;

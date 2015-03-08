@@ -1,7 +1,7 @@
 extends ../../../layouts/account
 
 block head
-	title= req.user.roles.account.name.full
+	title= req.user.roles.account.name.first
 
 block feet
 	script(src='/components/jquery-file-upload/js/vendor/jquery.ui.widget.js')
