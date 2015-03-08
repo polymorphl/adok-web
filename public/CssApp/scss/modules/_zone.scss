@@ -1,5 +1,5 @@
 .m-zone {
-	img { width: 42px; height: 42px; }
+	img { width: 62px; height: 62px; }
 
 	.m-network {
 		.modal__content div {
@@ -38,14 +38,17 @@
 				margin: 5px 0;
 				border-bottom: 1px solid $blue_a;
 				padding: 2px;
+				img {
+					@include border-radius(50em);
+				}
 				.name {
-					color: white;
+					color: white; font-weight: bold;
 				}
 				.title {
-					color: green;
+					color: $blue_a; font-style: italic;
 				}
 				.desc {
-					color: red;
+					color: white; font-weight: 700; text-decoration: underline;
 				}
 			}
 		}

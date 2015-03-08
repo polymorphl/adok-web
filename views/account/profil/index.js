@@ -72,13 +72,15 @@ var renderZone = function(req, res, next, oauthMessage) {
       if (err){
         return callback(err, null);
       }
-      req.app.db.models.Account.findById(account.roles.account.id).populate('badges', 'name picture').exec(function (err, acc){
+      req.app.db.models.Account.findById(account.roles.account.id).populate('badges', 'name picture desc title').exec(function (err, acc){
         if (err)
           return callback(err, null);
         for (var i = 0; i < acc.badges.length; i++) {
           var toAdd = {
               _id: acc.badges[i]._id
             , name: acc.badges[i].name
+            , title: acc.badges[i].title
+            , desc: acc.badges[i].desc
             , pic: acc.badges[i].picture
           };
           parsedList.push(toAdd);
