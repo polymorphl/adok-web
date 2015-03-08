@@ -37,7 +37,7 @@ block body
 							div.badges
 								for badge in badges
 									div.badge_a
-										span.pic= badge.picture
+										img(src="/media/#{badge.pic}")
 										span.name= badge.name
 										span.title= badge.title
 										span.desc= badge.desc

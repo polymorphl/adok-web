@@ -44,12 +44,15 @@
         dataType: 'json',
         add: function(e, data) {
           data.formData = {
-            type: $('#create-form ._type').val()
+            type: $('#create-form ._type').val(),
+						min: false
           };
           data.submit();
         },
         done: function(e, data) {
-        	alert(data._response.result.user.roles.account.picture);
+					$('#create-form input[name="picture"]').val(data._response.result.image);
+					$('.badge-pic').prop('src', 'http://localhost:8080/media/' + data._response.result.image + '?0');
+					$('.badge-pic').css('display', 'block');
         }
       });
 		},
@@ -72,7 +75,7 @@
 					name: this.$el.find('[name="name"]').val(),
 					desc: this.$el.find('[name="desc"]').val(),
 					title: this.$el.find('[name="title"]').val(),
-					picture: this.$el.find('[name="file"]').val()
+					picture: this.$el.find('[name="picture"]').val()
 				},{
 					success: function(model, response) {
 						if (response.success) {

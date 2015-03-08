@@ -87,14 +87,29 @@
       });
     },
     render: function() {
+      var counter = 0;
       this.$el.html(this.template( this.model.attributes ));
+      $("#avatarUpload").fileupload({
+        dataType: 'json',
+        add: function(e, data) {
+          data.formData = {
+            type: $('._type').val(),
+						min: false
+          };
+          data.submit();
+        },
+        done: function(e, data) {
+					$('input[name="picture"]').val(data._response.result.image);
+					$('.badge-pic').prop('src', 'http://localhost:8080/media/' + data._response.result.image + '?' + counter++);
+        }
+      });
     },
     update: function() {
       this.model.save({
         name: this.$el.find('[name="name"]').val(),
         desc: this.$el.find('[name="desc"]').val(),
         title: this.$el.find('[name="title"]').val(),
-        picture: this.$em.find('[name="picture"]').val()
+        picture: this.$el.find('[name="picture"]').val()
       });
      }
   });

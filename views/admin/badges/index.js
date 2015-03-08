@@ -31,4 +31,3 @@ exports.add = function(req, res, callback){
 		return workflow.emit('response');
 	});
 };
-

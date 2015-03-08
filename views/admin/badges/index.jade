@@ -24,9 +24,10 @@ block body
 					label(for='title') Titre
 					input.form-control(name='title', type='text', placeholder='Entrer a title', value='')
 				.form-group
-					label(for='picture') Image
+					label(for='picture') Image <img class="badge-pic" src="" style="max-width: 50px; max-height: 50px; display: none;"/>
 					input#avatarUpload(type='file', name='file', data-url='/media/upload')
 					input._type(type="hidden" value="badges")
+					input(type="hidden", name="picture", value='')
 				.form-group
 					label(for='name') Nom
 					input.form-control(name='name', type='text', placeholder='Enter a badge name', value='')
@@ -55,7 +56,7 @@ block body
 			td
 				input.btn.btn-default.btn-sm.btn-details(type='button', value='Edit')
 			td(style='text-align:center')
-				span.badge-clear <%= picture %>
+				img(src!="http://localhost:8080/media/<%= picture %>" style="max-width: 50px; max-height: 50px;")
 			td(style='text-align:center')
 				span.badge-clear <%= name %>
 			td(style='text-align:center')

@@ -40,7 +40,13 @@ exports.Router = function(app, passport) {
   router.post('/upload',
      function(req, res, next) {
         var workflow = req.app.utility.workflow(req, res);
-        req.app.modules.Upload.OriginalAndMinified(req, res, next, { root: req.body.type, filepath: './' + req.files.file.path.split('\\').join('/')}, function(file) {
+        var options = {
+          root: req.body.type || 'fs',
+          filepath: './' + req.files.file.path.split('\\').join('/')
+        };
+        if (req.body.min == false)
+          options.min = false;
+        req.app.modules.Upload.OriginalAndMinified(req, res, next, options, function(file) {
 
             if (req.body.type == "avatars") {
               req.app.db.models.Account.findOneAndUpdate({ 'user.id': req.user._id }, { $set: { picture: file.minified } }).exec(function(err, acc) {
@@ -55,8 +61,8 @@ exports.Router = function(app, passport) {
                 });
               });
             } else if (req.body.type == "badges") {
-              console.log("Badges it's ok !");
-              console.log(file);
+              workflow.outcome.image = file.original;
+              workflow.emit('response');
             }
         });
     }
