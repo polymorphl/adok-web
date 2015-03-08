@@ -21,10 +21,15 @@ options = {
 			if (root === './')
 				return next();
 			if (!stat.name.match(/index\.js$/) && stat.name[0] !== '_'){
-				var dirname = root.replace('./', '');
+				var dirname = root.replace('./', '').replace('\\', '');
 				if (!!modules[dirname] === false)
 					modules[dirname] = {};
-				modules[dirname][stat.name.replace('.js', '')] = require(root+'/'+stat.name);
+				if (root[root.length - 1] != '/')
+					root += '/';
+				var load = function() {
+					return require(root+stat.name);
+				}
+				modules[dirname].__defineGetter__(stat.name.replace('.js', ''), load);
 			}
 			next();
 		}

@@ -39,59 +39,6 @@
 		});
 	}
 
-	app.invitationData = Backbone.Model.extend({
-		idAttribute: '_id',
-		defaults: {
-			uid: '',
-			pic: '',
-			name: ''
-		}
-	});
-
-	app.invitationView = Backbone.View.extend({
-		el: '#privacy ul.container-ptc',
-		template: _.template( $('#tmpl-invitation_item').html() ),
-		initialize: function(obj) {
-			this.model = new app.invitationData();
-			this.model.set(obj);
-			this.render();
-		},
-		render: function() {
-			this.$el.append(this.template(this.model.attributes));
-			return this;
-		}
-	});
-
-	function autocomplete_friends(that) {
-		that.selectedUsers = new Array();
-		that.invitationList = new Array();
-		function get_friendlist(regex) {
-			return $.map($("#chat .list > div.user"), function(friend) {
-				if (regex.exec($(friend).find('.name').text()) && !!~($.inArray($(friend).attr('uid'), that.selectedUsers)) === false) {
-					return {
-						label: $(friend).find('.name').text(),
-						value: $(friend).attr('uid'),
-						pic: $(friend).find('img').attr('src')
-					};
-				} else
-					return null;
-			});
-		}
-		that.$el.find('[name="ptc_list"]').autocomplete({
-			source: function(req, res) {
-				var regex = new RegExp(""+that.$el.find('[name="ptc_list"]').val()+"", "i");
-				res(get_friendlist(regex));
-			},
-			minLength: 1,
-			select: function(e, ui) {
-				that.invitationList.push(new app.invitationView({ uid: ui.item.value, pic: ui.item.pic, name: ui.item.label }));
-				that.selectedUsers.push(ui.item.value);
-				e.preventDefault();
-				that.$el.find('[name="ptc_list"]').val('');
-			}
-		});
-	}
-
 	Backbone.View.prototype.close = function () {
 		this.stopListening();
 		this.$el.children().remove();
@@ -129,7 +76,6 @@
 			var that = this;
 			this.$el.append(this.template(this.model.attributes));
 			autocomplete(this);
-			autocomplete_friends(this);
 		},
 		preventSubmit: function(event) {
 			event.preventDefault();

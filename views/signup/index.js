@@ -1,6 +1,10 @@
 'use strict';
 
-var moment = require('moment');
+var moment = require('moment'),
+    request = require('request'),
+    mmmagic = require('mmmagic'),
+    magic = new mmmagic.Magic(mmmagic.MAGIC_MIME_TYPE),
+    fs = require('fs');
 
 exports.signup = function(req, res){
   var workflow = req.app.utility.workflow(req, res);
@@ -130,7 +134,7 @@ exports.signup = function(req, res){
         } else if (!account) {
           return workflow.emit('exception', 'Account not found');
         }
-      });      
+      });
       //update user with account
       workflow.user.roles.account = account._id;
       workflow.user.save(function(err, user) {
@@ -200,7 +204,7 @@ exports.signupGoogle = function(req, res, next) {
     if (!info || !info.profile) {
       return res.redirect('/signup/');
     }
-    
+
     req.app.db.models.User.findOne({ 'google.id': info.profile._json.id }, function(err, user) {
       if (err) {
         return next(err);
@@ -248,7 +252,7 @@ exports.signupFacebook = function(req, res, next) {
   })(req, res, next);
 };
 
-exports.signupSocial = function(req, res){
+exports.signupSocial = function(req, res, next){
   var workflow = req.app.utility.workflow(req, res);
 
   if (req.session.socialProfile.provider == 'google' && !req.session.socialProfile.username)
@@ -326,6 +330,49 @@ exports.signupSocial = function(req, res){
     });
   });
 
+  workflow.on('downloadAndSaveImage.facebook', function(callback) {
+    var id = workflow.user.facebook.id;
+    var filepath = './uploads/facebook' + '_' + id;
+    var writestream = fs.createWriteStream(filepath);
+    request('http://graph.facebook.com/'+ id + '/picture?width=9999').pipe(writestream);
+    writestream.on('close', function() {
+      workflow.emit('processImageUpload', filepath, callback);
+    });
+  });
+
+  workflow.on('downloadAndSaveImage.google', function(callback) {
+    var id = workflow.user.google.id;
+    var filepath = './uploads/google' + '_' + id;
+    var writestream = fs.createWriteStream(filepath);
+    var url = workflow.user.google.picture.slice(0, -2) + '9999';
+    request(url).pipe(writestream);
+    writestream.on('close', function() {
+      workflow.emit('processImageUpload', filepath, callback);
+    });
+  });
+
+  workflow.on('processImageUpload', function(filepath, callback) {
+    magic.detectFile(filepath, function(err, mimetype) {
+      if (err)
+        return next(err);
+
+      var new_filepath = filepath + '.' + mimetype.match(/^[^/]*\/(.*)/)[1];
+      fs.rename(filepath, new_filepath , function(err) {
+        if (err)
+          return next(err);
+        var options = {
+            root: 'avatars'
+          , filepath: new_filepath
+        };
+        req.user = workflow.user;
+        req.app.modules.Upload.OriginalAndMinified(req, res, next, options, function(avatar) {
+          return callback(avatar);
+        });
+      });
+    });
+  });
+
+
   workflow.on('createAccount', function() {
     var displayName = req.session.socialProfile.displayName || '';
     var nameParts = displayName.split(' ');
@@ -348,27 +395,42 @@ exports.signupSocial = function(req, res){
       if (err) {
         return workflow.emit('exception', err);
       }
-      // Copy default_avatar.jpg as Account's avatar
-      var fs = require('fs');
-      var rd = fs.createReadStream('./uploads/default_avatar.jpg');
-      var wr = fs.createWriteStream('./uploads/avatars/' + 'account_' + account._id + '.jpg');
-      rd.pipe(wr);
-      req.app.db.models.Account.findByIdAndUpdate(account._id, {picture: '/uploads/avatars/' + 'account_' + account._id + '.jpg'}, function(err, account) {
-        if (err) {
-          return workflow.emit('exception', err);
-        } else if (!account) {
-          return workflow.emit('exception', 'Account not found');
-        }
-      });
-      //update user with account
-      workflow.user.roles.account = account._id;
-      workflow.user.save(function(err, user) {
-        if (err) {
-          return workflow.emit('exception', err);
-        }
+      workflow.emit('downloadAndSaveImage.'+req.session.socialProfile.provider, function(avatar) {
+          account.picture = avatar.minified;
+          account.save(function(err, row) {
+            if (err)
+              return workflow.emit('exception', err);
+            workflow.user.roles.account = row._id;
+            workflow.user.save(function(err, row) {
+              if (err) {
+                return workflow.emit('exception', err);
+              }
 
-        workflow.emit('sendWelcomeEmail');
+              workflow.emit('sendWelcomeEmail');
+            });
+          });
       });
+      // Copy default_avatar.jpg as Account's avatar
+      // var fs = require('fs');
+      // var rd = fs.createReadStream('./uploads/default_avatar.jpg');
+      // var wr = fs.createWriteStream('./uploads/avatars/' + 'account_' + account._id + '.jpg');
+      // rd.pipe(wr);
+      // req.app.db.models.Account.findByIdAndUpdate(account._id, {picture: '/uploads/avatars/' + 'account_' + account._id + '.jpg'}, function(err, account) {
+      //   if (err) {
+      //     return workflow.emit('exception', err);
+      //   } else if (!account) {
+      //     return workflow.emit('exception', 'Account not found');
+      //   }
+      // });
+      // //update user with account
+      // workflow.user.roles.account = account._id;
+      // workflow.user.save(function(err, user) {
+      //   if (err) {
+      //     return workflow.emit('exception', err);
+      //   }
+      //
+      //   workflow.emit('sendWelcomeEmail');
+      // });
     });
   });
 

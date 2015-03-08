@@ -24,7 +24,7 @@ block body
 							div.friends
 								for account in friends.accounts
 									a(href='/user/'+account.id+''): span.item
-										img.pic(src=''+account.pic+'')
+										img.pic(src='/media'+account.pic+'')
 										span.full= account.name
 						div.modal__footer
 				div.m-badge(id="badge")
@@ -37,9 +37,7 @@ block body
 							div.badges
 								for badge in badges
 									div.badge_a
-										div.hexagon(style="background-image: url(http://csshexagon.com/img/meow.jpg);")
-											div.hexTop
-											div.hexBottom
+										//-img.image 
 										span.name= badge.name
 										span.title= badge.title
 										span.desc= badge.desc
@@ -58,11 +56,15 @@ block body
 				div#details
 
 				div.third-part
+					#progress
+						.bar(style='width: 0%;')
 					if isUserAccount
-						button.btn(id="t_network") Mon réseau
-						button.btn(id="t_badge")
-							span -
-							|  badge(s)
+						div.func
+							button.btn(id="t_network") Mon réseau
+						div.func
+							button.btn(id="t_badge")
+								span -
+								|  badge(s)
 					if !isUserAccount
 						button.btn(id="t_badge")
 							span  -
@@ -118,10 +120,10 @@ block body
 
 		script(type='text/template', id='tmpl-picture')
 			if avatar
-				img.self-avatar(src='#{avatar}')
+				img.self-avatar(src='/media/#{avatar}')
 			form#formAvatar
 				input#avatarUpload(type='file', name='file', data-url='/media/upload')
-				input._type(type="hidden" value="avatars")  
+				input._type(type="hidden" value="avatars")
 			if isUserAccount
 				btn.btn-edit#avatarLabel Editer
 
@@ -148,7 +150,7 @@ block body
 			if isUserAccount
 				div.control-group
 					button#up.btn-validate.btn-update(type='button')= t('settings.update')
-					button.btn-validate.btn-update-valid(type='button')= t('validate')
+					button#de.btn-validate.btn-update-valid(type='button')= t('validate')
 
 		script(type='text/template', id='data-account') !{data.account}
 		script(type='text/template', id='data-user') !{data.user}

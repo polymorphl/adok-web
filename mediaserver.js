@@ -6,6 +6,7 @@ var express = require('express')
   , router = express.Router();
 
 exports.Router = function(app, passport) {
+
   router.get('/:root/:file.:type.:min?', function(req, res, next) {
     if (req.params.min && req.params.type != 'min')
       return next();
@@ -38,23 +39,32 @@ exports.Router = function(app, passport) {
 
   router.post('/upload',
      function(req, res, next) {
-        req.app.modules.Upload.OriginalAndMinified(req, res, next, { root: req.body.type, filepath: './' + req.files.file.path.split('\\').join('/')}, function(UploadObject) {
-            //console.log("img_type : " + req.body.type); //ITS OK
+        var workflow = req.app.utility.workflow(req, res);
+        req.app.modules.Upload.OriginalAndMinified(req, res, next, { root: req.body.type, filepath: './' + req.files.file.path.split('\\').join('/')}, function(file) {
+
             if (req.body.type == "avatars") {
-              console.log(UploadObject);
-              
+              req.app.db.models.Account.findOneAndUpdate({ 'user.id': req.user._id }, { $set: { picture: file.minified } }).exec(function(err, acc) {
+                if (err)
+                  return workflow.emit('exception', err);
+                req.app.db.models.User.findById(req.user._id).populate('roles.account').lean().exec(function(err, user) {
+                  if (err)
+                    return workflow.emit('exception', err);
+                  user.roles.account.picture = req.app.config.mediaserverUrl + user.roles.account.picture;
+                  workflow.outcome.user = user;
+                  workflow.emit('response');
+                });
+              });
             } else if (req.body.type == "events") {
-              console.log("EVENT UPLOAD");
             }
         });
     }
   );
 
   router.use(function(req, res, next) {
-    if (req.files) {
-      fs.unlink(req.files[Object.keys(req.files)[0]].path)
+    if (req.files.file) {
+      fs.unlink(req.files.file.path)
     }
-    var err = new Error('Not Found');
+    var err = new Error('GetUploadedImage - Not Found');
     err.status = 404;
     next(err);
   });

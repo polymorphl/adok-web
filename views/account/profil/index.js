@@ -1,3 +1,4 @@
+
 'use strict';
 
 var renderZone = function(req, res, next, oauthMessage) {
@@ -155,8 +156,6 @@ var renderZone = function(req, res, next, oauthMessage) {
         }
         return done();
       });
-      console.log("[DEBUG] => RENDER NOW view");
-      console.log("[IMG URL] => url : " + outcome.account.picture);
       res.render('account/profil/index', {
         friends: friends,
         data: {

@@ -16,10 +16,6 @@ exports = module.exports = function(req, res) {
 
 		var reg = new RegExp(req.i18n.t('dateRegex'));
 
-		if (!req.body.hashtag) {
-			workflow.outcome.errfor.hashtag = req.i18n.t('errors.required');
-		}
-
 		if (workflow.hasErrors()) {
 			return workflow.emit('response');
 		}
@@ -68,11 +64,6 @@ var Activity = function(req, res){
 		}
 
 		var reg = new RegExp(req.i18n.t('dateRegex'));
-
-
-		if (!req.body.hashtag) {
-			workflow.outcome.errfor.hashtag = req.i18n.t('errors.required');
-		}
 
 		if (workflow.hasErrors()) {
 			return workflow.emit('response');

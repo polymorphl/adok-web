@@ -17,7 +17,7 @@ html
           a.l-header__icon(href="#", id="header__icon")
           a.l-header__logo(href='/account/')
             span.wrap(title= t('nav.home'))
-              img(src="/medias/logo/logo-bg.png" class="logo-adok")
+              img(src="/medias/logo/logo-no_bg.png" class="logo-adok")
               span.logo-1 adok
           div.l-header__navbar
             div.searchbar
@@ -49,12 +49,8 @@ html
               li#t_propose: a.propose
                 i.fa.fa-plus
                 span.helper= t('account.propose')
-              li#t_notif: a.notif
-                img(src="/medias/notif/notif.svg")
-                span.count
-                span.helper= t('nav.notif')
               li: a.profil(href='/user/#{id}')
-                img#profilavatar(src='#{req.user.roles.account.picture}')
+                img#profilavatar(src='/media/#{req.user.roles.account.picture}')
                 span.helper= req.user.roles.account.name.first
         include notifications
 
@@ -76,7 +72,7 @@ html
       include tmpl-evenTile
 
       div.ajax-spinner
-          img(src='/medias/others/ajax-pulse.gif')
+        img(src='/medias/others/ajax-pulse.gif')
 
       //if lte IE 9
           script(src='/layouts/ie-sucks.min.js')

@@ -42,7 +42,6 @@ exports.init = function(req, res) {
 				});
 			});
 		} else {
-			console.log("NOT CONNECTED");
 			res.render('events/account/activity/index');
 		}
 	});

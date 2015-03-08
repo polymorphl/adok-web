@@ -32,20 +32,6 @@ app.TileView = Backbone.View.extend({
 	el: 'ul.items',
 	template: _.template( $('#tmpl-evenTile').html()),
 	initialize: function(item) {
-		var tab = {
-			"01":"JAN",
-			"02":"FEV",
-			"03":"MAR",
-			"04":"AVR",
-			"05":"MAI",
-			"06":"JUIN",
-			"07":"JUIL",
-			"08":"AOUT",
-			"09":"SEP",
-			"10":"OCT",
-			"11":"NOV",
-			"12":"DEC"
-		};
 		this.model = new app.TileData();
 		this.model.set(item);
 		this.render(item.prepend);
@@ -66,65 +52,7 @@ app.FilterTileView = Backbone.View.extend({
 		'click input[name="add-my-network"]': 'onlyNetwork'
 	},
 	initialize: function(item) {
-		this.tabname = [
-			'event'
-		];
-		this.type = this.tabname[item.type];
-		this.opt = {
-			mask: 3, // this value can be found with this formule : sum(allready_checked_item)
-			opts: {
-				'event': 1,
-				'exchange': 2,
-				'network': 4
-			}
-		};
-		this.eid = item.eid;
-		this.linked = item.elinked;
 		this.checkResults();
-	},
-	event: function() {
-		if (document.getElementById("cat--1").checked == false && document.getElementById("cat--2").checked == false) {
-			document.getElementById("cat--1").checked = true;
-			this.opt.mask = this.opt.mask | this.opt.opts['event'];
-		}
-		if (this.type == "event" && document.getElementById("cat--1").checked == false && document.getElementById("cat--2").checked == true) {
-			this.hideShowElem(false);
-			this.opt.mask = this.opt.mask ^ this.opt.opts['event'];
-		}	else if (this.type == "event") {
-				this.opt.mask = this.opt.mask | this.opt.opts['event'];
-				this.hideShowElem(true);
-		}
-	},
-	onlyNetwork: function() {
-		if (document.getElementById("network-input").checked == true && this.opt.mask & this.opt.opts[this.type]) {
-			this.opt.mask = this.opt.mask | this.opt.opts['network'];
-			this.hideShowElem(this.linked ? true : false);
-			this.checkResults();
-		}
-		else if (this.opt.mask & this.opt.opts[this.type]) {
-			this.opt.mask = this.opt.mask ^ this.opt.opts['network'];
-			this.hideShowElem(true);
-			this.checkResults();
-		}
-		else if (document.getElementById("network-input").checked == true) {
-			this.opt.mask = this.opt.mask | this.opt.opts['network'];
-		}
-		else {
-			this.opt.mask = this.opt.mask ^ this.opt.opts['network'];
-		}
-	},
-	hideShowElem: function(visibility) {
-			if (!visibility) {
-				if (this.opt.mask | this.opt.opts[this.type]) {
-					$("[markerid='" + this.eid + "']").hide();
-				}
-			} else {
-					if ((this.opt.mask & this.opt.opts[this.type])
-							&& (!this.linked && (this.opt.mask & this.opt.opts['network']) == 0)) {
-						$("[markerid='" + this.eid + "']").show();
-					}
-			}
-			this.checkResults();
 	},
 	checkResults: function() {
 		var nb = $("#tool-home > .results > .items li:visible").length;

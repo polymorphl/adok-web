@@ -1,5 +1,5 @@
 // /**
-// * Application Core for Adok 
+// * Application Core for Adok
 // **/
 
 'use strict';

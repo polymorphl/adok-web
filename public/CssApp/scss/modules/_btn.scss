@@ -11,7 +11,7 @@
 /* Code() */
 .btn {
     font-weight: 500; font-size: 0.9em;
-    background-color: darken($btn-main-color, 5%); color: black;
+    background-color: $btn-main-color; color: white;
     height: $btn-main-size; text-align: center;
     line-height: $btn-main-size; width: auto;
     padding: 0 15px; top: 0; left: 0;
@@ -23,9 +23,9 @@
       @include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
     }
 
-    &.active, &.active:focus { background-color: #72d572; outline: none; }
-    &:focus, &:active:focus { outline: none; color: white; }
-    &:hover, &:hover > a { color: white; }
+    &.active, &.active:focus { color: $purple_b; outline: none; }
+    &:focus, &:active:focus { outline: none; color: $purple_b; }
+    &:hover, &:hover > a { color: $purple_b; }
 }
 
 @mixin btn($color, $height) {
