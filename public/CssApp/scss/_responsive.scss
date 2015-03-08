@@ -208,6 +208,14 @@
 		width: auto!important; height: 400px!important;
 		margin: 0 10px;
 	}
+	.m-zone {
+		#picture {
+			margin: 15px 0px 10px 100px!important;
+		}
+		#up {
+			margin: 15px 0 10px 0!important;
+		}
+	}
 	.m-propose {
 		width: 95%!important;
 
@@ -273,11 +281,11 @@
 	}
 
 	.results {
-		width: 330px!important;
-		height: 400px!important;
+		width: 99%!important;
+		@include calc(height, "100% - 50px - 25px");
 		overflow-x: hidden;
 		ul#tileItems {
-			margin: 0 auto; width: 320px;
+			margin: 0 auto; width: 100%;
 		}
 	}
 

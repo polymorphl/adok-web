@@ -57,6 +57,9 @@ block body
 				button.btn.btn-wait(id="t_prop_valid") Valider !
 			div.report-challenge
 				a(id="t_report_c") Signaler l'évenement
+		if (isUserAccount)
+			div.delete_proposal
+				button.btn.btn-delete(id="t_delete_prop") SUPPRIMER !
 		div.comments
 			input(id='commentTextaera' type='text', name='comment', value!='', placeholder='Poster un commentaire')
 			button.btn.btn-validate(id='buttonAddComment') Publier

@@ -59,10 +59,12 @@ block body
 					#progress
 						.bar(style='width: 0%;')
 					if isUserAccount
-						button.btn(id="t_network") Mon réseau
-						button.btn(id="t_badge")
-							span -
-							|  badge(s)
+						div.func
+							button.btn(id="t_network") Mon réseau
+						div.func
+							button.btn(id="t_badge")
+								span -
+								|  badge(s)
 					if !isUserAccount
 						button.btn(id="t_badge")
 							span  -

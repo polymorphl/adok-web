@@ -55,7 +55,7 @@
 //picture upload
 	#picture {
 		float: left; text-align: center;
-		margin: 15px 0 10px 15px;
+		margin: 15px 75px 10px 125px;
 
 		&:hover {
 			#avatarLabel { display: block; }
@@ -89,18 +89,24 @@
 		.wrap-inf {
 			padding: 30px;
 			.first, .last {
-			font-weight: bold;
+			font-weight: bold; float: left;
+			font-size: 26px;
+
 			}
 		}
 		.control-group {
 			text-align: center;
-			#up { margin: 15px 0 0 15px; }
+			#up { margin: 45px 0 0 0; }
 			.btn-update-valid { margin-top: 15px; }
 		}
 	}
 
 .third-part {
-	float: left;
+	float: left; margin-top: 30px;
+	.func {
+		padding: 5px 0;
+		position: relative; top: -15px;
+	}
 }
 .fourth {
 	clear: both;
