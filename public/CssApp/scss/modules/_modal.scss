@@ -436,13 +436,19 @@ body.modal-open {
 	@include modal($grey, $feedback-width, 150px);
 	margin: 0 auto; top: 23.5%;
 
+	.m-modal .modal__content {
+		text-align: center;
+	}
 	button {
 		color: white; text-align: center;
-		.btn-no {
+		&.btn-no {
 			background-color: $red;
 		}
-		.btn-yes {
-			background-color: $purple_b;
+		&.btn-yes {
+			background-color: $green;
+		}
+		&:hover {
+			color: white; 
 		}
 	}
 }

@@ -16,6 +16,7 @@
     line-height: $btn-main-size; width: auto;
     padding: 0 15px; top: 0; left: 0;
     position: relative; cursor: pointer;
+    transition: background-color 0.3s ease;
     @include border-radius(2px); overflow: hidden;
     @include transform(translate3d(0,0,0));
 
@@ -24,8 +25,8 @@
     }
 
     &.active, &.active:focus { color: $purple_b; outline: none; }
-    &:focus, &:active:focus { outline: none; color: $purple_b; }
-    &:hover, &:hover > a { color: $purple_b; }
+    &:focus, &:active:focus { outline: none; color: white; }
+    &:hover, &:hover > a { color: white;}
 }
 
 @mixin btn($color, $height) {

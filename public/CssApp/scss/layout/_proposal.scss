@@ -1,11 +1,29 @@
 #proposal {
-  .right {
+  & > .right {
     float: left; width: 100%; height: auto;
 
     div#map-event {
       width: 100%; height: 250px;
       .leaflet-control-zoom.leaflet-bar.leaflet-control {
         margin-right: 35px; margin-top: 20px;
+      }
+    }
+    .wrap-l-r {
+      border-top: 2px solid $blue_b;
+      width: 100%; height: 100%; 
+    }
+    .left {
+      float: left; width: 48%; height: 342px;
+      border-right: 3px solid $blue_c;
+    }
+    .right {
+      float: right; width: 50%; padding: 8px; 
+      height: 342px; overflow-y: scroll;
+    }
+    .title, .hashtag, .place, .desc {
+      & > label {
+        color: $purple_a; opacity: 0.4;
+        padding: 1px 6px;
       }
     }
     .title {
@@ -18,46 +36,47 @@
     div.place {
       text-align: center;
     }
-    .category {
-      img {
-        width: 40px; height: 40px;
-      }
-      span {
-
-      }
-    }
     .prop_by {
-      display: inline-block; width: 140px;
-      padding: 5px; margin-right: 23px;
-      text-align: center; 
+      display: inline-block; width: 175px;
+      padding: 5px; margin-right: 20px;
+      text-align: center; float: right;
       @include border-radius(40px);
+      background-color: $blue_b;
+      transition: background-color 0.3s ease;
       &:hover {
-        background: $blue_a;
-        color: white;
+        background-color: $blue_c; color: white;
+        text-decoration: none;
       }
       & > div {
         color: white;
         .fullname {
-          font-weight: bold; color: $purple_c;
-          &:hover { }
+          font-weight: bold; color: black;
         }
         img {
-          width: 70px; height: 70px;
+          width: 40px; height: 40px;
           @include border-radius(50em);
-          &.pro { @include border-radius(0em); }
         }
       }
     }
     .desc {
-      clear: left;
+      clear: left; width: 65%; height: auto;
+      padding: 8px;  border-right: 1px solid $purple_a;
+    }
+    .delete_proposal {
+      padding: 4px; color: $red; text-decoration: underline;
+      font-weight: bold; cursor: pointer;
+      font-size: 18px; position: absolute;
+      bottom: 25px; left: 4px;
     }
     .comments {
+      @include calc("height", "100% - 10px - 10px");
       input#commentTextaera { width: 80%; margin-right: 4%; }
       #listComment {
-        overflow-y: auto; height: 180px;
+        overflow-y: auto; height: auto;
+        margin-top: 10px;
         li {
-          margin: 2px 5px; height: 70px;
-          border-bottom: 1px solid $grey;
+          margin: 2px 5px; height: auto;
+          border: 2px inset rgba(255, 255, 255, .4);
           img {
             width: 50px; height: 50px; float: left;
             @include border-radius(50em);
