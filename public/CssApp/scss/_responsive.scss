@@ -270,9 +270,20 @@
 
 				}
 				.wrap-how {
+					width: 95%!important;
 					-webkit-column-count: 4;
     			-moz-column-count: 4;
     			column-count: 4;
+
+    			.ico {
+    				padding: 0!important;
+    				img {
+    					width: 40px!important; height: 40px!important;
+    				}
+    			}
+    			.text {
+    				font-size: 14px!important;
+    			}
 				}
 			}
 			&.mobile {

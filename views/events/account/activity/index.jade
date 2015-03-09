@@ -57,8 +57,6 @@ block body
 				if (!isUserAccount)
 					div.join_proposal
 						button.btn.btn-join(id="t_prop_join")= t("participate")
-					div.left_proposal
-						button.btn.btn-left(id="t_prop_left")= t("un-participate")
 					div.validate_proposal
 						button.btn.btn-wait(id="t_prop_valid")= t("validate")
 					div.report-challenge
@@ -66,6 +64,8 @@ block body
 				if (isUserAccount)
 					div.delete_proposal
 						a.red(id="t_delete_prop")= t("event.delete")
+					div.validate_proposal_user
+						button.btn.btn-wait(id="t_prop_valid")= t("validate")
 			div.right
 				div.comments
 					input(id='commentTextaera' type='text', name='comment', value!='', placeholder= t("detail-event.modal-input-comment"))
