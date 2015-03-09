@@ -84,6 +84,7 @@ var getLatestNotification = function(socket, app, account) {
 			var title = null;
 			var typeEvent = null;
 			var link = "http://localhost:8080/event/";
+
 			//console.log(currentNotification);
 			if (currentNotification.event.activity !== undefined) {
 				title = " vous propose un évenement, " + currentNotification.event.activity.title;
@@ -91,6 +92,7 @@ var getLatestNotification = function(socket, app, account) {
 				typeEvent = 1;
 			}
 
+			console.log(readCookie('i18next'));
       listNotification.push({'user':currentNotification.from.account.name.full, 'title':title,
 			 'date':require('moment')(currentNotification.date).lang('fr').fromNow().toString(), 'link':link});
       if (index == notifs.length - 1) {
@@ -103,7 +105,6 @@ var getLatestNotification = function(socket, app, account) {
 var checkConnection = function(app, userID) {
 	console.log("[CHECK CONNECTION CALLED]".blue + userID);
 	app.db.models.Notification.find({isAlert: false, 'to.account': userID.toString()}, function(err, docs) {
-		// console.log("GET ITEM".green + docs);
 		docs.forEach(function(currentNotification, index, array) {
 			console.log("current notification : ".rainbow + currentNotification);
 			sendNotification(app, currentNotification, userID);
