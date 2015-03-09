@@ -21,7 +21,6 @@ exports = module.exports = function(req, res) {
               'id': e._id,
               't': e.title,
               'e': e.desc,
-              'a': e.place,
               'pp': e.photos,
               'pos': [
                 e.latLng[0], //longitude
