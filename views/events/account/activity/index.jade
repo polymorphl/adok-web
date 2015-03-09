@@ -58,6 +58,8 @@ block body
 		if (isUserAccount)
 			div.delete_proposal
 				button.btn.btn-delete(id="t_delete_prop")= t("event.delete")
+			div.validate_proposal_user
+				button.btn.btn-wait(id="t_prop_valid") Voir les propositions
 		div.comments
 			input(id='commentTextaera' type='text', name='comment', value!='', placeholder= t("detail-event.modal-input-comment"))
 			button.btn.btn-validate(id='buttonAddComment')= t("event.publish")
