@@ -9,8 +9,12 @@
       _id: '',
       eid: '',
       uid: '',
-      isValidate: false,
-      name: ''
+      name: '',
+      status: '',
+      nbVote: {
+        nbpos: 0,
+        nbneg: 0
+      }
     }
   });
 
@@ -19,8 +23,9 @@
     template: _.template( $('#tmpl-details').html() ),
     initialize: function(item) {
       this.model = new app.ItemModel();
+      console.log(item);
       this.model.set(item);
-      if (item.uid.facebook != undefined)
+      if (item.uid.hasOwnProperty('facebook')) 
         this.model.attributes.name = item.uid.facebook.name;
       else
         this.model.attributes.name = item.uid.username;
@@ -37,6 +42,15 @@
       'click #btn-valid': 'validate',
       'click #btn-refuse': 'refuse'
     },
+    initialize: function(item) {
+      this.model = new app.ItemModel();
+      console.log(item);
+      this.model.set(item);
+      if (item.uid.hasOwnProperty('facebook')) 
+        this.model.attributes.name = item.uid.facebook.name;
+      else
+        this.model.attributes.name = item.uid.username;
+    },
     validate: function() {
       $.ajax({
         url: document.URL + '/validate',
@@ -47,7 +61,9 @@
         async: true,
         success: function(res) {
           if (res.success) {
+            console.log(res);
             alert("Vous validez cette proposition.");
+            location.href = '/event/' + res.eid + '/validation';
           } else {
             alert("Vous avez déjà validé cette proposition.");
           }
@@ -68,11 +84,13 @@
         success: function(res) {
           if (res.success) {
             alert("Vous refusez cette proposition.");
+            location.href = '/event/' + res.eid + '/validation';
           } else {
             alert("Vous avez déjà refusé cette proposition.");
           }
         },
         error: function(err) {
+          alert(err);
           alert("ERROR");
         }
       });
@@ -83,9 +101,10 @@
   $(document).ready(function(){
 
   	var val = JSON.parse( unescape($('#data-row').html()) );
+    console.log("val", val);
 
     app.Item = new app.ItemView(val);
-    app.Actions = new app.ActionsView();
+    app.Actions = new app.ActionsView(val);
   });
 
 }());

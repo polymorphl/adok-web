@@ -9,8 +9,12 @@
   		_id: '',
   		eid: '',
   		uid: '',
-  		isValidate: false,
-      name: ''
+      name: '',
+      status: '',
+      nbVote: {
+        nbpos: 0,
+        nbneg: 0
+      }
   	}
   });
 
@@ -28,8 +32,8 @@
   		this.model = new app.FluxValidationModel();
       var i = 0;
       while (i < item.length) {
-	      this.model.set(item[i]);
-        if (item[i].uid.facebook != undefined)
+ 	      this.model.set(item[i]);
+        if (item[i].uid.hasOwnProperty('facebook')) 
           this.model.attributes.name = item[i].uid.facebook.name;
         else
           this.model.attributes.name = item[i].uid.username;
@@ -56,7 +60,8 @@
 
   $(document).ready(function(){
 
-  	var val = JSON.parse( unescape($('#data-valiflux').html()) );
+    var val = JSON.parse( unescape($('#data-valiflux').html()) );
+    console.log(val);
   	var i = 0;
 
   	app.FluxValidation = new app.FluxValidationView(val);

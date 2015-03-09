@@ -78,10 +78,31 @@
     tagName: 'tr',
     template: _.template( $('#tmpl-results-row').html() ),
     events: {
+      'click .validateit': 'validateIt',
       'click .btn-details': 'viewDetails'
     },
     viewDetails: function() {
       location.href = this.model.url();
+    },
+    validateIt: function() {
+      console.log(document.URL + '/validate/' + this.model.attributes._id);
+      $.ajax({
+        url: document.URL + 'validate/' + this.model.attributes._id,
+        type: 'GET',
+        success: function(res) {
+          if (res.success) {
+            console.log(res);
+            alert("La moulinette du saladier est passé !");
+            location.href = '/admin/eevents/';
+          } else {
+            alert("Votre moulinette est cassée !");
+          }
+        },
+        error: function(err) {
+          console.log(err);
+          alert("ERROR");
+        }
+      });
     },
     render: function() {
       this.$el.html(this.template( this.model.attributes ));

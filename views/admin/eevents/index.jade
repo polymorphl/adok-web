@@ -31,6 +31,7 @@ block body
 					th Latitude / Longitude
 					th Date
 					th ID
+					th Validate it !
 			tbody#results-rows
 
 	script(type='text/template', id='tmpl-results-row')
@@ -40,6 +41,8 @@ block body
 		td <%= lat %> / <%= lng %>
 		td <%= date %>
 		td <%= _id %>
+		td
+			button.validateit Validate
 
 	script(type='text/template', id='tmpl-results-empty-row')
 		tr

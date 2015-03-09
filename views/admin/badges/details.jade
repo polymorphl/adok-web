@@ -34,7 +34,7 @@ block body
 					| Changement(s) sauvé(s).
 				|<% } %>
 				div.control-group(class!='<%= errfor.picture ? "has-error" : "" %>')
-				label.control-label Image : <img class="badge-pic" src='http://localhost:8080/media/<%= picture %>', style="max-width: 50px; max-height: 50px;" />
+				label.control-label Image : <img class="badge-pic" src='/media/<%= picture %>', style="max-width: 50px; max-height: 50px;" />
 				input#avatarUpload(type='file', name='file', data-url='/media/upload')
 				input._type(type="hidden" value="badges")
 				input(type="hidden", name="picture", value!='<%- picture %>')

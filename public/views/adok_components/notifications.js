@@ -15,7 +15,7 @@ var idLastNotif = '000000000000000000000000';
 	'use strict';
 
 	$(document).ready(function() {
-		var socket = io.connect('http://localhost/notification', {secure: true});
+		var socket = io.connect('http://www.adok-app.fr/notification', {secure: true});
 		socket.on("connection", function(socket) {
 			console.log("Connection socket notification");
 		});

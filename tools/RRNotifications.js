@@ -83,7 +83,7 @@ var getLatestNotification = function(socket, app, account) {
     notifs.forEach(function(currentNotification, index, array) {
 			var title = null;
 			var typeEvent = null;
-			var link = "http://localhost:8080/event/";
+			var link = "http://www.adok-app.fr/event/";
 
 			//console.log(currentNotification);
 			if (currentNotification.event.activity !== undefined) {

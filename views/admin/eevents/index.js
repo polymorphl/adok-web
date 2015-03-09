@@ -127,3 +127,33 @@ exports.delete = function(req, res, next){
 
 	workflow.emit('validate');
 };
+
+exports.validate = function(req, res, next) {
+	var workflow = req.app.utility.workflow(req, res);
+
+	workflow.on('validate', function() {
+		req.app.db.models.EventRegister.find({eid: req.params.eid}).populate("eid uid").exec(function(err, row) {
+			if (err)
+				return workflow.emit('exception', err);
+			else {
+				var i = 0;
+				while (i < row.length) {
+					console.log(row[i]);
+					if (row[i].nbVote.positive >= row[i].nbVote.negative
+						&& (row[i].nbVote.positive > 0 || row[i].nbVote.negative > 0)) {
+						req.app.db.models.EventRegister.update({_id: row[i]._id}, {status: 'Validé'}, function(err, r) {
+							console.log(err, r);
+						});X
+					} else {
+						req.app.db.models.EventRegister.update({_id: row[i]._id}, {status: 'Pas validé'}, function(err, r) {
+							console.log(err, r);
+						});
+					}
+					++i;
+				}
+				return workflow.emit('response');
+			}
+		});
+	});
+	workflow.emit('validate');
+};

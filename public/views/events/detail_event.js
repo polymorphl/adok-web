@@ -424,7 +424,7 @@
 
   	app.mainView = new app.MainView();
     app.Actions = new app.ownerActions();
-    socket = io.connect("http://localhost:8080/comment", {'secure': true});
+    socket = io.connect("http://www.adok-app.fr/comment", {'secure': true});
 
     socket.on('connect', function(socketClient) {
       socket.emit('idevent', {'eventid':idEvent, 'typeevent':type});
