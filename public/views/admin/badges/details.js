@@ -100,7 +100,7 @@
         },
         done: function(e, data) {
 					$('input[name="picture"]').val(data._response.result.image);
-					$('.badge-pic').prop('src', 'http://www.adok-app.fr/media/' + data._response.result.image + '?' + counter++);
+					$('.badge-pic').prop('src', mediaserverUrl + data._response.result.image + '?' + counter++);
         }
       });
     },

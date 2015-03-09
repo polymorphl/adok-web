@@ -6,7 +6,8 @@ exports = module.exports = function(req, res) {
   var date = Date.now(),
   query = {
     _id: { '$nin': req.body.idsTab || [] },
-    accType: req.session.accType
+    accType: req.session.accType,
+    end: { $gt: date }
   };
 
   req.app.db.models.Event.find(query).populate('acc').sort('-date').exec(function(err, events) {

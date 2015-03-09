@@ -46,7 +46,7 @@ block body
 						span.fullname
 							<%= acc.roles.account.name.first %>
 						<% if (acc.roles.account.picture) { %>
-						img(src!='/media/<%= acc.roles.account.picture %>')
+						img(src!='#{mediaserverUrl}<%= acc.roles.account.picture %>')
 						<% } %>
 				<% } %>
 				<% if (desc) { %>

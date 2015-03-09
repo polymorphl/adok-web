@@ -24,7 +24,7 @@ block body
 							div.friends
 								for account in friends.accounts
 									a(href='/user/'+account.id+''): span.item
-										img.pic(src='/media'+account.pic+'')
+										img.pic(src='#{mediaserverUrl}'+account.pic+'')
 										span.full= account.name
 						div.modal__footer
 				div.m-badge(id="badge")
@@ -37,7 +37,7 @@ block body
 							div.badges
 								for badge in badges
 									div.badge_a
-										img(src="/media/#{badge.pic}")
+										img(src="#{mediaserverUrl}#{badge.pic}")
 										span.name= badge.name
 										span.title= badge.title
 										span.desc= badge.desc
@@ -96,7 +96,7 @@ block body
 					img(src="/medias/others/1.jpg")
 				<% } %>
 				div.acc-photo
-					img(src!="<%= acc.roles.account.picture %>")
+					img(src!="#{mediaserverUrl}<%= acc.roles.account.picture %>")
 					span.acc-name <%= acc.roles.account.name.first %>
 				div.title
 					<%= title %>
@@ -120,7 +120,7 @@ block body
 
 		script(type='text/template', id='tmpl-picture')
 			if avatar
-				img.self-avatar(src='/media/#{avatar}')
+				img.self-avatar(src='#{mediaserverUrl}#{avatar}')
 			form#formAvatar
 				input#avatarUpload(type='file', name='file', data-url='/media/upload')
 				input._type(type="hidden" value="avatars")

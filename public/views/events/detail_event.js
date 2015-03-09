@@ -312,9 +312,9 @@
       }
       else {
         this.model.save({
-					to: location.href.substr(location.href.lastIndexOf('/') + 1),        	
+					to: location.href.substr(location.href.lastIndexOf('/') + 1),
           category: this.$el.find('[name="category"]').val(),
-          type: 'event',          
+          type: 'event',
           comments: this.$el.find('[name="comments"]').val()
         },{
           success: function(model, response) {
@@ -424,8 +424,8 @@
 
   	app.mainView = new app.MainView();
     app.Actions = new app.ownerActions();
-    socket = io.connect("http://www.adok-app.fr/comment", {'secure': true});
 
+		socket = io.connect(websocketUrl + "comment", {'secure': true});
     socket.on('connect', function(socketClient) {
       socket.emit('idevent', {'eventid':idEvent, 'typeevent':type});
       socket.on('comment', function(comments) {
@@ -433,7 +433,7 @@
         var bodyContentComment = "";
         comments.forEach(function(currentComment, index, array) {
           bodyContentComment += "<li><div class='username'>" + currentComment.user + "  " + currentComment.time;
-          bodyContentComment += "<img src='/media/"+ currentComment.picture +"'/></div><div class='comment'>" + currentComment.comment + "</div></li>";
+          bodyContentComment += "<img src='"+ mediaserverUrl + currentComment.picture +"'/></div><div class='comment'>" + currentComment.comment + "</div></li>";
         });
         $('#listComment').html(bodyContentComment);
 
