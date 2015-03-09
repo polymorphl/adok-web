@@ -206,12 +206,13 @@
         "network": "Mon réseau seulement",
         "no-res": "Aucun défi(s) disponible.",
         "count-challenge": " challenge pending",
-        "up-list":  "Your list is up to date"        
+        "up-list": "Your list is up to date"
     },
-   "account-profil": {
+    "account-profil": {
         "network": "Mon réseau",
         "badge": "Mes badge(s)",
         "report": "Signaler utilisateur"
-    },    
-    "validate": "Valider"
+    },
+    "validate": "Valider",
+    "refresh": "refresh"
 }

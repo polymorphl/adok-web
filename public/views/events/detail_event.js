@@ -17,6 +17,19 @@
     }
   });
 
+  var sendNewComment = function() {
+			if (socket === null) { return; }
+			var contentCommentValue = document.getElementById('commentTextaera').value;
+			if (contentCommentValue.length > 0) {
+				socket.emit("addComment", {
+					'eventid': idEvent,
+					'typeevent': type,
+					'comment': contentCommentValue
+				});
+			}
+			document.getElementById('commentTextaera').value = "";
+		};
+
 	/*   FOR DATAS   */
 
 	function autocomplete(that) {
@@ -410,20 +423,6 @@
   $(document).ready(function() {
 
   	app.mainView = new app.MainView();
-
-  	var sendNewComment = function() {
-			if (socket === null) { return; }
-			var contentCommentValue = document.getElementById('commentTextaera').value;
-			if (contentCommentValue.length > 0) {
-				socket.emit("addComment", {
-					'eventid': idEvent,
-					'typeevent': type,
-					'comment': contentCommentValue
-				});
-			}
-			document.getElementById('commentTextaera').value = "";
-		};
-
     app.Actions = new app.ownerActions();
     socket = io.connect("http://localhost:8080/comment", {'secure': true});
 
