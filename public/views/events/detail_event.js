@@ -17,6 +17,19 @@
     }
   });
 
+  var sendNewComment = function() {
+			if (socket === null) { return; }
+			var contentCommentValue = document.getElementById('commentTextaera').value;
+			if (contentCommentValue.length > 0) {
+				socket.emit("addComment", {
+					'eventid': idEvent,
+					'typeevent': type,
+					'comment': contentCommentValue
+				});
+			}
+			document.getElementById('commentTextaera').value = "";
+		};
+
 	/*   FOR DATAS   */
 
 	function autocomplete(that) {
@@ -299,9 +312,9 @@
       }
       else {
         this.model.save({
-					to: location.href.substr(location.href.lastIndexOf('/') + 1),        	
+					to: location.href.substr(location.href.lastIndexOf('/') + 1),
           category: this.$el.find('[name="category"]').val(),
-          type: 'event',          
+          type: 'event',
           comments: this.$el.find('[name="comments"]').val()
         },{
           success: function(model, response) {
@@ -410,23 +423,9 @@
   $(document).ready(function() {
 
   	app.mainView = new app.MainView();
-
-  	var sendNewComment = function() {
-			if (socket === null) { return; }
-			var contentCommentValue = document.getElementById('commentTextaera').value;
-			if (contentCommentValue.length > 0) {
-				socket.emit("addComment", {
-					'eventid': idEvent,
-					'typeevent': type,
-					'comment': contentCommentValue
-				});
-			}
-			document.getElementById('commentTextaera').value = "";
-		};
-
     app.Actions = new app.ownerActions();
-    socket = io.connect("http://localhost:8080/comment", {'secure': true});
 
+		socket = io.connect(websocketUrl + "comment", {'secure': true});
     socket.on('connect', function(socketClient) {
       socket.emit('idevent', {'eventid':idEvent, 'typeevent':type});
       socket.on('comment', function(comments) {
@@ -434,7 +433,7 @@
         var bodyContentComment = "";
         comments.forEach(function(currentComment, index, array) {
           bodyContentComment += "<li><div class='username'>" + currentComment.user + "  " + currentComment.time;
-          bodyContentComment += "<img src='/media/"+ currentComment.picture +"'/></div><div class='comment'>" + currentComment.comment + "</div></li>";
+          bodyContentComment += "<img src='"+ mediaserverUrl + currentComment.picture +"'/></div><div class='comment'>" + currentComment.comment + "</div></li>";
         });
         $('#listComment').html(bodyContentComment);
 

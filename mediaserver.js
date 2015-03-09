@@ -28,7 +28,7 @@ exports.Router = function(app, passport) {
       var acceptEncoding = req.headers['accept-encoding'] && (req.headers['accept-encoding'].split(', ').indexOf('gzip') != -1);
       var gzip = req.app.config.gzip && acceptEncoding;
       if (!gzip) {
-        res.setHeader('Content-Length', stream.file.length);
+        res.setHeader('Content-Length', stream.metadatas['length']);
       } else {
         res.setHeader('Content-Encoding', 'gzip');
         return stream.pipe(zlib.createGzip(null)).pipe(res);

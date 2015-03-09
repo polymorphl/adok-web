@@ -308,7 +308,7 @@
 	}
 
 	#proposal {
-		.left, .right {
+		 & > .right {
 			height: auto!important;
 			width: auto!important;
 		}
@@ -316,23 +316,40 @@
 			height: 155px!important;
 			width: 100px!important;
 		}
-		.left {
-			.pictures {
-				width: 120px!important;
-				height: 160px!important;
-				padding: 4px;
-				display: inline-block;
-			}
-			.share {
-				display: inline-block;
-				vertical-align: top;
-			}
-		}
 		.right {
-			
-			#map-event { display: none; }
+			padding: 2px 0!important;
+			#map-event { width: 100%; height: 100px; }
+			.place { text-align: left!important; }
+			.title {
+				font-size: 16px!important;
+			}
+			.desc {
+				word-break: break-word; border: none!important;
+
+			}
+			.prop_by {
+				position: absolute!important;
+				float: none!important; top: 170px;
+				left: 5px;
+			}
+			.comments {
+				input {
+					text-align: center;
+					width: 95%!important;
+				}
+				button {
+					height: 32px!important;
+					margin: 18px 0;
+					width: 95%;
+				}
+				ul {
+					margin-top: 0px!important;
+					li {
+
+					}
+				}
+			}
 		}
-		.place { text-align: left!important; }
 	} // end of #proposal
 
 

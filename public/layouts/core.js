@@ -9,6 +9,9 @@ var greatestId = {
 	e: '000000000000000000000000',
 	o: '000000000000000000000000'
 };
+var websocketUrl = 'http://www.adok-app.fr/';
+var mediaserverUrl = 'http://www.adok-app.fr/media/';
+
 var refresh;
 
 (function() {

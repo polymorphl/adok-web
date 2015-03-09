@@ -2,7 +2,7 @@
 
 $(document).ready(function() {
   var app = app || {};
-	var socket = io.connect('http://localhost:8080/chat', { secure: true });
+	var socket = io.connect(websocketUrl +'chat', { secure: true });
 
 	socket.io._reconnectionDelayMax = 10000;
 	app.chats = new Array();

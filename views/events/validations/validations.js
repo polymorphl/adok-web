@@ -18,15 +18,12 @@ exports.validate = function(req, res, next) {
             if (err)
               return workflow.emit('exception', err);
             req.app.db.models.EventRegister.update({_id: req.params.erid}, {$inc: {"nbVote.positive": 1, "nbVote.negative": 0}}, function(err, s) {
-              console.log(s);
               return workflow.emit('response');
             });
           });
         else if (valid[0].isValidate == false)
           req.app.db.models.Validation.update({eid: req.params.id, uid: er.uid, erid: req.params.erid}, {isValidate: true}, function(err, f) {
-            console.log(f);
             req.app.db.models.EventRegister.update({_id: req.params.erid}, {$inc: {"nbVote.positive": 1, "nbVote.negative": -1}}, function(err, s) {
-              console.log(s);
               return workflow.emit('response');
             });
           });
@@ -55,15 +52,12 @@ exports.refuse = function(req, res, next) {
             if (err)
               return workflow.emit('exception', err);
             req.app.db.models.EventRegister.update({_id: req.params.erid}, {$inc: {"nbVote.positive": 0, "nbVote.negative": 1}}, function(err, s) {
-              console.log(s);
               return workflow.emit('response');
             });
           });
         else if (valid[0].isValidate == true)
           req.app.db.models.Validation.update({eid: req.params.id, uid: er.uid, erid: req.params.erid}, {isValidate: false}, function(err, f) {
-            console.log(f);
             req.app.db.models.EventRegister.update({_id: req.params.erid}, {$inc: {"nbVote.positive": -1, "nbVote.negative": 1}}, function(err, s) {
-              console.log(s);
               return workflow.emit('response');
             });
           });

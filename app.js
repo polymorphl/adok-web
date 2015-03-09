@@ -150,6 +150,7 @@ app.sessionStore = new mongoStore({ url: config.mongodb.uri }, function(e) {
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(function(req, res, next){
+    res.locals.mediaserverUrl = req.app.config.mediaserverUrl;
     res.locals.req = req;
     if (req.user && req.user._id)
       res.locals.id = req.user._id;

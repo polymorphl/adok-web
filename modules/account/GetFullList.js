@@ -5,7 +5,8 @@ var catTab = {
 exports = module.exports = function(req, res) {
   var date = Date.now(),
   query = {
-    accType: req.session.accType
+    accType: req.session.accType,
+    end: { $gt: date }
   };
 
   req.app.db.models.Event.find(query).populate('acc').sort('-date').exec(function(err, events) {
@@ -21,7 +22,6 @@ exports = module.exports = function(req, res) {
               'id': e._id,
               't': e.title,
               'e': e.desc,
-              'a': e.place,
               'pp': e.photos,
               'pos': [
                 e.latLng[0], //longitude

@@ -134,6 +134,7 @@ module.exports = function(grunt) {
 						'public/components/webshim/js-webshim/minified/polyfiller.js'
 					],
 					'public/layouts/admin.min.js': [
+						'public/layouts/core.js',
 						'public/layouts/admin.js'
 					]
 				}

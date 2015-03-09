@@ -8,7 +8,7 @@ exports.companyName = 'adok';
 exports.projectName = 'adok';
 exports.systemEmail = 'contact@adok-app.fr';
 exports.cryptoKey = 'k3yfOoR/@Ad/0K+';
-exports.mediaserverUrl = 'http://127.0.0.1:8080/media/';
+exports.mediaserverUrl = 'http://www.adok-app.fr/media/';
 exports.requireAccountVerification = true;
 
 //Default Port

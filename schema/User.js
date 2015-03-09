@@ -2,7 +2,7 @@
 
 exports = module.exports = function(app, mongoose) {
   var userSchema = new mongoose.Schema({
-    username: { type: String, unique: true },
+    username: { type: String, default: '' },
     password: String,
     email: { type: String, unique: true },
     banned: { type: Boolean, default: false},

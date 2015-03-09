@@ -60,20 +60,9 @@ exports.edit = function(req, res) {
 
 		if (!req.body.title) {
 			workflow.outcome.errfor.title = req.i18n.t('errors.required');
-		}
-		else if (!/^[a-zA-Z0-9\-\_\ \(\)\!]+$/.test(req.body.title)) {
+		} else if (!/^[a-zA-Z0-9\-\_\ \(\)\!]+$/.test(req.body.title)) {
 			workflow.outcome.errfor.title = req.i18n.t('errors.userformat');
 		}
-
-		if (!req.body.hashtag) {
-			workflow.outcome.errfor.hashtag = req.i18n.t('errors.required');
-		}
-
-		// if (!req.body.place) {
-		// 	workflow.outcome.errfor.place = req.i18n.t('errors.required');
-		// } else if (!req.body.place) {
-		// 	workflow.outcome.errfor.place = req.i18n.t('errors.place');
-		// }
 
 		if (workflow.hasErrors()) {
 			return workflow.emit('response');
