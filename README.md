@@ -35,12 +35,12 @@ db.admingroups.insert({ _id: 'root', name: 'Lords of adok' });
 db.admins.insert({ name: {first: 'Lord', last: 'adok', full: 'Lord adok'}, groups: ['root'] });
 var rootAdmin = db.admins.findOne();
 db.users.save({ username: 'root', isActive: 'yes', email: 'adresse@email.toto', roles: {admin: rootAdmin._id} });
-var rootUser = db.users.findOne();
+var rootUser = db.users.findOne({ username: 'root' });
 rootAdmin.user = { id: rootUser._id, name: rootUser.username };
 db.admins.save(rootAdmin);
 ```
 
-Maintenant, utiliser la fonction de redéfinition de mot de passe : 
+Maintenant, utiliser la fonction de redéfinition de mot de passe :
 
  - `http://localhost/login/forgot/`
  - Entrer l'adresse e-mail
@@ -55,4 +55,3 @@ TIPS
 
 - Lister les process node : 'ps -eaf | grep node';
 - Tuer un process particulier : 'kill -9 XXXXX(PROCESS-ID)';
-

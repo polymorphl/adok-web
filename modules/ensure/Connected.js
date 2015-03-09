@@ -1,5 +1,6 @@
 exports = module.exports = function(req, res, next) {
 	if (req.isAuthenticated()) {
+		// console.log(req.user);
 		if (req.session.accType == 'account') {
 			if (req.user.canPlayRoleOf('account'))
 				return res.redirect('/account/');

@@ -134,6 +134,7 @@ exports = module.exports = function(app, passport) {
 
 	//account
 	app.all('/account*', app.modules.ensure.Authentification);
+	// app.all('/account*', app.modules.ensure.Connected);
 	app.all('/account*', app.modules.ensure.Account);
 	app.all('/account*', isBanned);
 	//app.all('/account*', getContactList);
@@ -162,7 +163,7 @@ exports = module.exports = function(app, passport) {
 
 	//account > zone
 	app.all('/user*', app.modules.ensure.Authentification);
-	app.all('/user*', isBanned);		
+	app.all('/user*', isBanned);
 	app.get('/user/', function(req, res, next) {
 		require('./views/'+req.session.accType+'/profil/index').init(req, res, next);
 	});
@@ -181,7 +182,7 @@ exports = module.exports = function(app, passport) {
 
 	//notifications
 	app.all('/feed*', app.modules.ensure.Authentification);
-	app.all('/feed*', isBanned);		
+	app.all('/feed*', isBanned);
 	app.get('/feed', require('./tools/Notifications').init);
 	app.get('/feed/:id', require('./tools/Notifications').init);
 	app.post('/feed/follow/accept', require('./tools/follow').notifAccept);
@@ -248,7 +249,7 @@ exports = module.exports = function(app, passport) {
 	app.post('/reports/create', app.modules.report.CreateReport);
 	app.post('/reports/lock-account', app.modules.report.LockAccount);
 	app.post('/reports/unlock-account', app.modules.report.UnlockAccount);
-	app.delete('/reports/delete', app.modules.report.DeleteReport);	
+	app.delete('/reports/delete', app.modules.report.DeleteReport);
 
 	//route not found
 	app.all('*', require('./views/http/index').http404);
