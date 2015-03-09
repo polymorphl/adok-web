@@ -168,7 +168,7 @@
 				$(".validate_proposal").show();
 			} else if (item.isRegistered == "false") {
 				$(".join_proposal").show();
-				// $(".validate_proposal").hide();
+				$(".validate_proposal").hide();
 			}
 			item.eid = item._id;
 			item.uid = item.acc._id;
