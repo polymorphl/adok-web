@@ -15,7 +15,7 @@ exports = module.exports = function(req, res, next){
 		find['$or'].push({'search': { $in: splited }});
 		var i = 0;
 		while (splited && splited[i]) {
-			find['$or'].push({'search': { $regex: '^.*?'+splited[i]+'.*$', $options: 'i' }});
+			find['$or'].push({'search': { $regex: splited[i], $options: 'i' }});
 			++i;
 		}
 	} else {
