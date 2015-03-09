@@ -64,34 +64,41 @@ app.db.once('open', function () {
 
     require('./models')(app, mongoose);
     console.log("Connected to mongodb " + config.mongodb.uri);
+
+    //setup the session store THEN initialize Socket.io to avoid error accessing sessionStore
+    app.sessionStore = new mongoStore({ url: config.mongodb.uri }, function(e) {
+    	//set socket.io parameters
+    	io.use(passportio.authorize({
+        passport: passport,
+        cookieParser: require('cookie-parser'),
+        key: 'connect.sid',
+        secret: config.cryptoKey,
+        store: app.sessionStore,
+        success: onAuthorizeSuccess,
+        fail: onAuthorizeFail,
+        cookie: {httpOnly: true, secure: true}
+    	}));
+
+    	function onAuthorizeSuccess(data, accept) {
+    		console.log('Successful connection to socket.io');
+    		return accept();
+    	}
+    	function onAuthorizeFail(data, message, error, accept){
+    		console.log('Failed to socket.io failed:', message);
+    	  if(error)  throw new Error(message);
+    	  return accept(new Error(message));
+    	}
+    	require('./tools/Socket-io')(app);
+
+      var socketCommunication = require('./tools/SocketCommunication.js');
+      socketCommunication.io = io;
+      socketCommunication.listenConnectionClientNotification(app);
+      socketCommunication.listenConnectionComment(app);
+
+    });
   });
 });
 
-//setup the session store THEN initialize Socket.io to avoid error accessing sessionStore
-app.sessionStore = new mongoStore({ url: config.mongodb.uri }, function(e) {
-	//set socket.io parameters
-	io.use(passportio.authorize({
-    passport: passport,
-    cookieParser: require('cookie-parser'),
-    key: 'connect.sid',
-    secret: config.cryptoKey,
-    store: app.sessionStore,
-    success: onAuthorizeSuccess,
-    fail: onAuthorizeFail,
-    cookie: {httpOnly: true, secure: true}
-	}));
-
-	function onAuthorizeSuccess(data, accept) {
-		console.log('Successful connection to socket.io');
-		return accept();
-	}
-	function onAuthorizeFail(data, message, error, accept){
-		console.log('Failed to socket.io failed:', message);
-	  if(error)  throw new Error(message);
-	  return accept(new Error(message));
-	}
-	require('./tools/Socket-io')(app);
-});
 
   //settings
   app.disable('x-powered-by');
@@ -150,6 +157,7 @@ app.sessionStore = new mongoStore({ url: config.mongodb.uri }, function(e) {
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(function(req, res, next){
+    res.locals.mediaserverUrl = req.app.config.mediaserverUrl;
     res.locals.req = req;
     if (req.user && req.user._id)
       res.locals.id = req.user._id;
@@ -157,12 +165,6 @@ app.sessionStore = new mongoStore({ url: config.mongodb.uri }, function(e) {
       res.locals.accType = req.session.accType;
     next();
   });
-
-  var socketCommunication = require('./tools/SocketCommunication.js');
-  socketCommunication.io = io;
-  socketCommunication.listenConnectionClientNotification(app);
-  socketCommunication.listenConnectionComment(app);
-
 
   //error handler
   app.use(require('./views/http/index').http500);

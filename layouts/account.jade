@@ -50,7 +50,7 @@ html
                 i.fa.fa-plus
                 span.helper= t('account.propose')
               li: a.profil(href='/user/#{id}')
-                img#profilavatar(src='/media/#{req.user.roles.account.picture}')
+                img#profilavatar(src='#{mediaserverUrl}#{req.user.roles.account.picture}')
                 span.helper= req.user.roles.account.name.first
         include notifications
 

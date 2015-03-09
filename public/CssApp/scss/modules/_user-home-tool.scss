@@ -60,6 +60,10 @@
 			height: 500px; width: 600px; margin: 0 auto;
 			background-color: darken($tool-bg-wrap-color, 16);
 			ul.items {
+					overflow-y: auto;
+					position: relative;
+					height: 500px;
+					max-height: 500px;
 					li {
 						width: 100%; height: 100px;
 						background-color: rgba(255, 255, 255, .8);
@@ -129,7 +133,7 @@
 		.no-result {
 			background-color: darken($tool-bg-wrap-color, 16);
 			margin: 0 auto; display: block; text-align: center;
-			height: 100%; width: 100%; padding-top: 30%;
+			height: 500px; max-height: 500px; width: 100%; padding-top: 30%;
 			clear: both;
 
 			.no-res {
