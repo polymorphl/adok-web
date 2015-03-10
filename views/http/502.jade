@@ -1,0 +1,12 @@
+extends ../../layouts/default
+
+block head
+  title= t('errors.502')
+
+block body
+  div.errorwrp
+    img#imgerror(src='/medias/logo/logo-bg.png')
+    h1= t('errors.502')
+    p.lead
+      | #{err}
+      div.clearfix

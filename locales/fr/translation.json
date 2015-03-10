@@ -5,6 +5,7 @@
 		"404": "Page introuvable",
 		"404l": "La ressource que vous avez demandée n'existe pas",
 		"500": "Erreur interne du serveur",
+		"502": "Passerelle incorrecte",
 		"required": "Information requise",
 		"userformat": "N'utilisez que des lettres, chiffres, - et _",
 		"usertaken": "Nom d'utilisateur déjà utilisé",

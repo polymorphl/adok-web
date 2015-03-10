@@ -23,3 +23,13 @@ exports.http500 = function(err, req, res, next){
     res.render('http/500', {err: err});
   }
 };
+
+exports.http502 = function(err, req, res, next){
+  res.status(502);
+  if (req.xhr) {
+    res.send( {error: 'Passerelle incorrect' } );
+  }
+  else {
+    res.render('http/502', {err: err});
+  }
+};

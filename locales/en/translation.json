@@ -5,6 +5,7 @@
 		"404": "Page not found",
 		"404l": "The resource you requested does not exist.",
 		"500": "Internal Server Error",
+		"502": "Bad gateway",
 		"required": "Required information",
 		"userformat": "Only use letters, numbers, - and _",
 		"usertaken": "Username already taken",

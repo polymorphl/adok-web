@@ -4,6 +4,7 @@
     "errors": {
         "404": "Page introuvable",
         "500": "Erreur interne du serveur",
+        "502": "Passerelle incorrecte",
         "404l": "La ressource que vous avez demandée n'existe pas",
         "required": "Information requise",
         "userformat": "N'utilisez que des lettres, chiffres, - et _",

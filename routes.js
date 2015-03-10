@@ -253,4 +253,6 @@ exports = module.exports = function(app, passport) {
 
 	//route not found
 	app.all('*', require('./views/http/index').http404);
+	app.all('*', require('./views/http/index').http500);
+	app.all('*', require('./views/http/index').http502);
 };
